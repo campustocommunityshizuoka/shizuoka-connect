@@ -1,0 +1,1167 @@
+/* =================================================================
+   基本スタイル
+   サイト全体の基本的なフォント、色、レイアウトなどを定義します。
+   ================================================================= */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  padding: 0;
+  background-color: #f4f9ff;
+  color: #2c3e50;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* =================================================================
+   ヘッダー
+   ページ上部のロゴやナビゲーションメニューのスタイルです。
+   ================================================================= */
+header {
+  background-color: #1A71BE;
+  color: white;
+  padding: 0.2rem 0;
+  width: 100%;
+  z-index: 1002;
+  flex-shrink: 0;
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.site-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo {
+  height: 50px;
+  width: auto;
+}
+
+.title-text {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  font-weight: bold;
+}
+
+.sub-title {
+  font-size: 0.8rem;
+  font-weight: normal;
+  display: block;
+}
+
+/* =================================================================
+   ナビゲーション (PC / スマートフォン)
+   ================================================================= */
+
+/* PC用ナビゲーション */
+.desktop-nav {
+  display: none; /* デフォルトは非表示、メディアクエリで表示 */
+  margin-left: auto;
+}
+
+.desktop-nav > ul > li {
+  display: inline-block;
+  margin-left: 2rem;
+  position: relative;
+}
+
+.desktop-nav a {
+  color: white;
+  font-weight: bold;
+}
+
+/* PC用ドロップダウン（ホバーで表示） */
+.desktop-nav .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #1664ab;
+  border-radius: 4px;
+  min-width: 180px;
+  z-index: 10;
+  padding: 0.5rem 0;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #11508a;
+}
+
+/* ハンバーガーアイコン (スマートフォン用) */
+.hamburger {
+  display: block;
+  cursor: pointer;
+  width: 30px;
+  height: 21px;
+  position: relative;
+  z-index: 1003;
+  margin-left: auto;
+}
+
+.hamburger span {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger span:nth-child(1) { top: 0; }
+.hamburger span:nth-child(2) { top: 9px; }
+.hamburger span:nth-child(3) { top: 18px; }
+
+/* ハンバーガーがアクティブな時 (×印になる) */
+.hamburger.active span:nth-child(1) {
+  top: 9px;
+  transform: rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  top: 9px;
+  transform: rotate(-45deg);
+}
+
+/* スライドメニュー (スマートフォン用) */
+.nav-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100%;
+  background-color: rgba(26, 113, 190, 0.95);
+  transition: right 0.4s ease-in-out;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-menu.active {
+  right: 0;
+}
+
+.nav-menu ul {
+  padding-top: 0;
+}
+
+.nav-menu li {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.nav-menu a {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* スマートフォン用ドロップダウン */
+.dropdown-menu-sp {
+  display: none;
+  background-color: rgba(0,0,0,0.2);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+}
+
+.dropdown-menu-sp.show {
+  display: block;
+}
+
+.dropdown-menu-sp li {
+  margin: 0;
+}
+
+.dropdown-menu-sp a {
+  font-size: 1rem;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0;
+}
+
+/* =================================================================
+   メインコンテンツ
+   ================================================================= */
+
+/* コンテンツ全体のラッパー */
+.content-wrapper {
+  flex-grow: 1; /* フッターをページ下部に固定するため */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 各ページ共通のメインコンテンツエリア */
+.page-content {
+  padding-bottom: 2rem;
+}
+
+/* ヒーローセクション (ページ上部の大きな画像エリア) */
+.hero, .page-hero {
+  position: relative;
+  height: 450px;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+/* ヒーローイメージを3分割で表示するためのスタイル */
+.hero-image-segment {
+  position: absolute;
+  top: 0;
+  width: 33.333%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.7);
+  z-index: 0;
+}
+
+.segment-1 { left: 0; background-image: url("image/hatake.jpg"); }
+.segment-2 { left: 33.333%; background-image: url("image/fujisann.jpg"); }
+.segment-3 { left: 66.666%; background-image: url("image/taki.jpg"); }
+
+/* 画像の上に薄い黒のオーバーレイをかける */
+.hero::before, .page-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ヒーローセクション中央のテキスト */
+.hero-text {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  padding: 1.5rem 2.5rem;
+  border-radius: 8px;
+}
+
+.hero-text h2, .hero-text p {
+  margin: 0;
+}
+
+/* 各セクションのタイトル */
+.section-title {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 1.8rem;
+  color: #135a9e;
+}
+
+/* 各セクションの導入テキスト */
+.intro-text {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 汎用ボタン */
+.btn {
+  display: inline-block;
+  background-color: #1A71BE;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.btn:hover {
+  background-color: #1664ab;
+}
+
+/* =================================================================
+   トップページ専用スタイル (`index.html`)
+   ================================================================= */
+
+/* 3カラムのグリッドレイアウト */
+.three-column-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+/* サービス紹介カード */
+.service-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.service-card .icon {
+  font-size: 3rem;
+  color: #1A71BE;
+  margin-bottom: 1rem;
+}
+
+.service-card h3 {
+  color: #1A71BE;
+  margin-bottom: 0.75rem;
+}
+
+/* お知らせセクション */
+.news-list-container {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0 1.5rem;
+  max-width: 700px;
+  margin: 0 auto 4rem auto;
+}
+
+.news-list {
+  list-style: none;
+  padding: 0;
+}
+
+.news-list li {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1.2rem 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.news-list li:last-child {
+  border-bottom: none;
+}
+
+.news-list .date {
+  color: #6b7280;
+  margin-right: 1.5rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* スクロールバーのスタイル */
+.news-list-container::-webkit-scrollbar { width: 8px; }
+.news-list-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+.news-list-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+.news-list-container::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+/* 行動喚起 (Call To Action) セクション */
+.cta-section {
+  background-color: #eaf2ff;
+  text-align: center;
+  padding: 3rem;
+  border-radius: 8px;
+}
+
+/* =================================================================
+   メンバー・顧問紹介ページ (`members.html`, `advisors.html`)
+   ================================================================= */
+
+/* メンバー紹介グリッド */
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* メンバー・顧問紹介カード */
+.member-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.member-card img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.member-card h4 {
+  margin: 0.5rem 0;
+  color: #1A71BE;
+  font-size: 1.25rem;
+}
+
+.member-card .title {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+/* ▼ member-card内の紹介文スタイル (旧インラインCSS) ▼ */
+.member-card .member-bio {
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.member-card .member-bio h5 {
+  font-size: 1rem;
+  color: #1A71BE;
+  border-bottom: 2px solid #eaf2ff;
+  padding-bottom: 0.3rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.member-card .member-bio p {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+/* ▲ ここまで ▲ */
+
+/* =================================================================
+   企業・団体向けページ (`for-companies.html`)
+   ================================================================= */
+
+.business-info-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.business-info-box h3 {
+  text-align: center;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.feature-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+
+.feature-card .icon {
+  font-size: 3rem;
+  color: #1A71BE;
+  margin-bottom: 1.5rem;
+}
+
+.feature-card h3 {
+  color: #1A71BE;
+  margin-bottom: 1rem;
+}
+
+/* =================================================================
+   連携企業ページ (`partners.html`)
+   ================================================================= */
+
+.partner-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 2rem;
+}
+
+.partner-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.partner-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.partner-card img {
+  max-width: 200px;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 1.5rem;
+}
+
+.partner-card h4 {
+  color: #1A71BE;
+  font-size: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.partner-card p {
+  margin-bottom: 1.5rem;
+  flex-grow: 1; /* カードの高さを揃えるため */
+}
+
+/* =================================================================
+   フォーム関連 (`contact.html`, `service.html`)
+   ================================================================= */
+
+.contact-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem auto;
+}
+
+/* フォームや連絡先情報を囲むボックス */
+.contact-box,
+.form-container {
+  max-width: 720px;
+  margin: 0 auto 2.5rem auto;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.contact-box h3, .form-container h3 {
+  margin-top: 0;
+  color: #135a9e;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.contact-box p {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+/* メールやInstagramへのリンク */
+.contact-box a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A71BE;
+  text-decoration: none;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+  padding: 0.5rem;
+}
+
+.contact-box a:hover {
+  color: #1664ab;
+  text-decoration: underline;
+}
+
+.contact-box a i {
+  font-size: 1.2rem;
+  margin-right: 0.75rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* === フォームのスタイル (新レイアウト版) === */
+/* form全体を、要素を縦に並べるFlexboxレイアウトに変更 */
+form.form-section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ラベルを左揃えにし、入力欄との間に少し余白を設ける */
+form.form-section label {
+  text-align: left;
+  font-weight: 500;
+  margin-bottom: 0.5rem; /* ラベルと入力欄の間の余白 */
+}
+
+/* 特定のラベル（お問い合わせ内容）は変更不要のためそのまま */
+#contactForm label[for="message"],
+#contactForm textarea[name="message"] {
+  text-align: left;
+}
+
+#contactForm label[for="message"] {
+  margin-bottom: 0.5rem;
+}
+
+/* ボタンを中央寄せにする設定 */
+form.form-section button {
+  align-self: center; /* Flexboxコンテナの中で中央に配置 */
+  margin-top: 1.5rem; /* ボタンの上の余白 */
+  width: auto;
+}
+
+/* 各入力欄の下に余白を設けて、項目間のスペースを確保 */
+form.form-section input,
+form.form-section select,
+form.form-section textarea {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1.5rem; /* 各入力項目の下の余白 */
+}
+
+/* 個人情報保護方針の同意欄 */
+.privacy-policy-container {
+  margin-top: 1rem;
+}
+
+.privacy-policy-box {
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.privacy-policy-box h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.form-group-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group-checkbox input[type="checkbox"] {
+  margin-right: 0.75rem;
+  width: auto;
+}
+
+.form-group-checkbox label {
+  text-align: left;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* =================================================================
+   フッター
+   ================================================================= */
+footer {
+  background-color: #1A71BE;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-links a {
+  color: white;
+  font-size: 1.6rem;
+  margin-left: 1.2rem;
+  transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+  opacity: 0.75;
+}
+
+/* =================================================================
+   メディアクエリ (レスポンシブ対応)
+   ================================================================= */
+
+   /* ▼ ここから追加 ▼ */
+/* 条件付きフォームのためのスタイル */
+.form-field-group {
+  /* gridレイアウトの子要素として、2カラムをまたぐ設定 */
+  grid-column: 1 / 3; 
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.2rem 1.5rem; /* フォームの他の行と隙間を合わせる */
+  align-items: center;
+  margin-top: -1.2rem; /* 上の要素との隙間を詰める */
+  margin-bottom: -1.2rem; /* 下の要素との隙間を詰める */
+}
+/* フォームグループ内のラベルは右寄せ */
+.form-field-group label {
+  text-align: right;
+  font-weight: 500;
+}
+/* 初期状態で非表示にするクラス */
+.hidden {
+  display: none;
+}
+/* ▲ ここまで追加 ▲ */
+
+@media (min-width: 768px) {
+  /* 画面幅が768px以上の場合 */
+  .hamburger {
+    display: none; /* ハンバーガーを非表示 */
+  }
+  .desktop-nav {
+    display: block; /* PC用ナビゲーションを表示 */
+  }
+}
+
+/* =================================================================
+   フォーム送信ボタン (進化版)
+   ================================================================= */
+.btn-submit {
+  /* 基本的な見た目の設定 */
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px; /* 角を少し丸くする */
+  padding: 12px 32px; /* ボタンのサイズを調整 */
+  cursor: pointer;
+  user-select: none; /* ボタンテキストの選択を防止 */
+  
+  /* 美しいグラデーション背景 */
+  background: linear-gradient(45deg, #1A71BE, #2c89d1);
+  
+  /* ボタンに立体感を与える影 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  
+  /* アニメーションを滑らかにする設定 */
+  transition: all 0.2s ease-in-out;
+}
+
+/* マウスカーソルが乗った時のスタイル */
+.btn-submit:hover {
+  /* 少し上に浮き上がるアニメーション */
+  transform: translateY(-3px);
+  /* 影を少し濃くして、浮き上がりを強調 */
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* ボタンがクリックされた瞬間のスタイル */
+.btn-submit:active {
+  /* 少し下に沈むアニメーション */
+  transform: translateY(1px);
+  /* 影を弱めて、押された感を表現 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ボタンが無効状態の時のスタイル（学生登録フォーム用） */
+.btn-submit:disabled {
+  /* グレーアウトして非活性であることを示す */
+  background: #cccccc;
+  opacity: 0.7;
+  
+  /* 操作できないことを示すカーソル */
+  cursor: not-allowed;
+  
+  /* 無効な時はアニメーションをリセット */
+  transform: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+/* =================================================================
+   お知らせセクションのリンクスタイル
+   ================================================================= */
+.news-list li a {
+  color: inherit; /* 周りの文字と同じ色にする */
+  text-decoration: none; /* 下線を消す */
+  transition: color 0.2s ease; /* 色が滑らかに変わるように設定 */
+}
+
+/* お知らせのリンクにカーソルを合わせた時のスタイル */
+.news-list li a:hover {
+  color: #1A71BE; /* サイトのテーマカラー（青色）にする */
+  text-decoration: underline; /* 下線を表示する */
+}
+
+/* =================================================================
+   お知らせページ専用スタイル（新カードデザイン版）
+   ================================================================= */
+
+/* --- お知らせ一覧ページ (`news.html`) --- */
+.news-list-full {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.news-item-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+.news-item-link:hover {
+  background-color: #f9f9f9;
+}
+.news-item {
+  padding: 1.5rem 1rem;
+}
+.news-item-date {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0 0 0.5rem 0;
+}
+.news-item-title {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+  color: #1A71BE;
+}
+
+/* --- お知らせ詳細記事 (`press-release-*.html`) --- */
+/* 記事全体をカード化する */
+.news-article {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem 2.5rem;
+  max-width: 800px;
+  margin: 0 auto; /* ★重なりの設定を削除 */
+  position: relative;
+  z-index: 10;
+}
+
+.news-article-header {
+  background-color: transparent; /* ★この一行を追加して背景を透明にします */
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+
+.news-article-title {
+  font-size: 2rem; /* タイトルを少し大きく */
+  color: #135a9e; /* 濃い青色で見やすく */
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.news-article-date {
+  font-size: 1rem;
+  color: #6b7280; /* 読みやすいグレー */
+  margin: 0;
+}
+
+.news-article-content {
+  line-height: 1.9; /* 行間を広げて読みやすく */
+  font-size: 1.05rem;
+}
+
+.news-article-content p {
+  margin-bottom: 1.5rem;
+}
+
+.back-to-list {
+  text-align: center;
+  margin-top: 3rem;
+}
+/* =================================================================
+   セクションタイトルをリンクにした際のスタイル
+   ================================================================= */
+.section-title a {
+  color: inherit; /* 親要素（h2）の文字色をそのまま使用する */
+  text-decoration: none; /* 下線を非表示にする */
+}
+
+/* タイトルリンクにカーソルを合わせた時に下線を表示 */
+.section-title a:hover {
+  text-decoration: underline;
+}
+/* =================================================================
+   パートナーページの追加ボタンスタイル
+   ================================================================= */
+
+/* ボタンを横並びにするための設定 */
+.partner-card-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* ボタンの間の隙間 */
+  margin-top: auto; /* カード下部にボタンを配置 */
+  padding-top: 1rem; /* 説明文との間に余白を確保 */
+}
+
+/* ボタンのアイコンとテキストの間の余白 */
+.partner-card-buttons .btn i {
+  margin-right: 0.5rem;
+}
+
+/* 「追加資料」ボタンのデザイン */
+.btn.btn-secondary {
+  background-color: #6c757d; /* グレー系の背景色 */
+}
+
+.btn.btn-secondary:hover {
+  background-color: #5a6268; /* ホバー時にも少し濃いグレーに */
+}
+
+/* =================================================================
+   パートナーカード スライドショースタイル
+================================================================= */
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 200px;
+  margin-bottom: 1.5rem;
+  background-color: transparent;
+  /* overflow: hidden; を削除 */
+}
+
+.slide {
+  display: none; /* 初期状態では非表示 */
+  width: 100%;
+  height: 100%;
+  /* ▼ 画像を中央揃えにするためのFlexbox設定 ▼ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* ▲ 画像を中央揃えにするためのFlexbox設定 ▲ */
+  /* position: absolute; を削除 */
+}
+
+.slide img {
+  display: block; /* 不要な余白を削除 */
+  width: 100%;    /* コンテナの幅に合わせる */
+  height: 100%;   /* コンテナの高さに合わせる */
+  object-fit: contain; /* アスペクト比を維持してフィット */
+  /* ▼ 画像を中央に配置する代替方法 (position + transform) ▼ */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;  /* コンテナを超えないように */
+  max-height: 100%; /* コンテナを超えないように */
+  /* ▲ 画像を中央に配置する代替方法 ▲ */
+}
+
+.active-slide {
+  display: flex; /* Flexbox設定をここにも適用 */
+  /* ▼ レイアウトをリセット ▼ */
+  position: static;
+  /* ▲ レイアウトをリセット ▲ */
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 5; /* 画像の上に表示されるように */
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev {
+  left: 0;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+/* =================================================================
+   トップページ 活動カード（写真付き）
+================================================================= */
+
+/* カード上部に表示する画像エリア */
+.service-card .card-image {
+  width: calc(100% + 4rem); /* カードのpadding(2rem*2)を打ち消す幅 */
+  height: 180px;
+  overflow: hidden;
+  margin: -2rem -2rem 1.5rem -2rem; /* カードのpaddingを相殺して上部に配置 */
+  border-radius: 8px 8px 0 0;
+}
+
+.service-card .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 画像の比率を保ったままエリアを埋める */
+  transition: transform 0.3s ease;
+}
+
+/* ホバー時に画像を少し拡大するエフェクト */
+.service-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+/* 写真付きカード（.card-icon-only が *ない* もの）のアイコンを非表示 */
+.service-card:not(.card-icon-only) .icon {
+  display: none;
+}
+
+/* 写真付きカードの h3 と p だけ左揃えにする */
+/* （カード全体の text-align: center は .card クラスで定義されています） */
+.service-card:not(.card-icon-only) h3,
+.service-card:not(.card-icon-only) p {
+  text-align: left;
+}
+
+/* アイコンのみのカード（.card-icon-only が *ある* もの）の画像は非表示 */
+.card-icon-only .card-image {
+  display: none;
+}
+/* =================================================================
+   Grow Upグループ セクション (緑基調・リッチデザイン)
+================================================================= */
+.grow-up-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%); /* 白から薄い緑へのグラデーション */
+  border-radius: 12px; /* 角丸を少し大きく */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* 柔らかく広がる影 */
+  padding: 3.5rem 4rem;
+  margin: 5rem auto;
+  max-width: 900px;
+  border-top: 6px solid #2e7d32; /* 上部に濃い緑のアクセントライン */
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景に装飾として薄い円を配置（オシャレ感アップ） */
+.grow-up-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background-color: rgba(76, 175, 80, 0.1); /* 薄い緑 */
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.grow-up-card h3 {
+  color: #2e7d32; /* テキストを濃い緑に */
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+  border-bottom: 2px solid #a5d6a7; /* 見出しの下に薄い緑の線 */
+  padding-bottom: 0.5rem;
+  display: inline-block; /* 線の長さを文字に合わせる */
+}
+
+.grow-up-card p {
+  margin-bottom: 3rem;
+  line-height: 1.9; /* 行間を広げて読みやすく */
+  text-align: left;
+  color: #37474f; /* 文字色は少し青みがかったダークグレーで知的に */
+  font-size: 1.05rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ボタンを中央に配置するためのラッパー */
+.grow-up-btn-wrapper {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* 緑色のグラデーションボタン */
+.grow-up-btn-wrapper .btn {
+  background: linear-gradient(45deg, #43a047, #66bb6a); /* 緑のグラデーション */
+  color: white;
+  padding: 1rem 3rem; /* 大きめのボタン */
+  font-size: 1.1rem;
+  border-radius: 50px; /* 丸みのあるピル型ボタン */
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); /* 緑色の影 */
+  transition: all 0.3s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.grow-up-btn-wrapper .btn:hover {
+  transform: translateY(-3px); /* ホバー時に少し浮く */
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  background: linear-gradient(45deg, #2e7d32, #43a047); /* ホバー時は少し濃く */
+}
+
+/* スマホ表示時の調整 */
+@media (max-width: 768px) {
+  .grow-up-card {
+    padding: 2rem;
+    margin: 3rem 1rem; /* スマホでは横幅いっぱいにしない */
+  }
+  .grow-up-card h3 {
+    font-size: 1.5rem;
+    display: block; /* スマホでは下線を全幅に */
+  }
+}

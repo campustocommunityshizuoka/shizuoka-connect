@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>学生登録サービス - しずおかコネクト</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+
+  <header>
+    <div class="container header-flex">
+      <h1>
+        <a href="index.html" class="site-title">
+          <img src="image/logo.png" alt="しずおかコネクト ロゴ" class="header-logo">
+          <div class="title-text">
+            <span class="sub-title"></span>
+            地域と学生をつなぐ会 しずおかコネクト
+          </div>
+        </a>
+      </h1>
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="index.html">トップ</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">私たちについて</a>
+            <ul class="dropdown-menu">
+              <li><a href="about.html">活動内容</a></li>
+              <li><a href="members.html">メンバー紹介</a></li>
+              <li><a href="advisors.html">特別顧問</a></li>
+              <li><a href="news.html">プレスリリース</a></li>
+            </ul>
+          </li>
+         <li class="dropdown">
+            <a href="#" class="dropdown-toggle">学生の方</a>
+            <ul class="dropdown-menu">
+              <li><a href="service.html">自分を登録する</a></li>
+              <li><a href="partners.html">企業・団体を探す</a></li>
+              <li><a href="#">インターンを探す</a></li> 
+              <li><a href="#">アルバイトを探す</a></li>   
+            </ul>
+          </li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">企業・団体の方</a>
+            <ul class="dropdown-menu">
+              <li><a href="for-companies.html">ご提供できること</a></li>
+            </ul>
+          </li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </nav>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
+  </header>
+  <nav class="nav-menu" id="nav-menu">
+    <ul>
+      <li><a href="index.html">トップ</a></li>
+      <li class="dropdown-sp">
+        <a href="#" class="dropdown-toggle-sp">私たちについて</a>
+        <ul class="dropdown-menu-sp">
+          <li><a href="about.html">- 活動内容</a></li>
+          <li><a href="members.html">- メンバー紹介</a></li>
+          <li><a href="advisors.html">- 特別顧問</a></li>
+          <li><a href="news.html">- プレスリリース</a></li>
+        </ul>
+      </li>
+      <li class="dropdown-sp">
+        <a href="#" class="dropdown-toggle-sp">学生の方</a>
+        <ul class="dropdown-menu-sp">
+          <li><a href="service.html">- 自分を登録する</a></li>
+          <li><a href="partners.html">- 企業・団体を探す</a></li>
+          <li><a href="#">- インターンを探す</a></li> 
+          <li><a href="#">- アルバイトを探す</a></li>
+        </ul>
+      </li>
+      <li class="dropdown-sp">
+        <a href="#" class="dropdown-toggle-sp">企業・団体の方</a>
+        <ul class="dropdown-menu-sp">
+          <li><a href="for-companies.html">- ご提供できること</a></li>
+        </ul>
+      </li>
+      <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
+  
+  <div class="content-wrapper">
+    <section class="page-hero">
+      <div class="hero-image-segment segment-1"></div>
+      <div class="hero-image-segment segment-2"></div>
+      <div class="hero-image-segment segment-3"></div>
+      <div class="hero-text">
+        <h2>学生登録サービス</h2>
+      </div>
+    </section>
+    <main class="container page-content">
+      <section id="form" class="section">
+
+        <div class="contact-box">
+          <h3>学生登録フォーム</h3>
+          <form id="studentForm" class="form-section">
+            <label for="name">名前：</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="school-type">所属区分：</label>
+            <select id="school-type" name="school-type" required>
+                <option value="" disabled selected>選択してください</option>
+                <option value="university">大学</option>
+                <option value="vocational">専門学校</option>
+                <option value="other">その他</option>
+            </select>
+
+            <div id="university-fields" class="form-field-group hidden">
+                <label for="university">大学名：</label>
+                <input type="text" id="university" name="university">
+                <label for="faculty">学部：</label>
+                <input type="text" id="faculty" name="faculty">
+                <label for="department">学科：</label>
+                <input type="text" id="department" name="department">
+            </div>
+
+            <div id="vocational-fields" class="form-field-group hidden">
+                <label for="vocational-school">学校名：</label>
+                <input type="text" id="vocational-school" name="vocational-school">
+                <label for="major">専攻・コース名：</label>
+                <input type="text" id="major" name="major">
+            </div>
+
+             <div id="other-school-fields" class="form-field-group hidden">
+                <label for="other-school-details">所属情報：</label>
+                <textarea id="other-school-details" name="other-school-details" rows="4" placeholder="学校名、学部、学科、研究室など、できるだけ詳しくご記入ください。"></textarea>
+            </div>
+
+            <div id="grade-field" class="hidden">
+              <label for="grade">学年：</label>
+              <select id="grade" name="grade">
+                <option value="1">1年</option>
+                <option value="2">2年</option>
+                <option value="3">3年</option>
+                <option value="4">4年</option>
+                <option value="other">その他</option>
+              </select>
+            </div>
+            <label for="email">メールアドレス：</label>
+            <input type="email" id="email" name="email" required>
+            <label for="interests">得意なこと・やってみたいこと：</label>
+            <textarea id="interests" name="interests" rows="3" required></textarea>
+            <label for="skills">スキル：</label>
+            <textarea id="skills" name="skills" rows="2" required></textarea>
+
+            <div class="privacy-policy-container">
+              <div class="privacy-policy-box">
+                <h4>個人情報の取扱いについて</h4>
+                <p>
+                  ご入力いただいた個人情報は、地域と学生をつなぐ会 しずおかコネクト（以下、当会）が、登録いただいた内容で得意を生かせる場所を提供する目的で利用します。具体的には、登録されたスキルや関心事に基づき、各チームへの参加やプロジェクトの参加の機会をご案内するために使用されます。<br><br>
+                  当会は、ご本人の同意がある場合または法令に基づく場合を除き、取得した個人情報を第三者に提供することはありません。個人情報の取扱いに関するお問い合わせは、当会のお問い合わせフォームよりご連絡ください。
+                </p>
+              </div>
+              <div class="form-group-checkbox">
+                <input type="checkbox" id="privacy-agreement" name="privacy-agreement" required>
+                <label for="privacy-agreement">個人情報の取扱いについて同意する</label>
+              </div>
+            </div>
+
+            <button type="submit" id="submitButton" class="btn-submit">登録する</button>
+          </form>
+        </div>
+        </section>
+    </main>
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <p>© 2025 地域と学生をつなぐ会 しずおかコネクト</p>
+          <div class="footer-links">
+            <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank" aria-label="Instagram">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="mailto:campustocommunityshizuoka@gmail.com" aria-label="Email">
+              <i class="fas fa-envelope"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="javascript.js"></script>
+</body>
+</html>
