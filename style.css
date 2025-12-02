@@ -264,9 +264,9 @@ header h1 {
   z-index: 0;
 }
 
-.segment-1 { left: 0; background-image: url("image/hatake.jpg"); }
-.segment-2 { left: 33.333%; background-image: url("image/fujisann.jpg"); }
-.segment-3 { left: 66.666%; background-image: url("image/taki.jpg"); }
+.segment-1 { left: 0; background-image: url("assets/hatake.jpg"); }
+.segment-2 { left: 33.333%; background-image: url("assets/fujisann.jpg"); }
+.segment-3 { left: 66.666%; background-image: url("assets/taki.jpg"); }
 
 /* 画像の上に薄い黒のオーバーレイをかける */
 .hero::before, .page-hero::before {
