@@ -491,11 +491,18 @@ header h1 {
   text-align: center;
 }
 
+/* --- 特徴（Feature）セクションの修正版 --- */
+
 .feature-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  /* 【修正ポイント1】
+     PCでは「最低300pxあれば並べる」、スマホでは「自動で折り返す」ように変更。
+     450pxだとデカすぎてスマホに入りません。300pxならギリギリ入ります。
+  */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-bottom: 4rem;
+  width: 100%; /* 親要素に収める */
 }
 
 .feature-card {
@@ -504,6 +511,9 @@ header h1 {
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   padding: 2.5rem 2rem;
   text-align: center;
+  /* はみ出し防止の保険 */
+  width: 100%; 
+  box-sizing: border-box;
 }
 
 .feature-card .icon {
@@ -512,19 +522,36 @@ header h1 {
   margin-bottom: 1.5rem;
 }
 
+/* --- スマホ用の強力な上書き設定 --- */
+@media screen and (max-width: 768px) {
+  .feature-grid {
+    /* スマホでは強制的に1列（100%幅）にする */
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem; /* スマホなら隙間は少し狭くていい */
+  }
+
+  .feature-card {
+    /* スマホではパディングを少し減らして圧迫感をなくす */
+    padding: 1.5rem; 
+  }
+}
+
 .feature-card h3 {
   color: #1A71BE;
   margin-bottom: 1rem;
 }
 
 /* =================================================================
-   連携企業ページ (`partners.html`)
+   連携企業ページ (`partners.html`) - スマホ対応版
    ================================================================= */
 
 .partner-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  /* 修正箇所: 450pxだとスマホに入らないので、280pxまで下げて柔軟にします */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 2rem;
+  width: 100%;            /* 親要素に収める */
+  box-sizing: border-box; /* はみ出し防止 */
 }
 
 .partner-card {
@@ -537,6 +564,8 @@ header h1 {
   flex-direction: column;
   align-items: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;            /* 親グリッドに合わせる */
+  box-sizing: border-box; /* パディングを含めて計算 */
 }
 
 .partner-card:hover {
@@ -545,9 +574,10 @@ header h1 {
 }
 
 .partner-card img {
-  max-width: 200px;
-  height: 80px;
-  object-fit: contain;
+  max-width: 100%;        /* 修正: 200px固定だと稀にはみ出るので、最大100%制限を追加 */
+  width: auto;            /* 幅は自動 */
+  height: 80px;           /* 指定された高さ */
+  object-fit: contain;    /* 企業ロゴが歪まないように */
   margin-bottom: 1.5rem;
 }
 
@@ -561,6 +591,20 @@ header h1 {
 .partner-card p {
   margin-bottom: 1.5rem;
   flex-grow: 1; /* カードの高さを揃えるため */
+}
+
+/* スマホ用の強力な上書き設定 */
+@media screen and (max-width: 768px) {
+  .partner-grid {
+    /* 強制的に1列にする */
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+  }
+  
+  .partner-card {
+    /* スマホでは少し余白を詰める */
+    padding: 1.5rem;
+  }
 }
 
 /* =================================================================
@@ -1074,6 +1118,32 @@ footer {
 .card-icon-only .card-image {
   display: none;
 }
+
+/* カード全体を「画面に合わせて伸縮する箱」に変える */
+.service-card {
+  width: 100%;              /* 親要素の幅いっぱいに広がる */
+  max-width: 100%;          /* 画面からはみ出さないように制限 */
+  box-sizing: border-box;   /* 余白(padding)を含めて幅を計算させる（重要） */
+  margin: 0 auto 20px auto; /* 中央寄せ & 下に少し余白 */
+  
+  /* もし古いコードで固定幅(300pxなど)が残っていても強制解除する */
+  min-width: auto !important; 
+}
+
+/* 画像を入れている枠（もしあれば） */
+.card-image {
+  width: 100%;              /* 枠も幅いっぱいに */
+}
+
+/* 画像自体を「枠に合わせて伸縮する」ようにする */
+.service-card img {
+  width: 100%;              /* 横幅は常に親要素と同じにする（これではみ出し防止） */
+  height: auto;             /* 横幅に合わせて高さは自動調整（これで画像が歪まない） */
+  object-fit: cover;        /* 枠に合わせてトリミングして綺麗に見せる */
+  display: block;           /* 画像下の微妙な隙間を消す */
+  border-radius: 5px 5px 0 0; /* 上の角を少し丸める（お好みで） */
+}
+
 /* =================================================================
    Grow Upグループ セクション (緑基調・リッチデザイン)
 ================================================================= */
@@ -1519,3 +1589,4 @@ footer {
 .status-completed { color: #666; border-color: #999; background: #f0f0f0; }
 .project-completed { background-color: #fafafa; }
 .project-completed .proj-title { color: #555; }
+
