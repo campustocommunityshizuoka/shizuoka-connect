@@ -4,14 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>活動内容 - しずおかコネクト</title>
-
   <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
-
 <body>
-
   <header>
     <div class="container header-flex">
       <h1>
@@ -40,8 +38,6 @@
             <ul class="dropdown-menu">
               <li><a href="service.html">自分を登録する</a></li>
               <li><a href="partners.html">企業・団体を探す</a></li>
-              <li><a href="https://ga-lp.jp/shizuoka-connect-intern" target="_blank">インターンを探す</a></li> 
-              <li><a href="https://ga-lp.jp/shizuoka-connect-baito" target="_blank">アルバイトを探す</a></li>   
             </ul>
           </li>
           <li class="dropdown">
@@ -73,8 +69,6 @@
         <ul class="dropdown-menu-sp">
           <li><a href="service.html">- 自分を登録する</a></li>
           <li><a href="partners.html">- 企業・団体を探す</a></li>
-          <li><a href="https://ga-lp.jp/shizuoka-connect-intern" target="_blank">- インターンを探す</a></li> 
-          <li><a href="https://ga-lp.jp/shizuoka-connect-baito" target="_blank">- アルバイトを探す</a></li>
         </ul>
       </li>
       <li class="dropdown-sp">
@@ -86,85 +80,75 @@
       <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
+
   <div class="content-wrapper">
     <section class="page-hero">
         <div class="hero-image-segment segment-1"></div>
         <div class="hero-image-segment segment-2"></div>
         <div class="hero-image-segment segment-3"></div>
-        <div class="hero-text">
-        <h2>活動内容</h2>
-      </div>
+        <div class="hero-text"><h2>活動内容</h2></div>
     </section>
+
     <main class="container page-content">
-      <section id="about" class="section">
-        
-        <h3 class="section-title" style="font-size: 1.5rem; margin-bottom: 1.5rem;">私たちのミッション</h3>
-        <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem auto;">
-          地域と学生をつなぐ会 しずおかコネクトは、静岡県内の大学生が持つ専門知識やスキル、そして若いエネルギーを、地域社会が抱える課題解決に繋げるためのハブとなることを目指す任意団体です。学生にとっては実践的な学びの場を、地域にとっては新たな活力を提供し、双方にとって価値のある関係を築きます。
-        </p>
-
-        <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 3rem auto;">
-
-        <h3 class="section-title" style="font-size: 1.5rem; margin-bottom: 1.5rem; margin-top: 4rem;">主な活動プロジェクト</h3>
-        <p style="text-align: center; max-width: 800px; margin: 0 auto 3rem auto;">
-          私たちは、パートナーとの連携や、独自のネットワークを通じて、学生の「やりたい」を形にする以下のプロジェクトを推進しています。
-        </p>
-
-        <div class="feature-grid" style="margin-bottom: 2rem;">
-          
-          <div class="feature-card card">
-            <div class="icon"><i class="fas fa-rocket"></i></div>
-            <h3>「最強のガクチカ」創出プロジェクト</h3>
-            <p>バイトやサークルとは違う、他の就活生と差がつく「胸を張って言える経験」を創出します。学生が自ら企画を立ち上げる「0→1の実践」、机上ではない「リアルな課題解決」、多様な「企業・団体との連携」をサポートします。</p>
-            
-            <div class="partner-card-buttons">
-              <a href="https://students.shizuoka-connect.com/" class="btn" target="_blank">
-                <i class="fas fa-home"></i> HPを見る
-              </a>
-            </div>
-          </div>
-          
-          <div class="feature-card card">
-            <div class="icon"><i class="fas fa-laptop-code"></i></div>
-            <h3>IT教育事業 (プログラミング教室)</h3>
-            <p>ゲーム作りで、創造力と論理的思考力を楽しく育む！Scratchから始め、本格的なプログラミング言語にも挑戦可能です。現役大学生が、子どもたちの「やってみたい！」をサポートし、未来の IT 人材を育成します。</p>
-            <div class="partner-card-buttons">
-              <a href="https://programing-de971.web.app/index.html" class="btn" target="_blank">
-                <i class="fas fa-home"></i> HPを見る
-              </a>
-            </div>
-          </div>
-          
-          <div class="feature-card card">
-            <div class="icon"><i class="fas fa-comments"></i></div>
-            <h3>グローバル教育事業 (英会話教室)</h3>
-            <p>静岡大学の留学生と直接話せる！教科書だけでは学べない、リアルなコミュニケーションを通じて、使える英語力を身につけませんか？学生が主体だからこそ実現できる、安心の価格設定と少人数制の丁寧なサポートが魅力です。</p>
-            <div class="partner-card-buttons">
-              <a href="#" class="btn btn-secondary" style="background-color: #6c757d; cursor: not-allowed;" onclick="return false;">
-                <i class="fas fa-home"></i> HP準備中
-              </a>
-            </div>
-          </div>
-
-          <div class="feature-card card">
-            <div class="icon"><i class="fas fa-baseball-ball"></i></div>
-            <h3>コミュニティ事業 (野球チーム)</h3>
-            <p>経験不問！子どもから大人まで、誰もが気軽に楽しめる野球チームを設立予定です。スポーツを通じたコミュニティ形成を目指します。一緒に汗を流し、企画・運営に挑戦する仲間を募集中です！</p>
-            <div class="partner-card-buttons">
-              <a href="#" class="btn btn-secondary" style="background-color: #6c757d; cursor: not-allowed;" onclick="return false;">
-                <i class="fas fa-info-circle"></i> 詳細準備中
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <p style="text-align: center; max-width: 800px; margin: 2rem auto;">
-          これらのプロジェクトに関するご意見や参加希望、協力のご提案などがございましたら、お気軽に<a href="contact.html" style="color: #1A71BE; text-decoration: underline;">お問い合わせ</a>ください。
-        </p>
-
+      
+      <section class="about-intro">
+         <h2 class="section-title">活動内容と実績</h2>
+         <p class="intro-text">
+           しずおかコネクトが現在企画しているプロジェクト、活動・開発実績、また協力企業・団体の皆様や様々な活動の実績を掲載しています。
+         </p>
       </section>
+
+      <section class="projects-section">
+        <h2 class="section-title" style="margin-top:4rem;">活動プロジェクト</h2>
+        <p style="text-align:center; margin-bottom:2rem;">教室開催やイベント運営など、日々の活動一覧です。</p>
+        <div id="project-list-area" class="project-list-grid"></div>
+      </section>
+
+      <section class="portfolio-section">
+        <h2 class="section-title">開発実績</h2>
+        <p style="text-align:center; margin-bottom:2rem;">
+            これまでに開発・リリースしたWebサイトやアプリケーションのご紹介です。
+        </p>
+        <div id="portfolio-grid" class="portfolio-grid">
+            <p style="text-align:center;">読み込み中...</p>
+        </div>
+      </section>
+
+      <section class="map-section">
+        <h2 class="section-title" style="margin-top:4rem;">活動エリア・協力企業</h2>
+        <p style="text-align:center; margin-bottom:1rem;">
+          浜松市を中心に、様々なパートナーと連携して活動しています。
+        </p>
+        
+        <div class="map-region-selector" style="text-align:center; margin-bottom: 1.5rem;">
+            <p style="font-weight:bold; margin-bottom:10px;">エリアを選択:</p>
+            <div class="region-buttons-container">
+                <button class="region-btn active" data-region="all">全体</button>
+                <button class="region-btn" data-region="chuo">中央区</button>
+                <button class="region-btn" data-region="hamana">浜名区</button>
+                <button class="region-btn" data-region="tenryu">天竜区</button>
+            </div>
+        </div>
+
+        <div class="map-filters">
+            <button class="map-filter-btn active" data-filter="all">すべて</button>
+            <button class="map-filter-btn" data-filter="dev"><i class="fas fa-laptop-code"></i> 開発</button>
+            <button class="map-filter-btn" data-filter="edu"><i class="fas fa-chalkboard-teacher"></i> 教室</button>
+            <button class="map-filter-btn" data-filter="com"><i class="fas fa-users"></i> 交流</button>
+            <button class="map-filter-btn" data-filter="partner"><i class="far fa-building"></i> 協力企業</button>
+        </div>
+
+        <div class="weather-map-container">
+          <div id="activity-map"></div>
+        </div>
+      </section>
+
+      <section class="cta-section">
+        <h2 style="color: #135a9e;">一緒に活動しませんか？</h2>
+        <a href="contact.html" class="btn">お問い合わせはこちら</a>
+      </section>
+
     </main>
-    
     <footer>
       <div class="container">
         <div class="footer-content">
@@ -173,15 +157,17 @@
             <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank" aria-label="Instagram">
               <i class="fab fa-instagram"></i>
             </a>
-            <a href="mailto:campustocomunityshizuoka@gmail.com" aria-label="Email">
+            <a href="mailto:campustocommunityshizuoka@gmail.com" aria-label="Email">
               <i class="fas fa-envelope"></i>
             </a>
           </div>
         </div>
       </div>
     </footer>
-    </div>
+  </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="about-map.js"></script>
   <script type="module" src="javascript.js"></script>
 </body>
 </html>

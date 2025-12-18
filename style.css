@@ -1165,3 +1165,357 @@ footer {
     display: block; /* スマホでは下線を全幅に */
   }
 }
+/* --- style.css の一番下に追加してください --- */
+
+/* =================================================================
+   活動内容と実績 (about.html) 用スタイル
+   ================================================================= */
+.about-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 5rem;
+}
+
+.activity-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    transition: transform 0.3s ease;
+}
+.activity-card:hover { transform: translateY(-5px); }
+
+.act-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 1rem;
+}
+
+.act-icon {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: white;
+}
+.act-icon.development { background: linear-gradient(135deg, #3498db, #2980b9); }
+.act-icon.education { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+.act-icon.community { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+.activity-card h3 { margin: 0; font-size: 1.3rem; color: #333; }
+.act-desc { margin-bottom: 1.5rem; color: #666; font-size: 0.95rem; }
+
+.achievement-box {
+    background: #f8fbff;
+    padding: 1.2rem;
+    border-radius: 8px;
+    border-left: 4px solid #1A71BE;
+}
+.achievement-box h4 { margin: 0 0 0.5rem 0; font-size: 1rem; color: #1A71BE; }
+.achievement-box ul { list-style: none; padding: 0; margin: 0; }
+.achievement-box li {
+    font-size: 0.9rem; margin-bottom: 0.3rem; padding-left: 1rem; position: relative;
+}
+.achievement-box li::before {
+    content: "・"; position: absolute; left: 0; font-weight: bold;
+}
+
+/* --- 天気予報風マップエリア --- */
+.weather-map-container {
+    background: #eef5fa;
+    padding: 1rem;
+    border-radius: 20px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+}
+
+#activity-map {
+    width: 100%;
+    height: 500px;
+    border-radius: 16px;
+    background-color: #aadaff;
+    z-index: 1;
+}
+
+/* 天気予報風アイコン */
+.weather-icon-marker {
+    background-color: white;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transition: transform 0.2s;
+}
+.weather-icon-marker:hover {
+    transform: scale(1.2);
+    z-index: 1000 !important;
+}
+
+.marker-dev { color: #3498db; border-color: #3498db; }
+.marker-edu { color: #f39c12; border-color: #f39c12; }
+.marker-com { color: #e74c3c; border-color: #e74c3c; }
+
+/* style.css の一番下に追加 */
+
+/* マップ絞り込みボタン */
+.map-filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+.map-filter-btn {
+    border: 1px solid #1A71BE;
+    background: white;
+    color: #1A71BE;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+.map-filter-btn:hover, .map-filter-btn.active {
+    background: #1A71BE;
+    color: white;
+}
+
+/* 協力企業アイコン（緑） */
+.marker-partner { color: #28a745; border-color: #28a745; }
+
+/* プロジェクト一覧グリッド */
+.project-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.project-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+.project-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+.proj-header { margin-bottom: 1rem; }
+.proj-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+.tag-dev { background: #3498db; }
+.tag-edu { background: #f39c12; }
+.tag-com { background: #e74c3c; }
+
+.proj-title { font-size: 1.15rem; margin: 0; color: #333; }
+.proj-desc { font-size: 0.95rem; color: #666; line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+.proj-link-btn {
+    text-decoration: none;
+    color: #1A71BE;
+    font-weight: bold;
+    font-size: 0.9rem;
+    align-self: flex-start;
+}
+.proj-link-btn:hover { text-decoration: underline; }
+/* style.css の一番下に追加 */
+
+/* プロジェクトタグの追加 (その他) */
+.tag-other { background: #6c757d; } /* グレー */
+
+/* ステータスバッジ */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    border: 1px solid;
+}
+
+.status-active {
+    color: #28a745;
+    border-color: #28a745;
+    background: #e6f9ea;
+}
+
+.status-completed {
+    color: #666;
+    border-color: #999;
+    background: #f0f0f0;
+}
+
+/* 完了したプロジェクトのデザイン調整 */
+.project-completed {
+    background-color: #fafafa; /* 少しグレーに */
+}
+.project-completed .proj-title {
+    color: #555;
+}
+/* style.css の一番下に追加してください */
+
+/* エリア選択ボタンのコンテナ */
+.region-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* エリア選択ボタンのデザイン (下の絞り込みボタンと共通化) */
+.region-btn {
+    border: 1px solid #1A71BE;
+    background: white;
+    color: #1A71BE;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.region-btn:hover, .region-btn.active {
+    background: #1A71BE;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+/* style.css の一番下に追記してください */
+
+/* --- ポートフォリオ（開発実績）グリッド --- */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+.portfolio-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.portfolio-img {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #eee;
+}
+
+.portfolio-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.portfolio-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 1rem 0;
+}
+
+.portfolio-desc {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+/* --- その他のプロジェクトリスト --- */
+.project-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.project-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+.project-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+.proj-header { margin-bottom: 1rem; }
+
+.proj-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+.tag-dev { background: #3498db; }
+.tag-edu { background: #f39c12; }
+.tag-com { background: #e74c3c; }
+.tag-other { background: #6c757d; }
+
+.proj-title { font-size: 1.15rem; margin: 0; color: #333; }
+.proj-desc { font-size: 0.95rem; color: #666; line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+.proj-link-btn {
+    text-decoration: none;
+    color: #1A71BE;
+    font-weight: bold;
+    font-size: 0.9rem;
+    align-self: flex-start;
+}
+.proj-link-btn:hover { text-decoration: underline; }
+
+/* ステータスバッジ */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    border: 1px solid;
+}
+.status-active { color: #28a745; border-color: #28a745; background: #e6f9ea; }
+.status-completed { color: #666; border-color: #999; background: #f0f0f0; }
+.project-completed { background-color: #fafafa; }
+.project-completed .proj-title { color: #555; }
