@@ -390,29 +390,93 @@ async function fetchMapLocations() {
 window.editMap = handleEditMap;
 window.deleteMap = async (id) => { if(confirm("削除しますか？")) { await deleteDoc(doc(db, "activityLocations", id)); if (editingMapId === id) resetMapForm(); fetchMapLocations(); }};
 
-// 学生・お問い合わせ
-document.getElementById('refresh-students').addEventListener('click', fetchStudents);
-async function fetchStudents() {
-    const c = document.getElementById('student-list'); c.innerHTML = '<li style="padding:1rem;">読み込み中...</li>';
-    try {
-        const s = await getDocs(collection(db, "students"));
-        if(s.empty) { c.innerHTML = '<li style="padding:1rem;">データなし</li>'; return; }
-        const arr = []; s.forEach(d=>arr.push(d.data())); arr.sort((a,b)=>(b.timestamp?new Date(b.timestamp):0)-(a.timestamp?new Date(a.timestamp):0));
-        c.innerHTML = ''; arr.forEach(d=>{
-            c.innerHTML += `<li class="admin-item"><div class="item-header"><div><span class="item-date">${d.timestamp?new Date(d.timestamp).toLocaleString():''}</span><div class="item-title">${d.name} 様</div></div></div><div class="item-details"><strong>${d.email}</strong><br>${d.skills}</div></li>`;
-        });
-    } catch(e) { c.innerHTML = 'エラー'; }
+// =========================================================================
+// 管理画面用：学生・お問い合わせデータ取得処理
+// =========================================================================
+
+// 1. 学生一覧の取得
+const refreshStudentsBtn = document.getElementById('refresh-students');
+if (refreshStudentsBtn) {
+  refreshStudentsBtn.addEventListener('click', fetchStudents);
 }
 
-document.getElementById('refresh-inquiries').addEventListener('click', fetchInquiries);
+async function fetchStudents() {
+    const c = document.getElementById('student-list'); 
+    c.innerHTML = '<li style="padding:1rem;">読み込み中...</li>';
+    try {
+        const s = await getDocs(collection(db, "students"));
+        if(s.empty) { 
+            c.innerHTML = '<li style="padding:1rem;">データなし</li>'; 
+            return; 
+        }
+        const arr = []; 
+        s.forEach(d => arr.push(d.data())); 
+        // 日付順に並び替え（新しい順）
+        arr.sort((a,b) => (b.timestamp ? new Date(b.timestamp) : 0) - (a.timestamp ? new Date(a.timestamp) : 0));
+        
+        c.innerHTML = ''; 
+        arr.forEach(d => {
+            c.innerHTML += `
+            <li class="admin-item">
+                <div class="item-header">
+                    <div>
+                        <span class="item-date">${d.timestamp ? new Date(d.timestamp).toLocaleString() : ''}</span>
+                        <div class="item-title">${d.name} 様</div>
+                    </div>
+                </div>
+                <div class="item-details">
+                    <strong>メール: </strong>${d.email}<br>
+                    <strong>スキル: </strong>${d.skills}
+                </div>
+            </li>`;
+        });
+    } catch(e) { 
+        console.error(e);
+        c.innerHTML = 'エラーが発生しました'; 
+    }
+}
+
+
+// 2. お問い合わせ一覧の取得
+const refreshInquiriesBtn = document.getElementById('refresh-inquiries');
+if (refreshInquiriesBtn) {
+  refreshInquiriesBtn.addEventListener('click', fetchInquiries);
+}
+
 async function fetchInquiries() {
-    const c = document.getElementById('inquiry-list'); c.innerHTML = '<li style="padding:1rem;">読み込み中...</li>';
+    const c = document.getElementById('inquiry-list');
+    c.innerHTML = '<li style="padding:1rem;">読み込み中...</li>';
     try {
         const s = await get(ref(rtdb, 'contacts'));
-        if(!s.exists()) { c.innerHTML = '<li style="padding:1rem;">なし</li>'; return; }
-        const d = s.val(); const arr = Object.entries(d).reverse();
-        c.innerHTML = ''; arr.forEach(([k,v])=>{
-            c.innerHTML += `<li class="admin-item"><div class="item-header"><div><span class="item-date">${v.timestamp?new Date(v.timestamp).toLocaleString():''}</span><div class="item-title">${v.subject}</div></div></div><div class="item-details"><strong>${v.name}</strong><br>${v.message.replace(/\n/g,'<br>')}</div></li>`;
+        if (!s.exists()) {
+            c.innerHTML = '<li style="padding:1rem;">なし</li>';
+            return;
+        }
+        const d = s.val();
+        // オブジェクトを配列にして逆順（新しい順）にする
+        const arr = Object.entries(d).reverse();
+        
+        c.innerHTML = '';
+        arr.forEach(([k, v]) => {
+            c.innerHTML += `
+              <li class="admin-item">
+                <div class="item-header">
+                  <div>
+                    <span class="item-date">${v.timestamp ? new Date(v.timestamp).toLocaleString() : ''}</span>
+                    <div class="item-title">${v.subject}</div>
+                  </div>
+                </div>
+                <div class="item-details">
+                  <strong>${v.name}</strong><br>
+                  <a href="mailto:${v.email}" style="color:#1A71BE; text-decoration:none;">✉ ${v.email}</a><br>
+                  <div style="margin-top:0.5rem; padding-top:0.5rem; border-top:1px dashed #ccc;">
+                    ${v.message.replace(/\n/g, '<br>')}
+                  </div>
+                </div>
+              </li>`;
         });
-    } catch(e) { c.innerHTML = 'エラー'; }
+    } catch (e) {
+        console.error(e);
+        c.innerHTML = 'エラーが発生しました';
+    }
 }
