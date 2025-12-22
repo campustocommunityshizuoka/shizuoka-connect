@@ -587,3 +587,30 @@ slideshows.forEach(slideshow => {
       showSlide(currentSlideIndex);
   }
 });
+
+// =========================================================================
+// ★ 隠し機能：フッターのCopyrightを5回連打で管理画面へ
+// =========================================================================
+const secretDoor = document.getElementById("secret-door");
+if (secretDoor) {
+  let clickCount = 0;
+  let timer;
+
+  secretDoor.addEventListener("click", () => {
+    clickCount++;
+    console.log("Secret count: " + clickCount); // 確認用（本番では消してもOK）
+
+    // 最初のクリックから2秒経過したらリセット
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      clickCount = 0;
+    }, 2000);
+
+    // 5回クリックされたら発動
+    if (clickCount >= 5) {
+      alert("管理者認証：管理画面へ移動します");
+      window.location.href = "admin.html"; // 移動先のファイル名
+      clickCount = 0;
+    }
+  });
+}
