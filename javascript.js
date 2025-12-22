@@ -60,15 +60,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
   // =========================================================================
-  // 3. お問い合わせフォーム (Realtime Database)
+  // 3. お問い合わせフォーム (Firebase + LINE通知)
   // =========================================================================
   const contactForm = document.getElementById("contactForm");
   
+  // ★ここに手順6でコピーした「GASのURL」を貼り付けてください！
+  const GAS_URL = "https://script.google.com/macros/s/AKfycbwm65W4QR-HnjtZuEsxWNa9B07W7U7p6wA9MYsNzjNlT_K0dU9Hai2YQI3_0fZJ7IkFYg/exec";
+
   if (contactForm) {
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
       
-      // 送信ボタンを一時的に無効化（連打防止）
       const btn = contactForm.querySelector('button[type="submit"]');
       if(btn) {
           btn.disabled = true;
@@ -83,12 +85,32 @@ window.addEventListener("DOMContentLoaded", () => {
         timestamp: new Date().toISOString()
       };
 
+      // 1. Firebaseに保存（これは今まで通り）
       const contactsRef = ref(rtdb, "contacts");
       const newContactRef = push(contactsRef);
 
       set(newContactRef, data)
         .then(() => {
-          alert("お問い合わせ内容を送信しました！\n確認後、担当者よりご連絡いたします。");
+          // --------------------------------------------------
+          // ★ 2. LINEにも通知を送る
+          // --------------------------------------------------
+          const lineData = {
+            "お名前": data.name,
+            "件名": data.subject,
+            "メール": data.email,
+            "内容": data.message
+          };
+
+          // GASにデータを投げる
+          fetch(GAS_URL, {
+            method: "POST",
+            mode: "no-cors", 
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(lineData)
+          }).catch(err => console.log("LINE送信エラー(無視OK):", err));
+          // --------------------------------------------------
+
+          alert("お問い合わせ内容を送信しました！\nLINEにも通知を送りました。");
           contactForm.reset();
         })
         .catch((error) => {
