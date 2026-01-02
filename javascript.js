@@ -1,81 +1,87 @@
-// javascript.js (完全機能保持版)
+// javascript.js (Complete Fix: Image Optimization & Mobile Menu & Loading)
 
-// =========================================================================
-// 1. 設定とインポート
-// =========================================================================
 import { db, rtdb } from "./firebase-config.js";
 import { ref, push, set } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-database.js";
 import { collection, addDoc, getDoc, getDocs, doc, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
 
+// =========================================================
+// ヘルパー関数: Cloudinary画像最適化 (クレジット節約)
+// =========================================================
+function getOptimizedImage(url) {
+  if (!url) return null; 
+  if (!url.includes('res.cloudinary.com')) return url; 
+
+  // すでに変換パラメータが入っているかチェック
+  if (url.includes('/f_auto,q_auto')) return url;
+
+  // URLに "f_auto,q_auto,w_600" を挿入して軽量化
+  return url.replace('/upload/', '/upload/f_auto,q_auto,w_600/');
+}
+
+// =========================================================
+// メイン処理 (ページ読み込み完了時に実行)
+// =========================================================
 window.addEventListener("DOMContentLoaded", () => {
   
-  // =========================================================================
-  // 2. UI / ナビゲーション関連
-  // =========================================================================
+  // 1. UI / ナビゲーション
   const hamburger = document.getElementById("hamburger");
   const navMenu = document.getElementById("nav-menu");
+  // ▼▼ 追加：新しい閉じるボタンを取得 ▼▼
+  const closeBtn = document.getElementById("menu-close-btn");
 
-  // ハンバーガーメニューの開閉
   if (hamburger && navMenu) {
+    // 開くボタン（ヘッダーの3本線）
     hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
-      navMenu.classList.toggle("active");
+      hamburger.classList.add("active");
+      navMenu.classList.add("active");
     });
   }
 
-  // スマホ用ドロップダウンメニューの制御
-  const dropdownTogglesSp = document.querySelectorAll('.dropdown-toggle-sp');
-  const allDropdownMenusSp = document.querySelectorAll('.dropdown-menu-sp');
+  // ▼▼ 追加：閉じるボタン（メニュー内の×）を押した時の動作 ▼▼
+  if (closeBtn && navMenu && hamburger) {
+    closeBtn.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      navMenu.classList.remove("active");
+    });
+  }
+  
 
+  // スマホ用ドロップダウン
+  const dropdownTogglesSp = document.querySelectorAll('.dropdown-toggle-sp');
   dropdownTogglesSp.forEach(toggle => {
     toggle.addEventListener('click', (e) => {
       e.preventDefault(); 
       const currentMenu = toggle.nextElementSibling;
-      
-      // 他の開いているメニューがあれば閉じる
-      allDropdownMenusSp.forEach(menu => {
+      // 他を閉じる
+      document.querySelectorAll('.dropdown-menu-sp').forEach(menu => {
         if (menu !== currentMenu) menu.classList.remove('show');
       });
-      
-      // タップしたメニューの開閉を切り替え
+      // 切り替え
       currentMenu.classList.toggle('show');
     });
   });
 
-  // (オプション) スクロール時のフェードインアニメーション
-  // .fade-in クラスがついている要素をスクロールに合わせて表示
+  // スクロールアニメーション
   const fadeElements = document.querySelectorAll('.fade-in, .section-title');
-  const observerOptions = { root: null, rootMargin: "0px", threshold: 0.1 };
-  
-  const observer = new IntersectionObserver((entries, observer) => {
+  const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
           if (entry.isIntersecting) {
               entry.target.classList.add('visible');
-              observer.unobserve(entry.target); // 一度表示したら監視終了
+              obs.unobserve(entry.target);
           }
       });
-  }, observerOptions);
-
+  }, { threshold: 0.1 });
   fadeElements.forEach(el => observer.observe(el));
 
-
-  // =========================================================================
-  // 3. お問い合わせフォーム (Firebase + LINE通知)
-  // =========================================================================
+  // 2. お問い合わせフォーム
   const contactForm = document.getElementById("contactForm");
-  
-  // ★ここに手順6でコピーした「GASのURL」を貼り付けてください！
   const GAS_URL = "https://script.google.com/macros/s/AKfycbwm65W4QR-HnjtZuEsxWNa9B07W7U7p6wA9MYsNzjNlT_K0dU9Hai2YQI3_0fZJ7IkFYg/exec";
 
   if (contactForm) {
     contactForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      
       const btn = contactForm.querySelector('button[type="submit"]');
-      if(btn) {
-          btn.disabled = true;
-          btn.textContent = "送信中...";
-      }
+      if(btn) { btn.disabled = true; btn.textContent = "送信中..."; }
 
       const data = {
         name: contactForm.name.value,
@@ -85,129 +91,56 @@ window.addEventListener("DOMContentLoaded", () => {
         timestamp: new Date().toISOString()
       };
 
-      // 1. Firebaseに保存（これは今まで通り）
       const contactsRef = ref(rtdb, "contacts");
-      const newContactRef = push(contactsRef);
-
-      set(newContactRef, data)
+      push(contactsRef, data)
         .then(() => {
-          // --------------------------------------------------
-          // ★ 2. LINEにも通知を送る
-          // --------------------------------------------------
-          const lineData = {
-            "お名前": data.name,
-            "件名": data.subject,
-            "メール": data.email,
-            "内容": data.message
-          };
-
-          // GASにデータを投げる
           fetch(GAS_URL, {
-            method: "POST",
-            mode: "no-cors", 
+            method: "POST", mode: "no-cors", 
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(lineData)
-          }).catch(err => console.log("LINE送信エラー(無視OK):", err));
-          // --------------------------------------------------
-
-          alert("お問い合わせ内容を送信しました！\nLINEにも通知を送りました。");
+            body: JSON.stringify({ "お名前": data.name, "件名": data.subject, "メール": data.email, "内容": data.message })
+          }).catch(console.error);
+          alert("送信しました！");
           contactForm.reset();
         })
-        .catch((error) => {
-          alert("送信に失敗しました: " + error.message);
-          console.error(error);
-        })
-        .finally(() => {
-            if(btn) {
-                btn.disabled = false;
-                btn.textContent = "送信する";
-            }
-        });
+        .catch(err => alert("送信失敗: " + err.message))
+        .finally(() => { if(btn) { btn.disabled = false; btn.textContent = "送信する"; } });
     });
   }
 
-
-  // =========================================================================
-  // 4. 学生登録フォーム (Firestore / 入力欄出し分けロジック)
-  // =========================================================================
+  // 3. 学生登録フォーム
   const studentForm = document.getElementById("studentForm");
-  
   if (studentForm) {
     const privacyCheckbox = document.getElementById("privacy-agreement");
     const submitButton = document.getElementById("submitButton");
-
-    // 各種フィールドエリア
     const schoolTypeSelect = document.getElementById("school-type");
-    
-    const universityFields = document.getElementById("university-fields");
-    const vocationalFields = document.getElementById("vocational-fields");
-    const otherSchoolFields = document.getElementById("other-school-fields");
-    const gradeField = document.getElementById("grade-field");
-    
-    const gradeSelect = document.getElementById("grade");
 
-    // 必須チェック制御用の入力要素
-    const universityInputs = universityFields ? universityFields.querySelectorAll("input") : [];
-    const vocationalInputs = vocationalFields ? vocationalFields.querySelectorAll("input") : [];
-    const otherSchoolInputs = otherSchoolFields ? otherSchoolFields.querySelectorAll("input, textarea") : [];
-
-    // 学校種別の切り替え処理
     if (schoolTypeSelect) {
       schoolTypeSelect.addEventListener("change", (e) => {
-        const selectedType = e.target.value;
-
-        // --- リセット処理: 一旦すべて隠す & 必須属性を外す ---
-        if(universityFields) universityFields.classList.add("hidden");
-        universityInputs.forEach(input => input.required = false);
-        
-        if(vocationalFields) vocationalFields.classList.add("hidden");
-        vocationalInputs.forEach(input => input.required = false);
-        
-        if(otherSchoolFields) otherSchoolFields.classList.add("hidden");
-        otherSchoolInputs.forEach(input => input.required = false);
-        
-        if(gradeField) gradeField.classList.add("hidden");
-        if(gradeSelect) gradeSelect.required = false;
-
-        // --- 選択されたタイプに合わせて表示 & 必須属性付与 ---
-        if (selectedType === "university") {
-          if(universityFields) universityFields.classList.remove("hidden");
-          universityInputs.forEach(input => input.required = true);
-          if(gradeField) gradeField.classList.remove("hidden");
-          if(gradeSelect) gradeSelect.required = true;
-
-        } else if (selectedType === "vocational") {
-          if(vocationalFields) vocationalFields.classList.remove("hidden");
-          vocationalInputs.forEach(input => input.required = true);
-          if(gradeField) gradeField.classList.remove("hidden");
-          if(gradeSelect) gradeSelect.required = true;
-
-        } else if (selectedType === "other") {
-          if(otherSchoolFields) otherSchoolFields.classList.remove("hidden");
-          otherSchoolInputs.forEach(input => input.required = true);
-        }
+        const val = e.target.value;
+        const toggle = (id, show) => {
+            const el = document.getElementById(id);
+            if(el) {
+                show ? el.classList.remove("hidden") : el.classList.add("hidden");
+                el.querySelectorAll("input, select, textarea").forEach(i => i.required = show);
+            }
+        };
+        toggle("university-fields", val === "university");
+        toggle("vocational-fields", val === "vocational");
+        toggle("other-school-fields", val === "other");
+        toggle("grade-field", val === "university" || val === "vocational");
       });
     }
 
-    // プライバシーポリシー同意チェックによるボタン活性化
     if (submitButton) submitButton.disabled = true;
-    if (privacyCheckbox && submitButton) {
-      privacyCheckbox.addEventListener("change", () => {
-        submitButton.disabled = !privacyCheckbox.checked;
-      });
+    if (privacyCheckbox) {
+      privacyCheckbox.addEventListener("change", () => submitButton.disabled = !privacyCheckbox.checked);
     }
 
-    // 送信処理
     studentForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      
-      const submitBtn = document.getElementById("submitButton");
-      if(submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.textContent = "送信中...";
-      }
+      const btn = document.getElementById("submitButton");
+      if(btn) { btn.disabled = true; btn.textContent = "送信中..."; }
 
-      // 基本データ
       let data = {
         name: studentForm.name.value,
         schoolType: studentForm["school-type"].value,
@@ -218,7 +151,6 @@ window.addEventListener("DOMContentLoaded", () => {
         timestamp: new Date().toISOString()
       };
 
-      // 学校種別ごとのデータ追加
       if (data.schoolType === "university") {
         data.university = studentForm.university.value;
         data.faculty = studentForm.faculty.value;
@@ -230,409 +162,303 @@ window.addEventListener("DOMContentLoaded", () => {
         data.schoolDetails = studentForm["other-school-details"].value;
       }
 
-      // Firestoreへ保存
       addDoc(collection(db, "students"), data)
         .then(() => {
-          alert("登録が完了しました！\nイベントや活動のご案内をお送りします。");
+          alert("登録完了しました！");
           studentForm.reset();
-          
-          // フォームの表示状態を初期化
-          if(universityFields) universityFields.classList.add("hidden");
-          if(vocationalFields) vocationalFields.classList.add("hidden");
-          if(otherSchoolFields) otherSchoolFields.classList.add("hidden");
-          if(gradeField) gradeField.classList.add("hidden");
-          if(gradeSelect) gradeSelect.required = false;
-          
-          if (submitBtn) {
-              submitBtn.textContent = "送信する";
-              // 同意チェックが外れるためボタンは無効化のままにする
-          }
+          ["university-fields", "vocational-fields", "other-school-fields", "grade-field"].forEach(id => document.getElementById(id)?.classList.add("hidden"));
         })
-        .catch((error) => {
-          alert("登録に失敗しました: " + error.message);
-          console.error(error);
-          if (submitBtn) {
-              submitBtn.textContent = "送信する";
-              submitBtn.disabled = false; // エラー時は再送信可能に
-          }
-        });
+        .catch(err => alert("エラー: " + err.message))
+        .finally(() => { if(btn) { btn.textContent = "登録する"; } });
     });
   }
 
-
-  // =========================================================================
-  // 5. お知らせ (News) の読み込み処理
-  // =========================================================================
+  // 4. データ読み込み実行 (ここが重要！)
+  // トップページ用ニュース (tickerなど)
+  const newsContainer = document.querySelector('.news-list'); 
+  const newsTicker = document.querySelector('.news-content'); 
+  if (newsContainer || newsTicker) loadNewsForIndex(newsContainer, newsTicker);
   
-  // (A) トップページ (index.html) のリスト用
-  const newsListContainer = document.querySelector('.news-list');
-  if (newsListContainer) {
-    loadNewsForIndex(newsListContainer);
-  }
-
-  // (B) ニュース一覧ページ (news.html) のリスト用
-  const newsListFullContainer = document.getElementById('news-list-full');
-  if (newsListFullContainer) {
-    loadNewsPage(newsListFullContainer);
+  // お知らせ一覧ページ
+  if (document.getElementById('news-list-full')) loadNewsPage(document.getElementById('news-list-full'));
+  
+  // プロジェクト・開発実績・トップ注目 (すべて共通関数で処理)
+  if (document.getElementById('project-list-area') || document.getElementById('portfolio-grid') || document.getElementById('featured-projects-grid')) {
+      loadProjects();
   }
   
-  // (C) ニュース詳細ページ (news-detail.html) の本文読み込み用
-  // ※これが以前抜けていた可能性があります
-  const newsDetailContainer = document.getElementById('news-detail-content');
-  if (newsDetailContainer) {
-    loadNewsDetail();
+  // ニュース詳細
+  if (document.getElementById('news-detail-content')) loadNewsDetail();
+
+  // 隠しコマンド
+  const secretDoor = document.getElementById("secret-door");
+  if (secretDoor) {
+    let count = 0;
+    secretDoor.addEventListener("click", () => {
+      count++;
+      if(count >= 5) { location.href = "admin.html"; }
+      setTimeout(() => count = 0, 2000);
+    });
   }
 
-
-  // =========================================================================
-  // 6. プロジェクト・開発実績 (Projects) の読み込み処理
-  // =========================================================================
-  const projectListArea = document.getElementById('project-list-area');
-  const portfolioGrid = document.getElementById('portfolio-grid');
-  
-  // どちらかのコンテナが存在するページなら実行
-  if (projectListArea || portfolioGrid) {
-    loadProjects();
-  }
-
+  // スライドショー
+  const slideshows = document.querySelectorAll('.slideshow-container');
+  slideshows.forEach(slideshow => {
+    const slides = slideshow.querySelectorAll('.slide');
+    const prev = slideshow.querySelector('.prev');
+    const next = slideshow.querySelector('.next');
+    let idx = 0;
+    const show = (i) => {
+        slides.forEach(s => { s.classList.remove('active-slide'); s.style.display='none'; });
+        if(slides[i]) { slides[i].style.display='flex'; slides[i].classList.add('active-slide'); }
+    };
+    if(next) next.addEventListener('click', () => { idx = (idx+1)%slides.length; show(idx); });
+    if(prev) prev.addEventListener('click', () => { idx = (idx-1+slides.length)%slides.length; show(idx); });
+    if(slides.length>0) show(0);
+  });
 });
 
+// =========================================================
+// データ取得関数定義 (クレジット節約版)
+// =========================================================
 
-// =========================================================================
-// 関数定義エリア
-// =========================================================================
-
-// --- [関数] トップページ用のお知らせ読み込み ---
-async function loadNewsForIndex(container) {
+// トップページニュース (Limit 10)
+async function loadNewsForIndex(container, ticker) {
   try {
-    const q = query(collection(db, "news"), orderBy("date", "desc"), limit(5));
-    const querySnapshot = await getDocs(q);
+    const q = query(collection(db, "news"), orderBy("date", "desc"), limit(10));
+    const snap = await getDocs(q);
 
-    if (querySnapshot.empty) {
-      container.innerHTML = '<li>お知らせはまだありません。</li>';
+    if (snap.empty) {
+      if(container) container.innerHTML = '<li style="padding:1rem;">お知らせはありません</li>';
+      if(ticker) ticker.innerHTML = 'お知らせはありません';
       return;
     }
 
-    container.innerHTML = '';
+    // ティッカーは最新1件のみ
+    if (ticker) {
+        const latest = snap.docs[0].data();
+        const link = latest.content ? `news-detail.html?id=${snap.docs[0].id}` : (latest.internalUrl || latest.directUrl || '#');
+        ticker.innerHTML = `<a href="${link}">${latest.date} ${latest.title} <i class="fas fa-chevron-right"></i></a>`;
+    }
 
-    querySnapshot.forEach((docSnapshot) => {
-      const news = docSnapshot.data();
-      const docId = docSnapshot.id;
-      const dateStr = news.date ? news.date.replace(/-/g, '/') : '';
-      
-      // リンク先の判定 logic
-      let href = `news-detail.html?id=${docId}`;
-      let target = "";
-
-      // 内部リンクが設定されている場合
-      if (news.internalUrl && !news.content) {
-        href = news.internalUrl;
-      } 
-      // 外部リンクが設定されている場合
-      else if (news.directUrl && !news.content) {
-        href = news.directUrl;
-        target = 'target="_blank"';
-      }
-      
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <span class="date">${dateStr}</span>
-        <a href="${href}" ${target}>
-          ${news.title}
-        </a>
-      `;
-      container.appendChild(li);
-    });
-
-  } catch (error) {
-    console.error("お知らせ読み込みエラー:", error);
-    container.innerHTML = '<li>読み込みに失敗しました。</li>';
-  }
+    // リスト表示（トップページ中段用）
+    if (container) {
+        container.innerHTML = '';
+        // limit(10)で取得したが、表示は5件程度に絞るなど調整可
+        const displayLimit = 5; 
+        let count = 0;
+        
+        snap.forEach(d => {
+            if(count >= displayLimit) return;
+            const data = d.data();
+            const link = data.content ? `news-detail.html?id=${d.id}` : (data.internalUrl || data.directUrl || '#');
+            const target = (!data.content && data.directUrl) ? 'target="_blank"' : '';
+            
+            const li = document.createElement('li');
+            // ここでは画像は出さずシンプルに
+            li.innerHTML = `<span class="date">${data.date}</span><a href="${link}" ${target}>${data.title}</a>`;
+            container.appendChild(li);
+            count++;
+        });
+    }
+  } catch (e) { console.error(e); }
 }
 
-// --- [関数] ニュース一覧ページ用のお知らせ読み込み ---
+// お知らせ一覧ページ (画像付き・最適化)
 async function loadNewsPage(container) {
   try {
     const q = query(collection(db, "news"), orderBy("date", "desc"), limit(30));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-      container.innerHTML = '<p style="text-align:center">現在、お知らせはありません。</p>';
-      return;
+    const snap = await getDocs(q);
+    
+    if (snap.empty) { 
+      container.innerHTML = '<p class="text-center">お知らせはありません</p>'; 
+      return; 
     }
-
+    
     container.innerHTML = '';
+    
+    snap.forEach(d => {
+      const data = d.data();
+      const href = data.content ? `news-detail.html?id=${d.id}` : (data.internalUrl || data.directUrl || '#');
+      const target = (!data.content && data.directUrl) ? 'target="_blank"' : '';
+      
+      // 画像の最適化
+      const optimizedImg = getOptimizedImage(data.image);
+      const imgHtml = optimizedImg 
+        ? `<div class="news-thumb" style="width:120px; height:90px; flex-shrink:0; margin-right:15px; background:#f0f0f0; border-radius:4px; overflow:hidden;">
+             <img src="${optimizedImg}" style="width:100%; height:100%; object-fit:cover;" alt="サムネイル">
+           </div>`
+        : ''; 
 
-    querySnapshot.forEach((docSnapshot) => {
-      const news = docSnapshot.data();
-      const docId = docSnapshot.id;
-      const dateStr = news.date ? news.date.replace(/-/g, '/') : '';
-      
-      // 本文がなく、リンクのみのお知らせも表示する場合はここを調整
-      // 今回は基本的にすべて表示
-      
-      let href = `news-detail.html?id=${docId}`;
-      let target = "";
-
-      if (news.internalUrl && !news.content) {
-        href = news.internalUrl;
-      } else if (news.directUrl && !news.content) {
-        href = news.directUrl;
-        target = 'target="_blank"';
-      }
-      
-      const html = `
-        <a href="${href}" class="news-item-link" ${target}>
-          <article class="news-item">
-            <p class="news-item-date">${dateStr}</p>
-            <h3 class="news-item-title">${news.title}</h3>
-          </article>
-        </a>
-      `;
-      container.innerHTML += html;
+      container.innerHTML += `
+        <a href="${href}" class="news-item-link" ${target} style="display:block; text-decoration:none; color:inherit; border-bottom:1px solid #eee;">
+          <div class="news-item" style="display:flex; align-items:flex-start; padding:1.5rem 1rem;">
+            ${imgHtml}
+            <div style="flex:1;">
+              <p class="news-item-date" style="color:#666; font-size:0.9rem; margin:0 0 0.5rem 0;">${data.date}</p>
+              <h3 class="news-item-title" style="margin:0; font-size:1.1rem; color:#1A71BE;">${data.title}</h3>
+            </div>
+          </div>
+        </a>`;
     });
-
-  } catch (error) {
-    console.error("一覧読み込みエラー:", error);
-    container.innerHTML = '<p style="text-align:center;">読み込みに失敗しました。</p>';
+  } catch (e) { 
+    console.error(e);
+    container.innerHTML = '<p>読み込みエラー</p>'; 
   }
 }
 
-// --- [関数] ニュース詳細ページの読み込み ---
+// お知らせ詳細ページ (画像付き・最適化)
 async function loadNewsDetail() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-
-    if (!id) {
-        document.getElementById('news-title-area').textContent = "記事が見つかりません";
-        return;
-    }
-
+    const c = document.getElementById('news-detail-content');
+    if(!c) return;
+    
+    const id = new URLSearchParams(window.location.search).get('id');
+    if (!id) { c.innerHTML = "<p>記事が見つかりません</p>"; return; }
+    
     try {
-        const docRef = doc(db, "news", id);
-        const docSnap = await getDoc(docRef);
+        const d = await getDoc(doc(db, "news", id));
+        if (d.exists()) {
+            const data = d.data();
+            
+            // アイキャッチ画像の最適化
+            const optimizedImg = getOptimizedImage(data.image);
+            const mainImageHtml = optimizedImg 
+                ? `<div style="margin-bottom:2rem; border-radius:8px; overflow:hidden; max-height:400px;">
+                     <img src="${optimizedImg}" style="width:100%; height:100%; object-fit:cover;" alt="${data.title}">
+                   </div>`
+                : '';
 
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-            
-            // タイトルや日付の反映
-            const titleEl = document.getElementById('news-title-area');
-            const dateEl = document.getElementById('news-date-area');
-            const contentEl = document.getElementById('news-detail-content');
-            
-            if(titleEl) titleEl.textContent = data.title;
-            if(dateEl) dateEl.textContent = data.date ? data.date.replace(/-/g, '/') : '';
-            if(contentEl) {
-                // 改行を<br>に変換
-                contentEl.innerHTML = data.content ? data.content.replace(/\n/g, '<br>') : '';
-            }
-            
-            // リンクボタンの表示（もしあれば）
-            const linkArea = document.getElementById('news-links-area');
-            if(linkArea && data.links) {
-                let linksHtml = '';
-                if(data.links.web) linksHtml += `<a href="${data.links.web}" target="_blank" class="sns-btn"><i class="fas fa-globe"></i> 公式サイト</a>`;
-                if(data.links.instagram) linksHtml += `<a href="${data.links.instagram}" target="_blank" class="sns-btn"><i class="fab fa-instagram"></i> Instagram</a>`;
-                if(data.links.x) linksHtml += `<a href="${data.links.x}" target="_blank" class="sns-btn"><i class="fab fa-twitter"></i> X (Twitter)</a>`;
-                
-                linkArea.innerHTML = linksHtml;
+            let linksHtml = '';
+            if(data.links) {
+                const ls = [];
+                if(data.links.web) ls.push(`<a href="${data.links.web}" target="_blank" class="btn-link"><i class="fas fa-globe"></i> WebSite</a>`);
+                if(data.links.instagram) ls.push(`<a href="${data.links.instagram}" target="_blank" class="btn-link"><i class="fab fa-instagram"></i> Instagram</a>`);
+                if(data.links.x) ls.push(`<a href="${data.links.x}" target="_blank" class="btn-link"><i class="fab fa-twitter"></i> X (Twitter)</a>`);
+                if(data.links.facebook) ls.push(`<a href="${data.links.facebook}" target="_blank" class="btn-link"><i class="fab fa-facebook"></i> Facebook</a>`);
+                if(ls.length > 0) linksHtml = `<div style="margin-top:2rem; display:flex; gap:10px; flex-wrap:wrap;">${ls.join('')}</div>`;
             }
 
-        } else {
-            document.getElementById('news-detail-content').innerHTML = "<p>該当するお知らせが見つかりませんでした。</p>";
-        }
-    } catch (error) {
-        console.error("詳細読み込みエラー:", error);
-    }
+            c.innerHTML = `
+                <div style="border-bottom:1px solid #eee; padding-bottom:1rem; margin-bottom:2rem;">
+                    <p style="color:#666;">${data.date}</p>
+                    <h2 style="color:#1A71BE; font-size:1.8rem; margin-top:0.5rem;">${data.title}</h2>
+                </div>
+                ${mainImageHtml}
+                <div style="line-height:1.8; white-space: pre-wrap; font-size:1.05rem;">${data.content || ''}</div>
+                ${linksHtml}`;
+        } else { c.innerHTML = "<p>記事がありません</p>"; }
+    } catch (e) { c.innerHTML = "<p>エラーが発生しました</p>"; }
 }
 
-
-// --- [関数] プロジェクト・ポートフォリオ読み込み (完全振り分け版) ---
+// プロジェクト & 開発実績読み込み (最適化済み)
+// プロジェクト & 開発実績読み込み (修正版：画像有無の自動判定)
 async function loadProjects() {
-  const portfolioContainer = document.getElementById('portfolio-grid');
-  const listContainer = document.getElementById('project-list-area');
+  const portfolioContainer = document.getElementById('portfolio-grid'); 
+  const listContainer = document.getElementById('project-list-area'); 
+  const featuredContainer = document.getElementById('featured-projects-grid'); 
+
+  if (!portfolioContainer && !listContainer && !featuredContainer) return;
 
   try {
-    const q = query(collection(db, "projects"), orderBy("order", "asc"));
-    const querySnapshot = await getDocs(q);
+    // --- トップページ (top_projects) ---
+    // ここはトップページ用なので、画像の有無にかかわらず既存のデザイン（デフォルト画像）を維持します
+    if (featuredContainer) {
+        const q = query(collection(db, "top_projects"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(q);
+        
+        featuredContainer.innerHTML = '';
+        if (querySnapshot.empty) {
+            featuredContainer.innerHTML = '<p style="text-align:center; width:100%;">現在、注目のプロジェクトはありません。</p>';
+        }
 
-    if (querySnapshot.empty) {
-      if(portfolioContainer) portfolioContainer.innerHTML = '<p style="text-align:center;width:100%;">実績はまだありません。</p>';
-      if(listContainer) listContainer.innerHTML = '<p style="text-align:center;width:100%;">プロジェクトはまだありません。</p>';
-      return;
-    }
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            const bgImg = getOptimizedImage(data.image) || 'assets/teaching.png';
+            const urlBtn = `<a href="about.html" class="text-link-arrow">詳細を見る <i class="fas fa-arrow-right"></i></a>`;
 
-    if(portfolioContainer) portfolioContainer.innerHTML = '';
-    if(listContainer) listContainer.innerHTML = '';
-
-    querySnapshot.forEach((doc) => {
-      const data = doc.data();
-      
-      // 共通URLボタン
-      let urlBtn = '';
-      if(data.url) {
-        urlBtn = `<a href="${data.url}" target="_blank" class="proj-link-btn"><i class="fas fa-external-link-alt"></i> 詳細・サイトを見る</a>`;
-      }
-
-      // 共通ステータスバッジ
-      let statusHtml = '<span class="status-badge status-active">活動中・運用中</span>';
-      if(data.status === 'completed') {
-          statusHtml = '<span class="status-badge status-completed">完了・終了</span>';
-      }
-
-      // ★振り分けロジック
-      // type='portfolio' なら画像エリアへ。
-      // ただし、画像が未入力(空文字)の場合はテキストのみのカードとして表示するか、
-      // あるいはプレースホルダーを表示するか。ここでは「画像なし」でもレイアウトが崩れないようにします。
-      
-      const isPortfolio = data.type === 'portfolio';
-
-      if (isPortfolio) {
-          // =============================================
-          // 開発実績 (Portfolio) エリアへの表示
-          // =============================================
-          if (portfolioContainer) {
-              
-              // 画像HTMLの生成 (画像がない場合は表示しない)
-              let imgHtml = '';
-              if (data.image && data.image.trim() !== "") {
-                  imgHtml = `<div class="portfolio-img" style="background-image: url('${data.image}');"></div>`;
-              } else {
-                  // 画像がない場合の代替（必要ならコメントアウトを外してください）
-                  // imgHtml = `<div class="portfolio-img" style="background-color:#eee; display:flex; align-items:center; justify-content:center; color:#888;"><span>No Image</span></div>`;
-              }
-
-              const html = `
-                <div class="portfolio-card">
-                    ${imgHtml}
-                    <div class="portfolio-content">
-                        <div class="portfolio-header">
-                            <span class="proj-tag tag-dev">開発</span>
-                            ${statusHtml}
-                        </div>
-                        <h3 class="portfolio-title">${data.title}</h3>
-                        <p class="portfolio-desc">${data.description.replace(/\n/g, '<br>')}</p>
+            const html = `
+              <div class="service-card modern-card">
+                  <a href="about.html" class="card-image-link">
+                    <div class="card-img-wrapper">
+                        <img src="${bgImg}" alt="${data.title}">
+                        <span class="category-tag ${data.tagClass}">${data.tagName}</span>
+                    </div>
+                  </a>
+                  <div class="project-body">
+                    <h3 class="card-title">${data.title}</h3>
+                    <p class="card-text">${data.description ? data.description.substring(0, 60) + '...' : ''}</p>
+                    <div class="card-footer">
                         ${urlBtn}
                     </div>
-                </div>`;
-              portfolioContainer.innerHTML += html;
-          }
-
-      } else {
-          // =============================================
-          // 活動プロジェクト (List) エリアへの表示
-          // =============================================
-          if (listContainer) {
-              let catLabel = 'その他';
-              let catClass = 'tag-other';
-              if(data.category === 'dev') { catLabel = '開発'; catClass = 'tag-dev'; }
-              else if(data.category === 'edu') { catLabel = '教育'; catClass = 'tag-edu'; }
-              else if(data.category === 'com') { catLabel = '交流'; catClass = 'tag-com'; }
-              
-              let cardClass = data.status === 'completed' ? 'project-completed' : '';
-
-              const html = `
-                <div class="project-card ${cardClass}">
-                  <div class="proj-header">
-                    <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:0.5rem;">
-                        <span class="proj-tag ${catClass}">${catLabel}</span>
-                        ${statusHtml}
-                    </div>
-                    <h3 class="proj-title">${data.title}</h3>
                   </div>
-                  <p class="proj-desc">${data.description.replace(/\n/g, '<br>')}</p>
-                  ${urlBtn}
-                </div>`;
-              listContainer.innerHTML += html;
-          }
-      }
-    });
+              </div>`;
+            featuredContainer.innerHTML += html;
+        });
+        return; 
+    }
+
+    // --- 活動一覧・開発実績 (projects) ---
+    if (portfolioContainer || listContainer) {
+        const q = query(collection(db, "projects"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(q);
+
+        if (portfolioContainer) portfolioContainer.innerHTML = '';
+        if (listContainer) listContainer.innerHTML = '';
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            
+            // 画像URLを最適化 (画像がない場合は null になる)
+            const optimizedUrl = getOptimizedImage(data.image);
+            
+            let urlBtn = data.url 
+                ? `<a href="${data.url}" target="_blank" class="text-link-arrow" style="margin-top:auto;">詳細を見る <i class="fas fa-arrow-right"></i></a>`
+                : `<span class="text-link-arrow" style="margin-top:auto; color:#999;">詳細なし</span>`;
+
+            let tagClass = 'tag-other';
+            let tagName = 'その他';
+            if(data.category === 'dev') { tagClass = 'tag-dev'; tagName = '開発'; }
+            if(data.category === 'edu') { tagClass = 'tag-edu'; tagName = '教育'; }
+            if(data.category === 'com') { tagClass = 'tag-recruit'; tagName = '交流'; }
+            if(data.type === 'portfolio') { tagClass = 'tag-dev'; tagName = '開発実績'; }
+
+            if (data.type === 'portfolio' && portfolioContainer) {
+                // ▼▼▼ 修正箇所：画像がある場合のみ画像エリアを表示 ▼▼▼
+                let imgHtml = '';
+                if (optimizedUrl) {
+                    // 画像がある場合
+                    imgHtml = `<div class="portfolio-img" style="background-image: url('${optimizedUrl}'); height: 200px; background-size: cover; background-position: center;"></div>`;
+                }
+                // 画像がない場合は imgHtml は空のまま
+
+                const html = `
+                    <div class="portfolio-card">
+                        ${imgHtml}
+                        <div class="portfolio-content">
+                            <div class="portfolio-header"><span class="proj-tag tag-dev">開発実績</span></div>
+                            <h3 class="portfolio-title">${data.title}</h3>
+                            <p class="portfolio-desc">${data.description.replace(/\n/g, '<br>')}</p>
+                            ${urlBtn}
+                        </div>
+                    </div>`;
+                portfolioContainer.innerHTML += html;
+            } else if (data.type !== 'portfolio' && listContainer) {
+                // 活動リスト (こちらは元々画像なしのデザイン)
+                const html = `
+                    <div class="service-card modern-card" style="box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                        <div class="project-body">
+                        <div style="margin-bottom:1rem;"><span class="proj-tag ${tagClass}">${tagName}</span></div>
+                        <h3 class="card-title" style="margin-top:0;">${data.title}</h3>
+                        <p class="card-text">${data.description.replace(/\n/g, '<br>')}</p>
+                        <div class="card-footer" style="border:none; padding-top:0;">${urlBtn}</div>
+                        </div>
+                    </div>`;
+                listContainer.innerHTML += html;
+            }
+        });
+    }
 
   } catch (error) {
-    console.error("プロジェクト読み込みエラー:", error);
-    if(portfolioContainer) portfolioContainer.innerHTML = '<p>読み込みエラーが発生しました</p>';
-    if(listContainer) listContainer.innerHTML = '<p>読み込みエラーが発生しました</p>';
+    console.error("Project Load Error:", error);
   }
-}
-
-// =========================================================================
-// 7. スライドショー (Slideshow)
-// =========================================================================
-const slideshows = document.querySelectorAll('.slideshow-container');
-
-slideshows.forEach(slideshow => {
-  const slides = slideshow.querySelectorAll('.slide');
-  const prevButton = slideshow.querySelector('.prev');
-  const nextButton = slideshow.querySelector('.next');
-  let currentSlideIndex = 0;
-
-  function showSlide(index) {
-    slides.forEach(slide => {
-      slide.classList.remove('active-slide');
-      slide.style.display = 'none';
-    });
-    
-    if(slides[index]) {
-        slides[index].style.display = 'flex'; 
-        slides[index].classList.add('active-slide');
-    }
-  }
-
-  if (nextButton) {
-    nextButton.addEventListener('click', () => {
-      currentSlideIndex++;
-      if (currentSlideIndex >= slides.length) {
-        currentSlideIndex = 0;
-      }
-      showSlide(currentSlideIndex);
-    });
-  }
-
-  if (prevButton) {
-    prevButton.addEventListener('click', () => {
-      currentSlideIndex--;
-      if (currentSlideIndex < 0) {
-        currentSlideIndex = slides.length - 1;
-      }
-      showSlide(currentSlideIndex);
-    });
-  }
-
-  // 自動再生 (オプション)
-  // setInterval(() => {
-  //   currentSlideIndex++;
-  //   if (currentSlideIndex >= slides.length) currentSlideIndex = 0;
-  //   showSlide(currentSlideIndex);
-  // }, 5000);
-
-  if (slides.length > 0) {
-      showSlide(currentSlideIndex);
-  }
-});
-
-// =========================================================================
-// ★ 隠し機能：フッターのCopyrightを5回連打で管理画面へ
-// =========================================================================
-const secretDoor = document.getElementById("secret-door");
-if (secretDoor) {
-  let clickCount = 0;
-  let timer;
-
-  secretDoor.addEventListener("click", () => {
-    clickCount++;
-    console.log("Secret count: " + clickCount); // 確認用（本番では消してもOK）
-
-    // 最初のクリックから2秒経過したらリセット
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      clickCount = 0;
-    }, 2000);
-
-    // 5回クリックされたら発動
-    if (clickCount >= 5) {
-      alert("管理者認証：管理画面へ移動します");
-      window.location.href = "admin.html"; // 移動先のファイル名
-      clickCount = 0;
-    }
-  });
 }

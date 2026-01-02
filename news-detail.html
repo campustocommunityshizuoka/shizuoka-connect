@@ -3,114 +3,99 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>記事詳細 - しずおかコネクト</title>
+  <title>記事詳細 | しずおかコネクト</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-  <style>
-      /* 詳細ページ専用スタイル */
-      .article-container { max-width: 800px; margin: 0 auto; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-      .article-header { border-bottom: 1px solid #eee; padding-bottom: 1rem; margin-bottom: 2rem; }
-      .article-date { color: #666; font-size: 0.9rem; }
-      .article-title { color: #1A71BE; font-size: 1.8rem; margin: 0.5rem 0; }
-      .article-body { line-height: 1.8; font-size: 1.05rem; white-space: pre-wrap; /* 改行を反映 */ }
-      
-      .social-links-area { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px dashed #ccc; }
-      .social-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 50px; text-decoration: none; color: white; font-weight: bold; margin-right: 10px; margin-bottom: 10px; transition: opacity 0.2s; font-size: 0.9rem; }
-      .social-btn:hover { opacity: 0.8; }
-      .btn-web { background-color: #333; }
-      .btn-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
-      .btn-x { background-color: #000; }
-      .btn-fb { background-color: #1877F2; }
-      
-      .hidden { display: none; }
-  </style>
 </head>
 <body>
-
   <header>
     <div class="container header-flex">
-      <h1><a href="index.html" class="site-title"><img src="assets/logo.png" class="header-logo"><div class="title-text">地域と学生をつなぐ会 しずおかコネクト</div></a></h1>
-      </div>
+      <h1>
+        <a href="index.html" class="site-title">
+          <img src="assets/logo.png" alt="しずおかコネクト ロゴ" class="header-logo">
+          <div class="title-text">
+            地域と学生をつなぐ会<br><span style="font-size: 1.1em;">しずおかコネクト</span>
+          </div>
+        </a>
+      </h1>
+      <nav class="desktop-nav">
+        <ul>
+          <li><a href="index.html">トップ</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">私たちについて <i class="fas fa-chevron-down" style="font-size:0.8rem;"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="about.html">活動内容</a></li>
+              <li><a href="members.html">メンバー紹介</a></li>
+              <li><a href="advisors.html">特別顧問</a></li>
+              <li><a href="partners.html">協賛企業・団体</a></li>
+              <li><a href="news.html">お知らせ・発表</a></li>
+            </ul>
+          </li>
+          <li><a href="service.html" class="nav-btn-highlight">学生の方</a></li>
+          <li><a href="for-companies.html" class="nav-btn-highlight-outline">企業の方</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </nav>
+      <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+    </div>
   </header>
 
+  <nav class="nav-menu" id="nav-menu">
+    <div class="menu-close-btn" id="menu-close-btn">
+        <span></span>
+        <span></span>
+    </div>
+    <ul>
+       <li><a href="index.html">トップ</a></li>
+       <li class="dropdown-sp">
+         <a href="#" class="dropdown-toggle-sp">私たちについて <i class="fas fa-chevron-down"></i></a>
+         <ul class="dropdown-menu-sp">
+           <li><a href="about.html">- 活動内容</a></li>
+           <li><a href="members.html">- メンバー紹介</a></li>
+           <li><a href="advisors.html">- 特別顧問</a></li>
+           <li><a href="partners.html">- 協賛企業・団体</a></li>
+           <li><a href="news.html">- お知らせ・発表</a></li>
+         </ul>
+       </li>
+       <li><a href="service.html">学生の方</a></li>
+       <li><a href="for-companies.html">企業の方</a></li>
+       <li><a href="contact.html">お問い合わせ</a></li>
+    </ul>
+  </nav>
+
   <div class="content-wrapper">
-    <section class="page-hero" style="height: 200px;">
-        <div class="hero-image-segment segment-1"></div>
-        <div class="hero-image-segment segment-2"></div>
-        <div class="hero-image-segment segment-3"></div>
-      <div class="hero-text">
-        <h2>News</h2>
+    <section class="page-hero-modern">
+      <div class="page-hero-text">
+        <h2>NEWS</h2>
       </div>
     </section>
 
     <main class="container page-content">
-      <div id="article-content" class="article-container">
-          <p style="text-align:center;">記事を読み込んでいます...</p>
+      <div id="news-detail-content" class="modern-form-wrapper" style="max-width:800px; padding:3rem 4rem; margin-top: -3rem; position:relative; z-index:10;">
+         <p style="text-align:center;">読み込み中...</p>
       </div>
-      <div style="text-align:center; margin-top:2rem;">
-          <a href="news.html" class="btn">一覧に戻る</a>
+
+      <div style="text-align:center; margin-top:3rem;">
+        <a href="news.html" class="btn">一覧に戻る</a>
       </div>
     </main>
 
     <footer>
-      <div class="container"><div class="footer-content"><p>© 2025 地域と学生をつなぐ会 しずおかコネクト</p></div></div>
+      <div class="container">
+        <div class="footer-content">
+          <p id="secret-door" style="cursor: pointer;">© 2026 地域と学生をつなぐ会 しずおかコネクト</p>
+          <div class="footer-links">
+            <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:campustocommunityshizuoka@gmail.com"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+      </div>
     </footer>
   </div>
-
-  <script type="module">
-    import { db } from "./firebase-config.js";
-    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.5.2/firebase-firestore.js";
-
-    const articleContainer = document.getElementById('article-content');
-
-    async function loadArticle() {
-        // URLの ?id=xxxxx を取得
-        const params = new URLSearchParams(window.location.search);
-        const docId = params.get('id');
-
-        if (!docId) {
-            articleContainer.innerHTML = '<p>記事が見つかりませんでした。</p>';
-            return;
-        }
-
-        try {
-            const docRef = doc(db, "news", docId);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                const data = docSnap.data();
-                const links = data.links || {};
-
-                // リンクボタンのHTML生成
-                let linksHtml = '';
-                if(links.web) linksHtml += `<a href="${links.web}" target="_blank" class="social-btn btn-web"><i class="fas fa-globe"></i> 公式サイト</a>`;
-                if(links.instagram) linksHtml += `<a href="${links.instagram}" target="_blank" class="social-btn btn-insta"><i class="fab fa-instagram"></i> Instagram</a>`;
-                if(links.x) linksHtml += `<a href="${links.x}" target="_blank" class="social-btn btn-x"><i class="fab fa-twitter"></i> X (Twitter)</a>`;
-                if(links.facebook) linksHtml += `<a href="${links.facebook}" target="_blank" class="social-btn btn-fb"><i class="fab fa-facebook"></i> Facebook</a>`;
-
-                if(linksHtml !== '') {
-                    linksHtml = `<div class="social-links-area"><h4 style="margin-top:0;">関連リンク</h4>${linksHtml}</div>`;
-                }
-
-                articleContainer.innerHTML = `
-                    <div class="article-header">
-                        <p class="article-date">${data.date}</p>
-                        <h1 class="article-title">${data.title}</h1>
-                    </div>
-                    <div class="article-body">${data.content}</div>
-                    ${linksHtml}
-                `;
-            } else {
-                articleContainer.innerHTML = '<p>記事が見つかりませんでした。</p>';
-            }
-        } catch (error) {
-            console.error("エラー:", error);
-            articleContainer.innerHTML = '<p>読み込みエラーが発生しました。</p>';
-        }
-    }
-
-    loadArticle();
-  </script>
+  <script type="module" src="javascript.js"></script>
 </body>
 </html>

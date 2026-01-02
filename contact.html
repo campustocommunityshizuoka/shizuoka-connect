@@ -3,32 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
   <title>お問い合わせ | しずおかコネクト</title>
-  <meta name="description" content="しずおかコネクトへのご質問、活動参加、企業連携のご相談はこちらから。フォーム、メール、Instagram DMにて受け付けております。お気軽にご連絡ください。" />
-  <meta name="keywords" content="静岡,お問い合わせ,連絡,学生,依頼,相談,フォーム" />
-  
-  <meta property="og:title" content="お問い合わせ | しずおかコネクト" />
-  <meta property="og:description" content="ご質問やご依頼はこちらから。学生・企業様からのお問い合わせをお待ちしております。" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://shizuoka-connect.com/contact.html" />
-  <meta property="og:image" content="https://shizuoka-connect.com/assets/logo.png" />
-  <meta property="og:site_name" content="しずおかコネクト" />
-
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 </head>
-<body>
 
+<body>
   <header>
     <div class="container header-flex">
       <h1>
         <a href="index.html" class="site-title">
           <img src="assets/logo.png" alt="しずおかコネクト ロゴ" class="header-logo">
           <div class="title-text">
-            <span class="sub-title"></span>
-            地域と学生をつなぐ会 しずおかコネクト
+            地域と学生をつなぐ会<br><span style="font-size: 1.1em;">しずおかコネクト</span>
           </div>
         </a>
       </h1>
@@ -36,91 +27,74 @@
         <ul>
           <li><a href="index.html">トップ</a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle">私たちについて</a>
+            <a href="#" class="dropdown-toggle">私たちについて <i class="fas fa-chevron-down" style="font-size:0.8rem;"></i></a>
             <ul class="dropdown-menu">
               <li><a href="about.html">活動内容</a></li>
               <li><a href="members.html">メンバー紹介</a></li>
               <li><a href="advisors.html">特別顧問</a></li>
-              <li><a href="news.html">プレスリリース</a></li>
+              <li><a href="partners.html">協賛企業・団体</a></li>
+              <li><a href="news.html">お知らせ・発表</a></li>
             </ul>
           </li>
-         <li class="dropdown">
-            <a href="#" class="dropdown-toggle">学生の方</a>
-            <ul class="dropdown-menu">
-              <li><a href="service.html">自分を登録する</a></li>
-              <li><a href="partners.html">企業・団体を探す</a></li>  
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle">企業・団体の方</a>
-            <ul class="dropdown-menu">
-              <li><a href="for-companies.html">ご提供できること</a></li>
-            </ul>
-          </li>
+          <li><a href="service.html" class="nav-btn-highlight">学生の方</a></li>
+          <li><a href="for-companies.html" class="nav-btn-highlight-outline">企業の方</a></li>
           <li><a href="contact.html">お問い合わせ</a></li>
         </ul>
       </nav>
       <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
     </div>
   </header>
+
   <nav class="nav-menu" id="nav-menu">
+    <div class="menu-close-btn" id="menu-close-btn">
+        <span></span>
+        <span></span>
+    </div>
     <ul>
-      <li><a href="index.html">トップ</a></li>
-      <li class="dropdown-sp">
-        <a href="#" class="dropdown-toggle-sp">私たちについて</a>
-        <ul class="dropdown-menu-sp">
-          <li><a href="about.html">- 活動内容</a></li>
-          <li><a href="members.html">- メンバー紹介</a></li>
-          <li><a href="advisors.html">- 特別顧問</a></li>
-          <li><a href="news.html">- プレスリリース</a></li>
-        </ul>
-      </li>
-      <li class="dropdown-sp">
-        <a href="#" class="dropdown-toggle-sp">学生の方</a>
-        <ul class="dropdown-menu-sp">
-          <li><a href="service.html">- 自分を登録する</a></li>
-          <li><a href="partners.html">- 企業・団体を探す</a></li>
-        </ul>
-      </li>
-      <li class="dropdown-sp">
-        <a href="#" class="dropdown-toggle-sp">企業・団体の方</a>
-        <ul class="dropdown-menu-sp">
-          <li><a href="for-companies.html">- ご提供できること</a></li>
-        </ul>
-      </li>
-      <li><a href="contact.html">お問い合わせ</a></li>
+       <li><a href="index.html">トップ</a></li>
+       <li class="dropdown-sp">
+         <a href="#" class="dropdown-toggle-sp">私たちについて <i class="fas fa-chevron-down"></i></a>
+         <ul class="dropdown-menu-sp">
+           <li><a href="about.html">- 活動内容</a></li>
+           <li><a href="members.html">- メンバー紹介</a></li>
+           <li><a href="advisors.html">- 特別顧問</a></li>
+           <li><a href="partners.html">- 協賛企業・団体</a></li>
+           <li><a href="news.html">- お知らせ・発表</a></li>
+         </ul>
+       </li>
+       <li><a href="service.html">学生の方</a></li>
+       <li><a href="for-companies.html">企業の方</a></li>
+       <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
+
   <div class="content-wrapper">
-    <section class="page-hero">
-      <div class="hero-image-segment segment-1"></div>
-      <div class="hero-image-segment segment-2"></div>
-      <div class="hero-image-segment segment-3"></div>
-      <div class="hero-text">
-        <h2>お問い合わせ</h2>
-      </div>
-    </section>
+    <div class="content-wrapper">
+  <section class="page-hero-modern" style="background-image: url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?q=80&w=1600&auto=format&fit=crop');">
+    <div class="page-hero-text">
+      <h2>CONTACT</h2>
+      <p>お問い合わせ</p>
+    </div>
+  </section>
     
     <main class="container page-content">
-      <section id="contact" class="section">
-
-        <div class="contact-intro">
-          <p>
+      <div class="section-header">
+         <p class="section-desc">
             ご質問・ご相談、地域連携のご提案など、お気軽にご連絡ください。<br>
-            以下のフォームまたは、メール、Instagram DMにて受け付けております。
-          </p>
-        </div>
+            以下のフォーム、またはメール・Instagram DMにて受け付けております。
+         </p>
+      </div>
 
-        <div class="form-container">
-          <h3>お問い合わせフォーム</h3>
+      <div class="modern-form-wrapper">
+          <h3 style="text-align:center; margin-bottom:2rem; color:#1A71BE;">お問い合わせフォーム</h3>
           <form id="contactForm" class="form-section">
-            <label for="name">お名前 :</label>
-            <input type="text" id="name" name="name" required>
+            <label for="name">お名前 <span style="color:red">*</span></label>
+            <input type="text" id="name" name="name" required placeholder="例: 山田 太郎">
           
-            <label for="email">メールアドレス :</label>
-            <input type="email" id="email" name="email" required>
+            <label for="email">メールアドレス <span style="color:red">*</span></label>
+            <input type="email" id="email" name="email" required placeholder="example@email.com">
           
-            <label for="subject">お問い合わせの種類 :</label>
+            <label for="subject">お問い合わせの種類 <span style="color:red">*</span></label>
             <select id="subject" name="subject" required>
               <option value="" disabled selected>選択してください</option>
               <option value="学生の方：登録について">学生の方：登録について</option>
@@ -129,49 +103,41 @@
               <option value="その他">その他</option>
             </select>
           
-            <label for="message">お問い合わせ内容 :</label>
-            <textarea id="message" name="message" rows="6" required></textarea>
+            <label for="message">お問い合わせ内容 <span style="color:red">*</span></label>
+            <textarea id="message" name="message" rows="6" required placeholder="お問い合わせ内容をご記入ください"></textarea>
           
-            <button type="submit" class="btn-submit">送信する</button>
+            <div style="text-align:center; margin-top:2rem;">
+               <button type="submit" class="btn-submit">送信する</button>
+            </div>
           </form>
-        </div>
+      </div>
 
-        <div class="contact-box">
-          <h3>フォーム以外でのご連絡</h3>
-          <p>
-            フォームがご利用になれない場合や直接のご連絡を希望される場合は、以下よりお問い合わせください。
-          </p>
-          <div>
-            <a href="mailto:campustocommunityshizuoka@gmail.com">
-              <i class="fas fa-envelope"></i>
-              メールでのお問い合わせ
+      <div style="text-align:center; margin-top:4rem;">
+          <h3 style="color:#1A71BE; margin-bottom:1rem;">フォーム以外でのご連絡</h3>
+          <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+            <a href="mailto:campustocommunityshizuoka@gmail.com" class="btn btn-white" style="border:1px solid #ddd;">
+              <i class="fas fa-envelope"></i> メールで連絡
             </a>
-            <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank">
-              <i class="fab fa-instagram"></i>
-              InstagramのDMで連絡
+            <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank" class="btn btn-white" style="border:1px solid #ddd;">
+              <i class="fab fa-instagram"></i> Instagram DM
             </a>
           </div>
-        </div>
+      </div>
 
-      </section>
     </main>
     
     <footer>
       <div class="container">
         <div class="footer-content">
-          <p id="secret-door" style="cursor: pointer; user-select: none;">© 2025 地域と学生をつなぐ会 しずおかコネクト</p>
+          <p id="secret-door" style="cursor: pointer;">© 2026 地域と学生をつなぐ会 しずおかコネクト</p>
           <div class="footer-links">
-            <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank" aria-label="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="mailto:campustocommunityshizuoka@gmail.com" aria-label="Email">
-              <i class="fas fa-envelope"></i>
-            </a>
+            <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:campustocommunityshizuoka@gmail.com"><i class="fas fa-envelope"></i></a>
           </div>
         </div>
       </div>
     </footer>
-    </div>
+  </div>
   <script type="module" src="javascript.js"></script>
 </body>
 </html>

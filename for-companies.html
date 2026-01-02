@@ -3,17 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  
-  <title>企業・団体の方へ（連携・依頼） | しずおかコネクト</title>
-  <meta name="description" content="静岡の学生に業務依頼や連携をご検討の企業様へ。HP制作、アプリ開発、イベント企画、SNS運用など、学生の柔軟な発想と技術力で貴社の課題を解決します。CSR活動のサポートも可能です。" />
-  <meta name="keywords" content="静岡,企業,依頼,学生連携,HP制作,システム開発,インターン,CSR,課題解決" />
-  
-  <meta property="og:title" content="企業・団体の方へ（連携・依頼） | しずおかコネクト" />
-  <meta property="og:description" content="学生の力で貴社の課題を解決しませんか？開発依頼からPRまで幅広く承ります。" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://shizuoka-connect.com/for-companies.html" />
-  <meta property="og:image" content="https://shizuoka-connect.com/assets/kigyou.png" /> <meta property="og:site_name" content="しずおかコネクト" />
-
+  <title>企業・団体の方へ | しずおかコネクト</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="assets/logo.png" type="image/png">
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
@@ -26,8 +19,7 @@
         <a href="index.html" class="site-title">
           <img src="assets/logo.png" alt="しずおかコネクト ロゴ" class="header-logo">
           <div class="title-text">
-            <span class="sub-title"></span>
-            地域と学生をつなぐ会 しずおかコネクト
+            地域と学生をつなぐ会<br><span style="font-size: 1.1em;">しずおかコネクト</span>
           </div>
         </a>
       </h1>
@@ -35,129 +27,146 @@
         <ul>
           <li><a href="index.html">トップ</a></li>
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle">私たちについて</a>
+            <a href="#" class="dropdown-toggle">私たちについて <i class="fas fa-chevron-down" style="font-size:0.8rem;"></i></a>
             <ul class="dropdown-menu">
               <li><a href="about.html">活動内容</a></li>
               <li><a href="members.html">メンバー紹介</a></li>
               <li><a href="advisors.html">特別顧問</a></li>
-              <li><a href="news.html">プレスリリース</a></li>
+              <li><a href="partners.html">協賛企業・団体</a></li>
+              <li><a href="news.html">お知らせ・発表</a></li>
             </ul>
           </li>
-         <li class="dropdown">
-            <a href="#" class="dropdown-toggle">学生の方</a>
-            <ul class="dropdown-menu">
-              <li><a href="service.html">自分を登録する</a></li>
-              <li><a href="partners.html">企業・団体を探す</a></li>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle">企業・団体の方</a>
-            <ul class="dropdown-menu">
-              <li><a href="for-companies.html">ご提供できること</a></li>
-            </ul>
-          </li>
+          <li><a href="service.html" class="nav-btn-highlight">学生の方</a></li>
+          <li><a href="for-companies.html" class="nav-btn-highlight-outline">企業の方</a></li>
           <li><a href="contact.html">お問い合わせ</a></li>
         </ul>
       </nav>
       <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
     </div>
   </header>
+
   <nav class="nav-menu" id="nav-menu">
+    <div class="menu-close-btn" id="menu-close-btn">
+        <span></span>
+        <span></span>
+    </div>
     <ul>
-      <li><a href="index.html">トップ</a></li>
-      <li class="dropdown-sp">
-        <a href="#" class="dropdown-toggle-sp">私たちについて</a>
-        <ul class="dropdown-menu-sp">
-          <li><a href="about.html">- 活動内容</a></li>
-          <li><a href="members.html">- メンバー紹介</a></li>
-          <li><a href="advisors.html">- 特別顧問</a></li>
-          <li><a href="news.html">- プレスリリース</a></li>
-        </ul>
-      </li>
-      <li class="dropdown-sp">
-        <a href="#" class="dropdown-toggle-sp">学生の方</a>
-        <ul class="dropdown-menu-sp">
-          <li><a href="service.html">- 自分を登録する</a></li>
-          <li><a href="partners.html">- 企業・団体を探す</a></li>
-        </ul>
-      </li>
-      <li class="dropdown-sp">
-        <a href="#" class="dropdown-toggle-sp">企業・団体の方</a>
-        <ul class="dropdown-menu-sp">
-          <li><a href="for-companies.html">- ご提供できること</a></li>
-        </ul>
-      </li>
-      <li><a href="contact.html">お問い合わせ</a></li>
+       <li><a href="index.html">トップ</a></li>
+       <li class="dropdown-sp">
+         <a href="#" class="dropdown-toggle-sp">私たちについて <i class="fas fa-chevron-down"></i></a>
+         <ul class="dropdown-menu-sp">
+           <li><a href="about.html">- 活動内容</a></li>
+           <li><a href="members.html">- メンバー紹介</a></li>
+           <li><a href="advisors.html">- 特別顧問</a></li>
+           <li><a href="partners.html">- 協賛企業・団体</a></li>
+           <li><a href="news.html">- お知らせ・発表</a></li>
+         </ul>
+       </li>
+       <li><a href="service.html">学生の方</a></li>
+       <li><a href="for-companies.html">企業の方</a></li>
+       <li><a href="contact.html">お問い合わせ</a></li>
     </ul>
   </nav>
+
   <div class="content-wrapper">
-    <section class="page-hero">
-      <div class="hero-image-segment segment-1"></div>
-      <div class="hero-image-segment segment-2"></div>
-      <div class="hero-image-segment segment-3"></div>
-      <div class="hero-text">
-        <h2>企業・団体の皆様へ</h2>
+    <section class="page-hero-modern" style="background-image: url('https://images.unsplash.com/photo-1600880292203-757bb62b4baf?q=80&w=1600&auto=format&fit=crop');">
+      <div class="page-hero-text">
+        <h2>FOR COMPANIES</h2>
+        <p>企業・団体の皆様へ</p>
       </div>
     </section>
 
     <main class="container page-content">
-      <section id="for-companies" class="section">
-        <p class="intro-text">
-          「しずおかコネクト」は、貴社の課題解決と成長のために、意欲的な学生の力をご提供します。<br>
-          人材不足の解消から新しいアイデアの創出まで、様々な形で連携が可能です。
-        </p>
-        
-        <div class="contact-box business-info-box">
-          <img src="assets/kigyou.png" alt="企業の課題解決に繋がる学生の専門分野">
-          <h3>多様な専門性を持つ学生が、企業の課題を解決します</h3>
-          <p>
-            工学、IT、デザイン、経済学など、様々な分野を学ぶ意欲的な学生が登録しています。SNS運用、市場調査、ウェブサイト制作など、貴社のニーズに合わせた形で学生の力を活用してみませんか？
-          </p>
-        </div>
+      <div class="section-header">
+        <h2 class="section-title-modern">OUR SERVICES</h2>
+        <p class="section-desc">学生の柔軟な発想と技術力で、貴社の課題を解決します</p>
+      </div>
 
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="icon"><i class="fas fa-lightbulb"></i></div>
-            <h3>新しいアイデア・視点の提供</h3>
-            <p>SNSを活用したマーケティング、若者向けの商品開発、イベント企画など、学生ならではの新しい視点やアイデアで、貴社のビジネスに新たな風を吹き込みます。</p>
+      <div class="service-detail-grid">
+          
+          <div class="service-detail-card">
+              <div class="service-icon-header"><i class="fas fa-lightbulb"></i></div>
+              <div class="service-body">
+                  <h3>新しいアイデアの提供</h3>
+                  <p>「若者の意見を取り入れたい」「SNSでどう発信すればいいかわからない」そんなお悩みはありませんか？<br>SNSマーケティング、商品開発のブレインストーミング、イベント企画など、学生ならではの忖度のない視点で、貴社のビジネスに新しい風を吹き込みます。</p>
+                  <div class="service-tag-list">
+                      <span class="service-tag">#マーケティング</span>
+                      <span class="service-tag">#SNS運用</span>
+                      <span class="service-tag">#商品企画</span>
+                  </div>
+              </div>
           </div>
-          <div class="feature-card">
-            <div class="icon"><i class="fas fa-bullhorn"></i></div>
-            <h3>貴社の魅力発信・PR</h3>
-            <p>連携するプロジェクトやイベントを通して、学生や地域社会に対する貴社の認知度向上、ブランディングに貢献します。当サイトの連携企業ページへの掲載も可能です。</p>
+
+          <div class="service-detail-card">
+              <div class="service-icon-header"><i class="fas fa-bullhorn"></i></div>
+              <div class="service-body">
+                  <h3>広報・ブランディング</h3>
+                  <p>連携プロジェクトを通して、学生や地域社会に対する貴社の認知度向上に貢献します。<br>また、HP制作やシステム開発など、学生エンジニアによる技術的なサポートも可能です。コストを抑えつつ、熱意ある制作物をご提供します。</p>
+                  <div class="service-tag-list">
+                      <span class="service-tag">#HP制作</span>
+                      <span class="service-tag">#システム開発</span>
+                      <span class="service-tag">#採用広報</span>
+                  </div>
+              </div>
           </div>
-          <div class="feature-card">
-            <div class="icon"><i class="fas fa-hands-helping"></i></div>
-            <h3>地域貢献活動（CSR）のサポート</h3>
-            <p>地域の課題解決に共に取り組むことで、貴社の地域貢献活動（CSR）をサポートします。学生との協働は、企業の社会的価値を高める絶好の機会です。</p>
+
+          <div class="service-detail-card">
+              <div class="service-icon-header"><i class="fas fa-hands-helping"></i></div>
+              <div class="service-body">
+                  <h3>CSR・地域貢献</h3>
+                  <p>地域の課題解決に学生と共に取り組むことで、貴社の地域貢献活動（CSR）をサポートします。<br>次世代を担う若者の育成に関わることは、企業の社会的価値を高め、地域からの信頼獲得につながります。</p>
+                  <div class="service-tag-list">
+                      <span class="service-tag">#地域活性化</span>
+                      <span class="service-tag">#人材育成</span>
+                      <span class="service-tag">#SDGs</span>
+                  </div>
+              </div>
           </div>
-        </div>
-        
-        <div class="cta-section">
-          <h2 style="color: #135a9e;">まずはお気軽にご相談ください</h2>
-          <p style="margin: 1rem 0 1.5rem 0;">「こんなことを学生に頼めないだろうか？」といった初期段階のご相談から大歓迎です。<br>貴社の課題を、私たちと学生とで一緒に解決していきましょう。</p>
-          <a href="contact.html" class="btn">お問い合わせはこちら</a>
-        </div>
-        
+      </div>
+
+      <section class="step-section" style="margin-top:5rem;">
+          <h3 style="text-align:center; margin-bottom:2rem; color:#333;">ご依頼・連携の流れ</h3>
+          <div class="step-grid">
+              <div class="step-card">
+                  <div class="step-icon"><i class="far fa-comments"></i></div>
+                  <h4>1. お問い合わせ</h4>
+                  <p>まずはフォームよりお気軽にご相談ください。「こんなことできる？」という段階で構いません。</p>
+              </div>
+              <div class="step-card">
+                  <div class="step-icon"><i class="fas fa-users-cog"></i></div>
+                  <h4>2. ヒアリング・提案</h4>
+                  <p>運営メンバーがお話を伺い、学生のリソースでどのように貢献できるかをご提案します。</p>
+              </div>
+              <div class="step-card">
+                  <div class="step-icon"><i class="fas fa-rocket"></i></div>
+                  <h4>3. プロジェクト開始</h4>
+                  <p>マッチする学生チームを編成し、プロジェクトや実務をスタートさせます。</p>
+              </div>
+          </div>
       </section>
+        
+      <section class="modern-cta">
+          <div class="cta-content">
+            <h2>まずはお気軽にご相談ください</h2>
+            <p>学生の力で、貴社の未来を少しだけ面白くできるかもしれません。<br>ご質問やご依頼をお待ちしております。</p>
+            <a href="contact.html" class="btn btn-white">お問い合わせフォームへ</a>
+          </div>
+      </section>
+        
     </main>
 
     <footer>
       <div class="container">
         <div class="footer-content">
-          <p id="secret-door" style="cursor: pointer; user-select: none;">© 2025 地域と学生をつなぐ会 しずおかコネクト</p>
+          <p id="secret-door" style="cursor: pointer; user-select: none;">© 2026 地域と学生をつなぐ会 しずおかコネクト</p>
           <div class="footer-links">
-            <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank" aria-label="Instagram">
-              <i class="fab fa-instagram"></i>
-            </a>
-            <a href="mailto:campustocommunityshizuoka@gmail.com" aria-label="Email">
-              <i class="fas fa-envelope"></i>
-            </a>
+            <a href="https://www.instagram.com/shizuoka_connect?igsh=OXMyazhjcWQ0aW8y" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:campustocommunityshizuoka@gmail.com"><i class="fas fa-envelope"></i></a>
           </div>
         </div>
       </div>
     </footer>
-    </div>
+  </div>
   <script type="module" src="javascript.js"></script>
 </body>
 </html>
