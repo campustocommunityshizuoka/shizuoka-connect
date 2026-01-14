@@ -1,0 +1,2980 @@
+/* =================================================================
+   基本スタイル
+   サイト全体の基本的なフォント、色、レイアウトなどを定義します。
+   ================================================================= */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  padding: 0;
+  background-color: #f4f9ff;
+  color: #2c3e50;
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* =================================================================
+   ヘッダー
+   ページ上部のロゴやナビゲーションメニューのスタイルです。
+   ================================================================= */
+header {
+  background-color: #1A71BE;
+  color: white;
+  padding: 0.2rem 0;
+  width: 100%;
+  z-index: 1002;
+  flex-shrink: 0;
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.site-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-logo {
+  height: 50px;
+  width: auto;
+}
+
+.title-text {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  font-weight: bold;
+}
+
+.sub-title {
+  font-size: 0.8rem;
+  font-weight: normal;
+  display: block;
+}
+
+/* =================================================================
+   ナビゲーション (PC / スマートフォン)
+   ================================================================= */
+
+/* PC用ナビゲーション */
+.desktop-nav {
+  display: none; /* デフォルトは非表示、メディアクエリで表示 */
+  margin-left: auto;
+}
+
+.desktop-nav > ul > li {
+  display: inline-block;
+  margin-left: 2rem;
+  position: relative;
+}
+
+.desktop-nav a {
+  color: white;
+  font-weight: bold;
+}
+
+/* PC用ドロップダウン（ホバーで表示） */
+.desktop-nav .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #1664ab;
+  border-radius: 4px;
+  min-width: 180px;
+  z-index: 10;
+  padding: 0.5rem 0;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #11508a;
+}
+
+/* ハンバーガーアイコン (スマートフォン用) */
+.hamburger {
+  display: block;
+  cursor: pointer;
+  width: 30px;
+  height: 21px;
+  position: relative;
+  z-index: 1003;
+  margin-left: auto;
+}
+
+.hamburger span {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.hamburger span:nth-child(1) { top: 0; }
+.hamburger span:nth-child(2) { top: 9px; }
+.hamburger span:nth-child(3) { top: 18px; }
+
+/* ハンバーガーがアクティブな時 (×印になる) */
+.hamburger.active span:nth-child(1) {
+  top: 9px;
+  transform: rotate(45deg);
+}
+.hamburger.active span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active span:nth-child(3) {
+  top: 9px;
+  transform: rotate(-45deg);
+}
+
+/* スライドメニュー (スマートフォン用) */
+.nav-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 250px;
+  height: 100%;
+  background-color: rgba(26, 113, 190, 0.95);
+  transition: right 0.4s ease-in-out;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-menu.active {
+  right: 0;
+}
+
+.nav-menu ul {
+  padding-top: 0;
+}
+
+.nav-menu li {
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.nav-menu a {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* スマートフォン用ドロップダウン */
+.dropdown-menu-sp {
+  display: none;
+  background-color: rgba(0,0,0,0.2);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+}
+
+.dropdown-menu-sp.show {
+  display: block;
+}
+
+.dropdown-menu-sp li {
+  margin: 0;
+}
+
+.dropdown-menu-sp a {
+  font-size: 1rem;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 0;
+}
+
+/* =================================================================
+   メインコンテンツ
+   ================================================================= */
+
+/* コンテンツ全体のラッパー */
+.content-wrapper {
+  flex-grow: 1; /* フッターをページ下部に固定するため */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 各ページ共通のメインコンテンツエリア */
+.page-content {
+  padding-bottom: 2rem;
+}
+
+/* ヒーローセクション (ページ上部の大きな画像エリア) */
+.hero, .page-hero {
+  position: relative;
+  height: 450px;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+}
+
+/* ヒーローイメージを3分割で表示するためのスタイル */
+.hero-image-segment {
+  position: absolute;
+  top: 0;
+  width: 33.333%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.7);
+  z-index: 0;
+}
+
+.segment-1 { left: 0; background-image: url("/assets/hatake.jpg"); }
+.segment-2 { left: 33.333%; background-image: url("/assets/fujisann.jpg"); }
+.segment-3 { left: 66.666%; background-image: url("/assets/taki.jpg"); }
+
+/* 画像の上に薄い黒のオーバーレイをかける */
+.hero::before, .page-hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.1);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ヒーローセクション中央のテキスト */
+.hero-text {
+  position: relative;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: inline-block;
+  padding: 1.5rem 2.5rem;
+  border-radius: 8px;
+}
+
+.hero-text h2, .hero-text p {
+  margin: 0;
+}
+
+/* 各セクションのタイトル */
+.section-title {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  font-size: 1.8rem;
+  color: #135a9e;
+}
+
+/* 各セクションの導入テキスト */
+.intro-text {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 1.1rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 汎用ボタン */
+.btn {
+  display: inline-block;
+  background-color: #1A71BE;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.btn:hover {
+  background-color: #1664ab;
+}
+
+/* =================================================================
+   トップページ専用スタイル (`index.html`)
+   ================================================================= */
+
+/* 3カラムのグリッドレイアウト */
+.three-column-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+
+/* サービス紹介カード */
+.service-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.service-card .icon {
+  font-size: 3rem;
+  color: #1A71BE;
+  margin-bottom: 1rem;
+}
+
+.service-card h3 {
+  color: #1A71BE;
+  margin-bottom: 0.75rem;
+}
+
+/* お知らせセクション */
+.news-list-container {
+  max-height: 250px;
+  overflow-y: auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0 1.5rem;
+  max-width: 700px;
+  margin: 0 auto 4rem auto;
+}
+
+.news-list {
+  list-style: none;
+  padding: 0;
+}
+
+.news-list li {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1.2rem 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.news-list li:last-child {
+  border-bottom: none;
+}
+
+.news-list .date {
+  color: #6b7280;
+  margin-right: 1.5rem;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+/* スクロールバーのスタイル */
+.news-list-container::-webkit-scrollbar { width: 8px; }
+.news-list-container::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+.news-list-container::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+.news-list-container::-webkit-scrollbar-thumb:hover { background: #aaa; }
+
+/* 行動喚起 (Call To Action) セクション */
+.cta-section {
+  background-color: #eaf2ff;
+  text-align: center;
+  padding: 3rem;
+  border-radius: 8px;
+}
+
+/* =================================================================
+   メンバー・顧問紹介ページ (`members.html`, `advisors.html`)
+   ================================================================= */
+
+/* メンバー紹介グリッド */
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+/* メンバー・顧問紹介カード */
+.member-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.member-card img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.member-card h4 {
+  margin: 0.5rem 0;
+  color: #1A71BE;
+  font-size: 1.25rem;
+}
+
+.member-card .title {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+/* ▼ member-card内の紹介文スタイル (旧インラインCSS) ▼ */
+.member-card .member-bio {
+  text-align: left;
+  margin-top: 1rem;
+}
+
+.member-card .member-bio h5 {
+  font-size: 1rem;
+  color: #1A71BE;
+  border-bottom: 2px solid #eaf2ff;
+  padding-bottom: 0.3rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.member-card .member-bio p {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+/* ▲ ここまで ▲ */
+
+/* =================================================================
+   企業・団体向けページ (`for-companies.html`)
+   ================================================================= */
+
+.business-info-box img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.business-info-box h3 {
+  text-align: center;
+}
+
+/* --- 特徴（Feature）セクションの修正版 --- */
+
+.feature-grid {
+  display: grid;
+  /* 【修正ポイント1】
+     PCでは「最低300pxあれば並べる」、スマホでは「自動で折り返す」ように変更。
+     450pxだとデカすぎてスマホに入りません。300pxならギリギリ入ります。
+  */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+  width: 100%; /* 親要素に収める */
+}
+
+.feature-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  /* はみ出し防止の保険 */
+  width: 100%; 
+  box-sizing: border-box;
+}
+
+.feature-card .icon {
+  font-size: 3rem;
+  color: #1A71BE;
+  margin-bottom: 1.5rem;
+}
+
+/* --- スマホ用の強力な上書き設定 --- */
+@media screen and (max-width: 768px) {
+  .feature-grid {
+    /* スマホでは強制的に1列（100%幅）にする */
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem; /* スマホなら隙間は少し狭くていい */
+  }
+
+  .feature-card {
+    /* スマホではパディングを少し減らして圧迫感をなくす */
+    padding: 1.5rem; 
+  }
+}
+
+.feature-card h3 {
+  color: #1A71BE;
+  margin-bottom: 1rem;
+}
+
+/* =================================================================
+   連携企業ページ (`partners.html`) - スマホ対応版
+   ================================================================= */
+
+.partner-grid {
+  display: grid;
+  /* 修正箇所: 450pxだとスマホに入らないので、280pxまで下げて柔軟にします */
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;            /* 親要素に収める */
+  box-sizing: border-box; /* はみ出し防止 */
+}
+
+.partner-card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;            /* 親グリッドに合わせる */
+  box-sizing: border-box; /* パディングを含めて計算 */
+}
+
+.partner-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.partner-card img {
+  max-width: 100%;        /* 修正: 200px固定だと稀にはみ出るので、最大100%制限を追加 */
+  width: auto;            /* 幅は自動 */
+  height: 80px;           /* 指定された高さ */
+  object-fit: contain;    /* 企業ロゴが歪まないように */
+  margin-bottom: 1.5rem;
+}
+
+.partner-card h4 {
+  color: #1A71BE;
+  font-size: 1.25rem;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.partner-card p {
+  margin-bottom: 1.5rem;
+  flex-grow: 1; /* カードの高さを揃えるため */
+}
+
+/* スマホ用の強力な上書き設定 */
+@media screen and (max-width: 768px) {
+  .partner-grid {
+    /* 強制的に1列にする */
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem;
+  }
+  
+  .partner-card {
+    /* スマホでは少し余白を詰める */
+    padding: 1.5rem;
+  }
+}
+
+/* =================================================================
+   フォーム関連 (`contact.html`, `service.html`)
+   ================================================================= */
+
+.contact-intro {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3rem auto;
+}
+
+/* フォームや連絡先情報を囲むボックス */
+.contact-box,
+.form-container {
+  max-width: 720px;
+  margin: 0 auto 2.5rem auto;
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.contact-box h3, .form-container h3 {
+  margin-top: 0;
+  color: #135a9e;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.contact-box p {
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+}
+
+/* メールやInstagramへのリンク */
+.contact-box a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1A71BE;
+  text-decoration: none;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  transition: color 0.3s ease;
+  padding: 0.5rem;
+}
+
+.contact-box a:hover {
+  color: #1664ab;
+  text-decoration: underline;
+}
+
+.contact-box a i {
+  font-size: 1.2rem;
+  margin-right: 0.75rem;
+  width: 20px;
+  text-align: center;
+}
+
+/* === フォームのスタイル (新レイアウト版) === */
+/* form全体を、要素を縦に並べるFlexboxレイアウトに変更 */
+form.form-section {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ラベルを左揃えにし、入力欄との間に少し余白を設ける */
+form.form-section label {
+  text-align: left;
+  font-weight: 500;
+  margin-bottom: 0.5rem; /* ラベルと入力欄の間の余白 */
+}
+
+/* 特定のラベル（お問い合わせ内容）は変更不要のためそのまま */
+#contactForm label[for="message"],
+#contactForm textarea[name="message"] {
+  text-align: left;
+}
+
+#contactForm label[for="message"] {
+  margin-bottom: 0.5rem;
+}
+
+/* ボタンを中央寄せにする設定 */
+form.form-section button {
+  align-self: center; /* Flexboxコンテナの中で中央に配置 */
+  margin-top: 1.5rem; /* ボタンの上の余白 */
+  width: auto;
+}
+
+/* 各入力欄の下に余白を設けて、項目間のスペースを確保 */
+form.form-section input,
+form.form-section select,
+form.form-section textarea {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1.5rem; /* 各入力項目の下の余白 */
+}
+
+/* 個人情報保護方針の同意欄 */
+.privacy-policy-container {
+  margin-top: 1rem;
+}
+
+.privacy-policy-box {
+  border: 1px solid #ddd;
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.privacy-policy-box h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+.form-group-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-group-checkbox input[type="checkbox"] {
+  margin-right: 0.75rem;
+  width: auto;
+}
+
+.form-group-checkbox label {
+  text-align: left;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* =================================================================
+   フッター
+   ================================================================= */
+footer {
+  background-color: #1A71BE;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-links a {
+  color: white;
+  font-size: 1.6rem;
+  margin-left: 1.2rem;
+  transition: opacity 0.3s ease;
+}
+
+.footer-links a:hover {
+  opacity: 0.75;
+}
+
+/* =================================================================
+   メディアクエリ (レスポンシブ対応)
+   ================================================================= */
+
+   /* ▼ ここから追加 ▼ */
+/* 条件付きフォームのためのスタイル */
+.form-field-group {
+  /* gridレイアウトの子要素として、2カラムをまたぐ設定 */
+  grid-column: 1 / 3; 
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.2rem 1.5rem; /* フォームの他の行と隙間を合わせる */
+  align-items: center;
+  margin-top: -1.2rem; /* 上の要素との隙間を詰める */
+  margin-bottom: -1.2rem; /* 下の要素との隙間を詰める */
+}
+/* フォームグループ内のラベルは右寄せ */
+.form-field-group label {
+  text-align: right;
+  font-weight: 500;
+}
+/* 初期状態で非表示にするクラス */
+.hidden {
+  display: none;
+}
+/* ▲ ここまで追加 ▲ */
+
+@media (min-width: 768px) {
+  /* 画面幅が768px以上の場合 */
+  .hamburger {
+    display: none; /* ハンバーガーを非表示 */
+  }
+  .desktop-nav {
+    display: block; /* PC用ナビゲーションを表示 */
+  }
+}
+
+/* =================================================================
+   フォーム送信ボタン (進化版)
+   ================================================================= */
+.btn-submit {
+  /* 基本的な見た目の設定 */
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px; /* 角を少し丸くする */
+  padding: 12px 32px; /* ボタンのサイズを調整 */
+  cursor: pointer;
+  user-select: none; /* ボタンテキストの選択を防止 */
+  
+  /* 美しいグラデーション背景 */
+  background: linear-gradient(45deg, #1A71BE, #2c89d1);
+  
+  /* ボタンに立体感を与える影 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  
+  /* アニメーションを滑らかにする設定 */
+  transition: all 0.2s ease-in-out;
+}
+
+/* マウスカーソルが乗った時のスタイル */
+.btn-submit:hover {
+  /* 少し上に浮き上がるアニメーション */
+  transform: translateY(-3px);
+  /* 影を少し濃くして、浮き上がりを強調 */
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+}
+
+/* ボタンがクリックされた瞬間のスタイル */
+.btn-submit:active {
+  /* 少し下に沈むアニメーション */
+  transform: translateY(1px);
+  /* 影を弱めて、押された感を表現 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ボタンが無効状態の時のスタイル（学生登録フォーム用） */
+.btn-submit:disabled {
+  /* グレーアウトして非活性であることを示す */
+  background: #cccccc;
+  opacity: 0.7;
+  
+  /* 操作できないことを示すカーソル */
+  cursor: not-allowed;
+  
+  /* 無効な時はアニメーションをリセット */
+  transform: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+/* =================================================================
+   お知らせセクションのリンクスタイル
+   ================================================================= */
+.news-list li a {
+  color: inherit; /* 周りの文字と同じ色にする */
+  text-decoration: none; /* 下線を消す */
+  transition: color 0.2s ease; /* 色が滑らかに変わるように設定 */
+}
+
+/* お知らせのリンクにカーソルを合わせた時のスタイル */
+.news-list li a:hover {
+  color: #1A71BE; /* サイトのテーマカラー（青色）にする */
+  text-decoration: underline; /* 下線を表示する */
+}
+
+/* =================================================================
+   お知らせページ専用スタイル（新カードデザイン版）
+   ================================================================= */
+
+/* --- お知らせ一覧ページ (`news.html`) --- */
+.news-list-full {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.news-item-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+.news-item-link:hover {
+  background-color: #f9f9f9;
+}
+.news-item {
+  padding: 1.5rem 1rem;
+}
+.news-item-date {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0 0 0.5rem 0;
+}
+.news-item-title {
+  font-size: 1.2rem;
+  margin: 0;
+  font-weight: 600;
+  color: #1A71BE;
+}
+
+/* --- お知らせ詳細記事 (`press-release-*.html`) --- */
+/* 記事全体をカード化する */
+.news-article {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 2rem 2.5rem;
+  max-width: 800px;
+  margin: 0 auto; /* ★重なりの設定を削除 */
+  position: relative;
+  z-index: 10;
+}
+
+.news-article-header {
+  background-color: transparent; /* ★この一行を追加して背景を透明にします */
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  text-align: center;
+}
+
+.news-article-title {
+  font-size: 2rem; /* タイトルを少し大きく */
+  color: #135a9e; /* 濃い青色で見やすく */
+  margin: 0 0 0.75rem 0;
+  line-height: 1.4;
+}
+
+.news-article-date {
+  font-size: 1rem;
+  color: #6b7280; /* 読みやすいグレー */
+  margin: 0;
+}
+
+.news-article-content {
+  line-height: 1.9; /* 行間を広げて読みやすく */
+  font-size: 1.05rem;
+}
+
+.news-article-content p {
+  margin-bottom: 1.5rem;
+}
+
+.back-to-list {
+  text-align: center;
+  margin-top: 3rem;
+}
+/* =================================================================
+   セクションタイトルをリンクにした際のスタイル
+   ================================================================= */
+.section-title a {
+  color: inherit; /* 親要素（h2）の文字色をそのまま使用する */
+  text-decoration: none; /* 下線を非表示にする */
+}
+
+/* タイトルリンクにカーソルを合わせた時に下線を表示 */
+.section-title a:hover {
+  text-decoration: underline;
+}
+/* =================================================================
+   パートナーページの追加ボタンスタイル
+   ================================================================= */
+
+/* ボタンを横並びにするための設定 */
+.partner-card-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* ボタンの間の隙間 */
+  margin-top: auto; /* カード下部にボタンを配置 */
+  padding-top: 1rem; /* 説明文との間に余白を確保 */
+}
+
+/* ボタンのアイコンとテキストの間の余白 */
+.partner-card-buttons .btn i {
+  margin-right: 0.5rem;
+}
+
+/* 「追加資料」ボタンのデザイン */
+.btn.btn-secondary {
+  background-color: #6c757d; /* グレー系の背景色 */
+}
+
+.btn.btn-secondary:hover {
+  background-color: #5a6268; /* ホバー時にも少し濃いグレーに */
+}
+
+/* =================================================================
+   パートナーカード スライドショースタイル
+================================================================= */
+.slideshow-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  height: 200px;
+  margin-bottom: 1.5rem;
+  background-color: transparent;
+  /* overflow: hidden; を削除 */
+}
+
+.slide {
+  display: none; /* 初期状態では非表示 */
+  width: 100%;
+  height: 100%;
+  /* ▼ 画像を中央揃えにするためのFlexbox設定 ▼ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* ▲ 画像を中央揃えにするためのFlexbox設定 ▲ */
+  /* position: absolute; を削除 */
+}
+
+.slide img {
+  display: block; /* 不要な余白を削除 */
+  width: 100%;    /* コンテナの幅に合わせる */
+  height: 100%;   /* コンテナの高さに合わせる */
+  object-fit: contain; /* アスペクト比を維持してフィット */
+  /* ▼ 画像を中央に配置する代替方法 (position + transform) ▼ */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 100%;  /* コンテナを超えないように */
+  max-height: 100%; /* コンテナを超えないように */
+  /* ▲ 画像を中央に配置する代替方法 ▲ */
+}
+
+.active-slide {
+  display: flex; /* Flexbox設定をここにも適用 */
+  /* ▼ レイアウトをリセット ▼ */
+  position: static;
+  /* ▲ レイアウトをリセット ▲ */
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 5; /* 画像の上に表示されるように */
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev {
+  left: 0;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+/* =================================================================
+   トップページ 活動カード（写真付き）
+================================================================= */
+
+/* カード上部に表示する画像エリア */
+.service-card .card-image {
+  width: calc(100% + 4rem); /* カードのpadding(2rem*2)を打ち消す幅 */
+  height: 180px;
+  overflow: hidden;
+  margin: -2rem -2rem 1.5rem -2rem; /* カードのpaddingを相殺して上部に配置 */
+  border-radius: 8px 8px 0 0;
+}
+
+.service-card .card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 画像の比率を保ったままエリアを埋める */
+  transition: transform 0.3s ease;
+}
+
+/* ホバー時に画像を少し拡大するエフェクト */
+.service-card:hover .card-image img {
+  transform: scale(1.05);
+}
+
+/* 写真付きカード（.card-icon-only が *ない* もの）のアイコンを非表示 */
+.service-card:not(.card-icon-only) .icon {
+  display: none;
+}
+
+/* 写真付きカードの h3 と p だけ左揃えにする */
+/* （カード全体の text-align: center は .card クラスで定義されています） */
+.service-card:not(.card-icon-only) h3,
+.service-card:not(.card-icon-only) p {
+  text-align: left;
+}
+
+/* アイコンのみのカード（.card-icon-only が *ある* もの）の画像は非表示 */
+.card-icon-only .card-image {
+  display: none;
+}
+
+/* カード全体を「画面に合わせて伸縮する箱」に変える */
+.service-card {
+  width: 100%;              /* 親要素の幅いっぱいに広がる */
+  max-width: 100%;          /* 画面からはみ出さないように制限 */
+  box-sizing: border-box;   /* 余白(padding)を含めて幅を計算させる（重要） */
+  margin: 0 auto 20px auto; /* 中央寄せ & 下に少し余白 */
+  
+  /* もし古いコードで固定幅(300pxなど)が残っていても強制解除する */
+  min-width: auto !important; 
+}
+
+/* 画像を入れている枠（もしあれば） */
+.card-image {
+  width: 100%;              /* 枠も幅いっぱいに */
+}
+
+/* 画像自体を「枠に合わせて伸縮する」ようにする */
+.service-card img {
+  width: 100%;              /* 横幅は常に親要素と同じにする（これではみ出し防止） */
+  height: auto;             /* 横幅に合わせて高さは自動調整（これで画像が歪まない） */
+  object-fit: cover;        /* 枠に合わせてトリミングして綺麗に見せる */
+  display: block;           /* 画像下の微妙な隙間を消す */
+  border-radius: 5px 5px 0 0; /* 上の角を少し丸める（お好みで） */
+}
+
+/* =================================================================
+   Grow Upグループ セクション (緑基調・リッチデザイン)
+================================================================= */
+.grow-up-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f8e9 100%); /* 白から薄い緑へのグラデーション */
+  border-radius: 12px; /* 角丸を少し大きく */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); /* 柔らかく広がる影 */
+  padding: 3.5rem 4rem;
+  margin: 5rem auto;
+  max-width: 900px;
+  border-top: 6px solid #2e7d32; /* 上部に濃い緑のアクセントライン */
+  position: relative;
+  overflow: hidden;
+}
+
+/* 背景に装飾として薄い円を配置（オシャレ感アップ） */
+.grow-up-card::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 150px;
+  height: 150px;
+  background-color: rgba(76, 175, 80, 0.1); /* 薄い緑 */
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.grow-up-card h3 {
+  color: #2e7d32; /* テキストを濃い緑に */
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: left;
+  position: relative;
+  z-index: 1;
+  border-bottom: 2px solid #a5d6a7; /* 見出しの下に薄い緑の線 */
+  padding-bottom: 0.5rem;
+  display: inline-block; /* 線の長さを文字に合わせる */
+}
+
+.grow-up-card p {
+  margin-bottom: 3rem;
+  line-height: 1.9; /* 行間を広げて読みやすく */
+  text-align: left;
+  color: #37474f; /* 文字色は少し青みがかったダークグレーで知的に */
+  font-size: 1.05rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ボタンを中央に配置するためのラッパー */
+.grow-up-btn-wrapper {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* 緑色のグラデーションボタン */
+.grow-up-btn-wrapper .btn {
+  background: linear-gradient(45deg, #43a047, #66bb6a); /* 緑のグラデーション */
+  color: white;
+  padding: 1rem 3rem; /* 大きめのボタン */
+  font-size: 1.1rem;
+  border-radius: 50px; /* 丸みのあるピル型ボタン */
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); /* 緑色の影 */
+  transition: all 0.3s ease;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.grow-up-btn-wrapper .btn:hover {
+  transform: translateY(-3px); /* ホバー時に少し浮く */
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+  background: linear-gradient(45deg, #2e7d32, #43a047); /* ホバー時は少し濃く */
+}
+
+/* スマホ表示時の調整 */
+@media (max-width: 768px) {
+  .grow-up-card {
+    padding: 2rem;
+    margin: 3rem 1rem; /* スマホでは横幅いっぱいにしない */
+  }
+  .grow-up-card h3 {
+    font-size: 1.5rem;
+    display: block; /* スマホでは下線を全幅に */
+  }
+}
+/* --- style.css の一番下に追加してください --- */
+
+/* =================================================================
+   活動内容と実績 (about.html) 用スタイル
+   ================================================================= */
+.about-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    margin-bottom: 5rem;
+}
+
+.activity-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    transition: transform 0.3s ease;
+}
+.activity-card:hover { transform: translateY(-5px); }
+
+.act-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #f0f2f5;
+    padding-bottom: 1rem;
+}
+
+.act-icon {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem; color: white;
+}
+.act-icon.development { background: linear-gradient(135deg, #3498db, #2980b9); }
+.act-icon.education { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+.act-icon.community { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+
+.activity-card h3 { margin: 0; font-size: 1.3rem; color: #333; }
+.act-desc { margin-bottom: 1.5rem; color: #666; font-size: 0.95rem; }
+
+.achievement-box {
+    background: #f8fbff;
+    padding: 1.2rem;
+    border-radius: 8px;
+    border-left: 4px solid #1A71BE;
+}
+.achievement-box h4 { margin: 0 0 0.5rem 0; font-size: 1rem; color: #1A71BE; }
+.achievement-box ul { list-style: none; padding: 0; margin: 0; }
+.achievement-box li {
+    font-size: 0.9rem; margin-bottom: 0.3rem; padding-left: 1rem; position: relative;
+}
+.achievement-box li::before {
+    content: "・"; position: absolute; left: 0; font-weight: bold;
+}
+
+/* --- 天気予報風マップエリア --- */
+.weather-map-container {
+    background: #eef5fa;
+    padding: 1rem;
+    border-radius: 20px;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+}
+
+#activity-map {
+    width: 100%;
+    height: 500px;
+    border-radius: 16px;
+    background-color: #aadaff;
+    z-index: 1;
+}
+
+/* 天気予報風アイコン */
+.weather-icon-marker {
+    background-color: white;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    transition: transform 0.2s;
+}
+.weather-icon-marker:hover {
+    transform: scale(1.2);
+    z-index: 1000 !important;
+}
+
+.marker-dev { color: #3498db; border-color: #3498db; }
+.marker-edu { color: #f39c12; border-color: #f39c12; }
+.marker-com { color: #e74c3c; border-color: #e74c3c; }
+
+/* style.css の一番下に追加 */
+
+/* マップ絞り込みボタン */
+.map-filters {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+.map-filter-btn {
+    border: 1px solid #1A71BE;
+    background: white;
+    color: #1A71BE;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+.map-filter-btn:hover, .map-filter-btn.active {
+    background: #1A71BE;
+    color: white;
+}
+
+/* 協力企業アイコン（緑） */
+.marker-partner { color: #28a745; border-color: #28a745; }
+
+/* プロジェクト一覧グリッド */
+.project-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.project-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+.project-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+.proj-header { margin-bottom: 1rem; }
+.proj-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+.tag-dev { background: #3498db; }
+.tag-edu { background: #f39c12; }
+.tag-com { background: #e74c3c; }
+
+.proj-title { font-size: 1.15rem; margin: 0; color: #333; }
+.proj-desc { font-size: 0.95rem; color: #666; line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+.proj-link-btn {
+    text-decoration: none;
+    color: #1A71BE;
+    font-weight: bold;
+    font-size: 0.9rem;
+    align-self: flex-start;
+}
+.proj-link-btn:hover { text-decoration: underline; }
+/* style.css の一番下に追加 */
+
+/* プロジェクトタグの追加 (その他) */
+.tag-other { background: #6c757d; } /* グレー */
+
+/* ステータスバッジ */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    border: 1px solid;
+}
+
+.status-active {
+    color: #28a745;
+    border-color: #28a745;
+    background: #e6f9ea;
+}
+
+.status-completed {
+    color: #666;
+    border-color: #999;
+    background: #f0f0f0;
+}
+
+/* 完了したプロジェクトのデザイン調整 */
+.project-completed {
+    background-color: #fafafa; /* 少しグレーに */
+}
+.project-completed .proj-title {
+    color: #555;
+}
+/* style.css の一番下に追加してください */
+
+/* エリア選択ボタンのコンテナ */
+.region-buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* エリア選択ボタンのデザイン (下の絞り込みボタンと共通化) */
+.region-btn {
+    border: 1px solid #1A71BE;
+    background: white;
+    color: #1A71BE;
+    padding: 8px 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.region-btn:hover, .region-btn.active {
+    background: #1A71BE;
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+/* style.css の一番下に追記してください */
+
+/* --- ポートフォリオ（開発実績）グリッド --- */
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 4rem;
+}
+
+.portfolio-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+    border: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+}
+
+.portfolio-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.portfolio-img {
+    width: 100%;
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #eee;
+}
+
+.portfolio-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.portfolio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.portfolio-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #333;
+    margin: 0 0 1rem 0;
+}
+
+.portfolio-desc {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+/* --- その他のプロジェクトリスト --- */
+.project-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.project-card {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+.project-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+
+.proj-header { margin-bottom: 1rem; }
+
+.proj-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 3px 10px;
+    border-radius: 4px;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+.tag-dev { background: #3498db; }
+.tag-edu { background: #f39c12; }
+.tag-com { background: #e74c3c; }
+.tag-other { background: #6c757d; }
+
+.proj-title { font-size: 1.15rem; margin: 0; color: #333; }
+.proj-desc { font-size: 0.95rem; color: #666; line-height: 1.6; margin-bottom: 1.5rem; flex-grow: 1; }
+.proj-link-btn {
+    text-decoration: none;
+    color: #1A71BE;
+    font-weight: bold;
+    font-size: 0.9rem;
+    align-self: flex-start;
+}
+.proj-link-btn:hover { text-decoration: underline; }
+
+/* ステータスバッジ */
+.status-badge {
+    font-size: 0.75rem;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-weight: bold;
+    border: 1px solid;
+}
+.status-active { color: #28a745; border-color: #28a745; background: #e6f9ea; }
+.status-completed { color: #666; border-color: #999; background: #f0f0f0; }
+.project-completed { background-color: #fafafa; }
+.project-completed .proj-title { color: #555; }
+
+/* =================================================================
+   NEW DESIGN - 2025 REFRESH
+   既存のCSSの末尾に追加してください。
+   ================================================================= */
+
+/* --- 全体設定のアップデート --- */
+body {
+    font-family: 'Noto Sans JP', 'Helvetica Neue', Arial, sans-serif;
+    background-color: #F8F9FA; /* よりクリーンな白に近いグレー */
+    color: #333;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title-modern {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5rem;
+    color: #1A71BE;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05em;
+    position: relative;
+    display: inline-block;
+}
+
+/* タイトル下の装飾線 */
+.section-title-modern::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #1A71BE, #64b5f6);
+    margin: 10px auto 0;
+    border-radius: 2px;
+}
+
+.section-desc {
+    color: #666;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+/* --- ヘッダーナビの強調ボタン --- */
+.nav-btn-highlight {
+    background-color: #fff;
+    color: #1A71BE !important;
+    border-radius: 20px;
+    padding: 0.5rem 1.2rem !important;
+    margin-left: 10px;
+    transition: all 0.3s;
+}
+.nav-btn-highlight:hover {
+    background-color: #e3f2fd;
+    transform: translateY(-2px);
+}
+
+.nav-btn-highlight-outline {
+    border: 1px solid #fff;
+    border-radius: 20px;
+    padding: 0.4rem 1.2rem !important;
+    margin-left: 10px;
+    transition: all 0.3s;
+}
+.nav-btn-highlight-outline:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* --- モダンヒーローセクション --- */
+.modern-hero {
+    position: relative;
+    height: 85vh; /* 画面の85%の高さ */
+    min-height: 500px;
+    /* 背景画像：Unsplashからのフリー素材（茶畑と富士山） */
+    background-image: url('/assets/taki-n.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* パララックス効果 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+/* 画像を暗くして文字を読ませるフィルター */
+.hero-bg-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(26, 113, 190, 0.85), rgba(0, 0, 0, 0.4));
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    animation: fadeInUp 1s ease-out;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.text-gradient {
+    color: #8FD3F4; /* 水色アクセント */
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+}
+
+.btn-hero {
+    background: white;
+    color: #1A71BE;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.btn-hero:hover {
+    background: #f0f8ff;
+    transform: translateY(-3px);
+}
+
+/* --- ニュースティッカー --- */
+.news-ticker-wrapper {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 0.8rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+.news-ticker-flex {
+    display: flex;
+    align-items: center;
+}
+.news-label {
+    background: #1A71BE;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-right: 15px;
+}
+.news-content a {
+    color: #333;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+.news-content a:hover {
+    color: #1A71BE;
+    text-decoration: underline;
+}
+
+/* --- 役割選択カード（モダン版） --- */
+.modern-role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.modern-role-card {
+    position: relative;
+    height: 350px;
+    border-radius: 16px;
+    overflow: hidden;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* 下寄せ */
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.modern-role-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.card-bg-img {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.5s ease;
+    z-index: 1;
+}
+
+/* ホバー時に背景画像を少し拡大 */
+.modern-role-card:hover .card-bg-img {
+    transform: scale(1.1);
+}
+
+/* オーバーレイグラデーション */
+.modern-role-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* 下に行くほど暗くなるグラデーション */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.8) 100%);
+    z-index: 2;
+}
+
+.card-content {
+    position: relative;
+    z-index: 3;
+    padding: 2.5rem;
+}
+
+.icon-circle {
+    background: rgba(255,255,255,0.2);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(5px);
+}
+
+.modern-role-card h3 {
+    font-size: 1.8rem;
+    margin: 0 0 0.5rem 0;
+    color: white;
+}
+
+.modern-role-card p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+.card-arrow {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    font-size: 1.5rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s;
+}
+
+.modern-role-card:hover .card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* --- モダンプロジェクトカード --- */
+.modern-project-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+    border: 1px solid #eee;
+}
+.modern-project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+.project-img {
+    height: 200px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.project-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.5s;
+}
+.modern-project-card:hover .project-img img {
+    transform: scale(1.05);
+}
+.category-tag {
+    position: absolute;
+    top: 15px; left: 15px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: white;
+}
+.tag-recruit { background: #E74C3C; }
+.tag-edu { background: #F39C12; }
+
+.project-body {
+    padding: 1.5rem;
+    text-align: left; /* 左揃えに変更 */
+}
+.project-body h3 {
+    font-size: 1.25rem;
+    margin: 0 0 0.8rem 0;
+    color: #333;
+}
+.project-body p {
+    font-size: 0.95rem;
+    color: #666;
+    margin-bottom: 1.2rem;
+}
+.text-link {
+    color: #1A71BE;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 5px;
+}
+.text-link:hover { text-decoration: underline; }
+
+/* --- モダンCTAセクション --- */
+.modern-cta {
+    background: linear-gradient(135deg, #1A71BE, #0D47A1);
+    border-radius: 10px;
+    padding: 5rem 2rem;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-top: 6rem;
+}
+.cta-bg-shape {
+    position: absolute;
+    top: -50%; left: -20%;
+    width: 600px; height: 600px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
+.cta-content {
+    position: relative; z-index: 2;
+}
+.cta-content h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+}
+.btn-white {
+    background: white;
+    color: #1A71BE;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-weight: bold;
+    margin-top: 2rem;
+    display: inline-block;
+    transition: all 0.3s;
+}
+.btn-white:hover {
+    background: #f0f0f0;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* --- レスポンシブ調整 --- */
+@media (max-width: 768px) {
+    .hero-title { font-size: 2rem; }
+    .sp-only { display: block; }
+    .modern-role-grid { grid-template-columns: 1fr; }
+    .modern-role-card { height: 250px; }
+    .feature-grid { grid-template-columns: 1fr !important; }
+}
+
+/* アニメーション用 */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* =================================================================
+   FINAL FIXES (2025/10/29 Update)
+   画像サイズ固定、ニュース修正、背景画像復活
+   ================================================================= */
+
+/* --- 1. メンバー・顧問画像の強制サイズ固定 (崩壊防止) --- */
+.member-img-wrapper {
+    width: 180px;          /* 横幅固定 */
+    height: 180px;         /* 高さ固定 */
+    margin: 0 auto 1.5rem; /* 中央寄せ */
+    border-radius: 50%;    /* 丸くする */
+    overflow: hidden;      /* はみ出し防止 */
+    border: 3px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.member-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;     /* ★重要: 縦横比を維持して枠いっぱいにする */
+    object-position: center top; /* 顔が見えるように上寄り中心でトリミング */
+}
+
+/* --- 2. 下層ページヒーロー (トップページ風背景の復活) --- */
+.page-hero-modern {
+    position: relative;
+    height: 35vh;          /* 高さを程よく確保 */
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-bottom: 3rem;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+/* 背景を暗くするオーバーレイ (文字を読みやすくする) */
+.page-hero-modern::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(26, 113, 190, 0.8), rgba(0, 0, 0, 0.5));
+    z-index: 1;
+}
+
+.page-hero-text {
+    position: relative;
+    z-index: 2;
+}
+
+.page-hero-text h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin: 0;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    color: white; /* 文字色は白に戻す */
+    background: none;
+    -webkit-text-fill-color: white;
+}
+
+.page-hero-text p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 0.5rem;
+    letter-spacing: 0.1em;
+}
+
+/* --- 3. ニュースリストの崩れ修正 --- */
+.news-list-container {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 0;
+    max-height: 400px; /* 高さを制限 */
+    overflow-y: auto;  /* スクロールさせる */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.news-list li {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center; /* 縦位置中央揃え */
+    flex-wrap: wrap;     /* スマホで折り返し */
+}
+
+.news-list li:last-child {
+    border-bottom: none;
+}
+
+.news-list .date {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #1A71BE;
+    margin-right: 1.5rem;
+    min-width: 100px;
+}
+
+.news-list a {
+    color: #333;
+    font-weight: 500;
+    text-decoration: none;
+    flex: 1; /* 残りの幅を使う */
+}
+
+.news-list a:hover {
+    color: #1A71BE;
+    text-decoration: underline;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .news-list li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .news-list .date {
+        margin-bottom: 0.3rem;
+        font-size: 0.85rem;
+    }
+}
+/* =================================================================
+   FINAL FIXES (2025/10/30 Update)
+   画像サイズ固定、ニュース修正、背景画像復活
+   ================================================================= */
+
+/* --- 1. メンバー・顧問画像の強制サイズ固定 (崩壊防止) --- */
+/* 画像を囲む枠を作り、強制的にサイズを固定します */
+.member-img-wrapper {
+    width: 180px;          /* 横幅固定 */
+    height: 180px;         /* 高さ固定 */
+    margin: 0 auto 1.5rem; /* 中央寄せ */
+    border-radius: 50%;    /* 丸くする */
+    overflow: hidden;      /* はみ出し防止 */
+    border: 4px solid #fff; /* 白い枠線 */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* 影 */
+    background-color: #eee; /* 画像がない時の背景色 */
+    position: relative;
+}
+
+/* 画像自体の設定 */
+.member-img-wrapper img,
+.member-card img { /* 既存のクラスにも適用 */
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;     /* ★重要: 縦横比を維持して枠いっぱいにする */
+    object-position: center top !important; /* 顔が見えるように上寄り中心でトリミング */
+    border-radius: 0 !important; /* 親要素で丸くしているので子はリセット */
+}
+
+/* --- 2. 下層ページヒーロー (トップページ風背景の復活) --- */
+.page-hero-modern {
+    position: relative;
+    height: 40vh;          /* 高さを確保 */
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    margin-bottom: 3rem;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+    background-color: #1A71BE; /* 画像読み込み前の背景色 */
+}
+
+/* 背景を暗くするオーバーレイ (文字を読みやすくする) */
+.page-hero-modern::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* 青みがかった暗いグラデーション */
+    background: linear-gradient(135deg, rgba(26, 113, 190, 0.85), rgba(0, 0, 0, 0.5));
+    z-index: 1;
+}
+
+.page-hero-text {
+    position: relative;
+    z-index: 2;
+}
+
+.page-hero-text h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    margin: 0;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    color: white; /* 文字色は白 */
+    text-transform: uppercase;
+}
+
+.page-hero-text p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 0.8rem;
+    letter-spacing: 0.1em;
+}
+
+/* --- 3. ニュースリストの崩れ修正 --- */
+.news-list-container {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 0;
+    max-height: 400px; /* 高さを制限 */
+    overflow-y: auto;  /* スクロールさせる */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+}
+
+.news-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.news-list li {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    align-items: center; /* 縦位置中央揃え */
+    flex-wrap: wrap;     /* スマホで折り返し */
+}
+
+.news-list li:last-child {
+    border-bottom: none;
+}
+
+.news-list .date {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #1A71BE;
+    margin-right: 1.5rem;
+    min-width: 100px;
+}
+
+.news-list a {
+    color: #333;
+    font-weight: 500;
+    text-decoration: none;
+    flex: 1; /* 残りの幅を使う */
+    display: inline-block;
+}
+
+.news-list a:hover {
+    color: #1A71BE;
+    text-decoration: underline;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .news-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+    .news-list .date {
+        margin-right: 0;
+        font-size: 0.85rem;
+        opacity: 0.8;
+    }
+}
+
+/* =================================================================
+   FINAL DESIGN FIX (2025/10/30 Update)
+   のっぺり解消：リッチなプロフィールカードデザイン
+   ================================================================= */
+
+/* --- グリッドレイアウト（メンバー用） --- */
+.modern-member-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem 2rem; /* 縦横の間隔を調整 */
+    padding: 1rem;
+}
+
+/* --- カード本体のデザイン（浮き上がり・影） --- */
+.modern-member-card {
+    background: #ffffff;
+    border-radius: 16px;       /* 角を丸く */
+    padding: 0 0 2rem 0;       /* 下に余白 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* ふんわりとした影（奥行き） */
+    border: 1px solid #f0f0f0; /* 薄い境界線 */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* なめらかな動き */
+    position: relative;
+    overflow: visible; /* 写真を少しはみ出させる演出のため */
+    margin-top: 3rem;  /* 写真がはみ出る分、上を空ける */
+}
+
+/* ホバー時の動き（フワッと浮く） */
+.modern-member-card:hover {
+    transform: translateY(-10px); /* 上に移動 */
+    box-shadow: 0 20px 40px rgba(26, 113, 190, 0.15); /* 影を青っぽく濃くする */
+}
+
+/* --- 写真のデザイン（カードの上に乗っかるバッジ風） --- */
+.member-img-wrapper {
+    width: 160px;
+    height: 160px;
+    margin: -80px auto 1.5rem auto; /* ★重要：ネガティブマージンでカードの上に半分出す */
+    border-radius: 50%;
+    overflow: hidden;
+    border: 6px solid #ffffff; /* 写真の周りに太い白枠 */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* 写真自体にも影 */
+    background-color: #f5f5f5;
+    position: relative;
+    z-index: 2;
+}
+
+/* 写真の表示調整 */
+.member-img-wrapper img,
+.member-card img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center top !important;
+}
+
+/* --- テキスト周りのデザイン --- */
+.modern-member-card h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin: 0 0 0.5rem 0;
+}
+
+.modern-member-card .role {
+    display: inline-block;
+    background-color: #e3f2fd; /* 薄い青背景 */
+    color: #1A71BE;            /* 青文字 */
+    font-size: 0.85rem;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 1.5rem;
+    /* 中央揃え用 */
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.member-bio-modern {
+    padding: 0 2rem;
+    text-align: left;
+}
+
+.member-bio-modern h5 {
+    color: #1A71BE;
+    font-size: 0.95rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 見出しの横にアイコン的な線を入れる */
+.member-bio-modern h5::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 16px;
+    background: #1A71BE;
+    border-radius: 2px;
+}
+
+.member-bio-modern p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+}
+
+/* --- アドバイザー（特別顧問）専用の調整 --- */
+/* 特別顧問は1人なので、少し幅広で特別感を出す */
+#advisors .modern-member-grid {
+    display: flex;
+    justify-content: center;
+}
+
+#advisors .modern-member-card {
+    max-width: 600px; /* 横幅を広めに */
+    width: 100%;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .modern-member-card {
+        margin-top: 3rem; /* スマホでも写真が被るスペースを確保 */
+    }
+}
+
+/* =================================================================
+   UPDATE (2025/10/30) - フォーム＆企業ページのリッチ化
+   ================================================================= */
+
+/* --- 1. 共通: 流れ・ステップ表示 (Step 1 -> 2 -> 3) --- */
+.step-section {
+    margin-bottom: 4rem;
+}
+.step-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    counter-reset: step-counter;
+}
+.step-card {
+    background: white;
+    padding: 2rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid #eee;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
+/* ステップ番号の丸 */
+.step-card::before {
+    counter-increment: step-counter;
+    content: "STEP " counter(step-counter);
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1A71BE;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    padding: 5px 15px;
+    border-radius: 20px;
+    box-shadow: 0 3px 8px rgba(26, 113, 190, 0.3);
+}
+.step-icon {
+    font-size: 2.5rem;
+    color: #1A71BE;
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+}
+.step-card h4 {
+    margin: 0.5rem 0;
+    color: #333;
+    font-size: 1.1rem;
+}
+.step-card p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* --- 2. 学生向け: メリットリスト --- */
+.merit-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 3rem;
+}
+.merit-item {
+    background: #e3f2fd;
+    color: #1A71BE;
+    font-weight: bold;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.merit-item i {
+    font-size: 1.2rem;
+}
+
+/* --- 3. 企業向け: サービス詳細カード (アイコン付き) --- */
+.service-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+.service-detail-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #eee;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+}
+.service-detail-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.service-icon-header {
+    background: #1A71BE;
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    font-size: 2.5rem;
+}
+.service-body {
+    padding: 2rem;
+}
+.service-body h3 {
+    color: #1A71BE;
+    margin: 0 0 1rem 0;
+    font-size: 1.3rem;
+    text-align: center;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 1rem;
+}
+.service-body p {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+.service-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: auto;
+}
+.service-tag {
+    font-size: 0.8rem;
+    background: #f5f5f5;
+    color: #666;
+    padding: 4px 10px;
+    border-radius: 4px;
+}
+
+/* --- フォームの見た目強化 --- */
+.modern-form-wrapper {
+    background: white;
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+    max-width: 800px;
+    margin: 0 auto;
+    border-top: 5px solid #1A71BE;
+}
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .modern-form-wrapper { padding: 1.5rem; }
+    .step-card { margin-bottom: 1rem; }
+}
+
+/* =================================================================
+   NEWSリストのデザイン修正 (コンパクト & スタイリッシュ版)
+   ================================================================= */
+
+/* =================================================================
+   NEWSリストのデザイン修正 (スクロールバー完全削除版)
+   ================================================================= */
+
+.news-list-container {
+    /* デザインのリセット */
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    
+    /* 配置 */
+    max-width: 800px;
+    margin: 0 auto 3rem auto;
+
+    /* ★ここが重要：スクロールバーを消す設定 */
+    max-height: none !important;  /* 高さを制限せず、中身の分だけ伸ばす */
+    overflow: visible !important; /* スクロール機能を無効化 */
+}
+
+/* もしブラウザのデフォルトスタイルが残る場合の念押し */
+.news-list-container::-webkit-scrollbar {
+    display: none; /* スクロールバー自体を非表示に */
+}
+
+/* リスト自体の設定 */
+.news-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* 各ニュースの行デザイン（コンパクト化） */
+.news-list li {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 0.8rem 1.2rem;  /* ★上下の余白を減らしてコンパクトに */
+    margin-bottom: 8px;      /* ★行間の隙間も狭く */
+    border-radius: 6px;      /* 角丸を少し小さく */
+    border: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* 影も控えめに */
+    transition: all 0.2s ease;
+}
+
+/* ホバー時の動き */
+.news-list li:hover {
+    transform: translateX(3px); /* 動きも控えめに */
+    border-color: #1A71BE;
+    box-shadow: 0 4px 8px rgba(26, 113, 190, 0.1);
+}
+
+/* NEWSバッジ（サイズ調整） */
+.news-list li::before {
+    content: "NEWS";
+    background-color: #1A71BE;
+    color: white;
+    font-size: 0.7rem;       /* ★文字サイズを小さく */
+    font-weight: bold;
+    padding: 3px 10px;       /* ★バッジの大きさもコンパクトに */
+    border-radius: 3px;
+    margin-right: 12px;
+    white-space: nowrap;
+}
+
+/* 日付 */
+.news-list .date {
+    color: #555;
+    font-size: 0.9rem;       /* ★少し小さく */
+    font-weight: 600;
+    margin-right: 15px;
+    white-space: nowrap;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* タイトルリンク */
+.news-list a {
+    color: #333;
+    text-decoration: none;
+    font-size: 0.95rem;      /* ★本文も少し小さくして上品に */
+    font-weight: 500;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    white-space: nowrap;     /* ★基本は1行で表示 */
+    overflow: hidden;        /* はみ出た部分は隠す */
+    text-overflow: ellipsis; /* ...で省略 */
+}
+
+/* リンクホバー時 */
+.news-list a:hover {
+    color: #1A71BE;
+    text-decoration: underline;
+}
+
+/* 右端の矢印 */
+.news-list a::after {
+    content: "\f054"; /* FontAwesome fa-chevron-right */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    color: #ccc;
+    font-size: 0.75rem;
+    margin-left: 10px;
+}
+
+/* ホバー時に矢印を強調 */
+.news-list li:hover a::after {
+    color: #1A71BE;
+}
+
+/* スマホ対応 */
+@media (max-width: 768px) {
+    .news-list li {
+        flex-wrap: wrap;
+        padding: 0.8rem;
+    }
+    .news-list li::before {
+        margin-bottom: 4px;
+    }
+    .news-list .date {
+        font-size: 0.8rem;
+        margin-right: 10px;
+        margin-bottom: 4px;
+    }
+    .news-list a {
+        width: 100%;
+        white-space: normal; /* スマホでは折り返して表示 */
+        font-size: 0.9rem;
+    }
+}
+
+/* =================================================================
+   お問い合わせ & Grow Up 横並びレイアウト
+   ================================================================= */
+
+/* 2つを囲む外枠 */
+.bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 1:1 で横並び */
+    gap: 2rem;                      /* 間の隙間 */
+    margin-top: 5rem;               /* 上の余白 */
+    align-items: stretch;           /* 高さを揃える */
+}
+
+/* 1. 左側：お問い合わせセクションの調整 */
+.bottom-grid .cta-section {
+    margin: 0;               /* 余計な余白を消す */
+    height: 100%;            /* 高さをいっぱいにする */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 中身を上下中央寄せ */
+    align-items: center;
+    box-sizing: border-box;
+}
+
+/* 2. 右側：Grow Upカードの調整 */
+.bottom-grid .grow-up-card {
+    margin: 0 !important;       /* 元のCSSの余白を強制キャンセル */
+    max-width: none !important; /* 幅制限を解除して枠いっぱいに */
+    height: 100%;               /* 高さを揃える */
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;    /* 中身を上下中央寄せ */
+}
+
+/* スマホ対応（画面幅が狭い時は縦並びに戻す） */
+@media (max-width: 768px) {
+    .bottom-grid {
+        grid-template-columns: 1fr; /* 1列にする */
+        gap: 2rem;
+    }
+}
+/* --- 既存のCSSのタグ設定部分に追記してください --- */
+
+/* 画像上のタグの色設定 */
+.tag-recruit { background: #e74c3c; } /* 赤 */
+.tag-edu { background: #f39c12; }     /* オレンジ */
+
+/* ★今回追加：開発タグ用の青色 */
+.tag-dev { background: #1A71BE; }     /* テーマカラーの青 */
+
+/* =================================================================
+   スマホメニュー表示修正 (Z-index階層の適正化)
+   ================================================================= */
+
+/* 1. ハンバーガーボタン（×印）を「最強の最前面」にします */
+.hamburger {
+  z-index: 2002 !important; /* メニューよりさらに手前に */
+}
+
+/* 2. メニュー画面を「ヘッダーより手前」に持ってきます */
+.nav-menu {
+  z-index: 2001 !important; /* 元のヘッダー(1002)より大きな数字にする */
+  
+  /* 以前の修正の念押し設定 */
+  justify-content: flex-start !important; /* 上詰め配置 */
+  padding-top: 80px !important;           /* ×ボタンと被らないよう上に余白 */
+  padding-bottom: 50px !important;        /* 下にも余白 */
+  overflow-y: auto !important;            /* スクロール許可 */
+}
+
+/* 3. (念のため) ヘッダー本体はそのまま奥に配置 */
+header {
+  z-index: 1002; /* 変更なし（メニューの2001より小さいので裏に行きます） */
+}
+
+/* =================================================================
+   メニュー内蔵「閉じるボタン(×)」の設定
+   ================================================================= */
+
+/* ボタンの枠と配置 */
+.menu-close-btn {
+    display: block;
+    position: absolute;
+    top: 25px;    /* メニュー上端からの距離 */
+    right: 25px;  /* メニュー右端からの距離 */
+    width: 35px;  /* クリックしやすいサイズに */
+    height: 35px;
+    cursor: pointer;
+    z-index: 2005; /* メニュー文字より手前に */
+}
+
+/* ×印を作る2本の白い線 */
+.menu-close-btn span {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 3px;         /* 線の太さ */
+    background-color: white; 
+    border-radius: 4px;
+    top: 16px;           /* 枠の中央に配置 */
+    left: 0;
+}
+
+/* 1本目を45度回転 */
+.menu-close-btn span:nth-child(1) {
+    transform: rotate(45deg);
+}
+
+/* 2本目を-45度回転 */
+.menu-close-btn span:nth-child(2) {
+    transform: rotate(-45deg);
+}
+
+/* 【重要】メニューが開いている時は、ヘッダー裏の古いボタンを隠す */
+/* これで二重にボタンが表示されるのを防ぎます */
+.hamburger.active {
+    opacity: 0 !important;
+    pointer-events: none;
+}
+/* =================================================================
+   管理者ページ専用スタイル (admin.html から移植)
+   ================================================================= */
+
+/* 管理画面の背景色調整 (全体に影響しないようラッパーで制御推奨だが、今回はbody適用で再現) */
+/* もし公開ページの背景を変えたくない場合は、admin-wrapperに適用してください */
+
+.admin-wrapper { 
+    max-width: 950px; 
+    margin: 2rem auto; 
+    padding: 0 1rem; 
+}
+
+.admin-card { 
+    background: white; 
+    padding: 1.5rem; 
+    border-radius: 8px; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+    margin-bottom: 2rem; 
+}
+
+/* フォーム周り */
+.form-group { 
+    margin-bottom: 1rem; 
+}
+.form-group label { 
+    display: block; 
+    margin-bottom: 0.5rem; 
+    font-weight: bold; 
+}
+.form-group input, 
+.form-group textarea, 
+.form-group select { 
+    width: 100%; 
+    padding: 0.8rem; 
+    border: 1px solid #ddd; 
+    border-radius: 4px; 
+    box-sizing: border-box; 
+    font-size: 1rem;
+}
+
+/* SNS入力欄 */
+.sns-input-group { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    margin-bottom: 0.8rem; 
+}
+.sns-input-group i { 
+    width: 25px; 
+    text-align: center; 
+    font-size: 1.2rem; 
+}
+.sns-input-group input { 
+    flex-grow: 1; 
+    margin-bottom: 0; 
+}
+
+/* リスト表示 */
+.admin-list { 
+    list-style: none; 
+    padding: 0; 
+    margin-top: 1rem; 
+    border: 1px solid #eee; 
+    border-radius: 4px;
+}
+.admin-item { 
+    padding: 1rem; 
+    border-bottom: 1px solid #eee; 
+    background: #fff; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 0.5rem; 
+}
+.admin-item:last-child { 
+    border-bottom: none; 
+}
+
+.item-header { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+    flex-wrap: wrap; 
+    gap: 10px; 
+}
+.item-date { 
+    font-size: 0.85rem; 
+    color: #666; 
+    display: block;
+}
+.item-title { 
+    font-weight: bold; 
+    color: #1A71BE; 
+    font-size: 1.1rem; 
+}
+.item-details { 
+    font-size: 0.95rem; 
+    color: #333; 
+    line-height: 1.5; 
+    background: #f9f9f9; 
+    padding: 0.8rem; 
+    border-radius: 4px; 
+    margin-top: 0.5rem;
+}
+
+/* タブメニュー */
+.tab-menu { 
+    display: flex; 
+    gap: 5px; 
+    margin-bottom: 1rem; 
+    flex-wrap: wrap; 
+}
+.tab-btn { 
+    flex: 1; 
+    padding: 10px; 
+    border: none; 
+    background: #ddd; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    font-weight: bold; 
+    white-space: nowrap; 
+    font-size: 0.9rem; 
+    color: #555;
+    transition: all 0.3s;
+}
+.tab-btn:hover {
+    background: #ccc;
+}
+.tab-btn.active { 
+    background: #1A71BE; 
+    color: white; 
+}
+
+/* ボタン類 */
+.btn-group { 
+    display: flex; 
+    gap: 5px; 
+}
+.btn-delete { 
+    background-color: #ff4d4f; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 0.9rem;
+}
+.btn-edit { 
+    background-color: #28a745; 
+    color: white; 
+    border: none; 
+    padding: 5px 10px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 0.9rem;
+}
+.btn-preview { 
+    background-color: #e67e22; 
+    color: white; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+.btn-cancel { 
+    background-color: #6c757d; 
+    color: white; 
+    border: none; 
+    padding: 12px 20px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    margin-left: 10px; 
+}
+
+/* ログアウトボタンなど */
+.logout-btn { 
+    background: rgba(255,255,255,0.2); 
+    border: 1px solid rgba(255,255,255,0.5); 
+    color: white; 
+    padding: 5px 15px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+    font-size: 0.9rem;
+}
+.logout-btn:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* ユーティリティ */
+.hidden { 
+    display: none !important; 
+}
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+    .admin-wrapper { margin-top: 1rem; }
+    .tab-menu { overflow-x: auto; padding-bottom: 5px; }
+    .item-header { flex-direction: column; align-items: flex-start; }
+    .btn-group { align-self: flex-end; width: 100%; justify-content: flex-end; margin-top: 5px; }
+}
