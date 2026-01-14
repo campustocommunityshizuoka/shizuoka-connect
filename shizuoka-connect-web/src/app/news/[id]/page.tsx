@@ -100,10 +100,21 @@ export default function NewsDetailPage() {
         </div>
 
         {/* スタイル調整 */}
-        <style jsx>{`
-          .btn-sns { color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px; transition: opacity 0.2s; }
-          .btn-sns:hover { opacity: 0.8; }
-        `}</style>
+<style jsx>{`
+  .btn-sns { color: white; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 5px; transition: opacity 0.2s; }
+  .btn-sns:hover { opacity: 0.8; }
+  /* ▼ 戻るボタンのスタイルを追加・修正 ▼ */
+  .btn-outline {
+    background-color: transparent; /* 背景を透明に */
+    color: #1A71BE !important;     /* 文字色を青に (globals.cssの上書き) */
+    border: 2px solid #1A71BE;     /* 青い枠線を追加 */
+    transition: all 0.3s;
+  }
+  .btn-outline:hover {
+    background-color: #1A71BE;     /* ホバー時に背景を青く */
+    color: white !important;       /* ホバー時に文字色を白く */
+  }
+`}</style>
       </main>
     </>
   );
