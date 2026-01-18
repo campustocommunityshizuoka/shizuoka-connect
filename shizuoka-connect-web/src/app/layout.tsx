@@ -46,10 +46,11 @@ export const metadata: Metadata = {
 
   // ■ アイコン設定
   // ブラウザのタブやスマホのホーム画面用にはロゴを使用
+  // 注意: src/app/favicon.ico がある場合はそちらが優先されるため、削除してください。
   icons: {
-    icon: '/assets/logo.png',
-    shortcut: '/assets/logo.png',
-    apple: '/assets/logo.png',
+    icon: '/assets/logo.png?v=2',      // キャッシュ対策を追加
+    shortcut: '/assets/logo.png?v=2',
+    apple: '/assets/logo.png?v=2',
   },
 
   // ■ OGP設定 (SNSシェア用 - 改善版)

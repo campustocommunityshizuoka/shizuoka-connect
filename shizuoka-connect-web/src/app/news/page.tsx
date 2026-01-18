@@ -41,7 +41,9 @@ export default async function NewsPage() {
               const href = news.content ? `/news/${news.id}` : (news.internalUrl || news.directUrl || '#');
               const target = (!news.content && news.directUrl) ? '_blank' : undefined;
               
-              const optimizedImg = getOptimizedImage(news.image);
+              // ★画像がない場合はロゴをデフォルト画像として使用
+              const rawImg = news.image || '/assets/logo.png';
+              const optimizedImg = getOptimizedImage(rawImg) || rawImg;
 
               return (
                 <Link 
@@ -52,12 +54,21 @@ export default async function NewsPage() {
                     style={{ display: 'block', textDecoration: 'none', color: 'inherit', borderBottom: '1px solid #eee' }}
                 >
                   <div className="news-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '1.5rem 1rem' }}>
-                    {optimizedImg && (
-                       <div className="news-thumb" style={{ width: '120px', height: '90px', flexShrink: 0, marginRight: '15px', background: '#f0f0f0', borderRadius: '4px', overflow: 'hidden' }}>
-                         {/* CSS background-image ではなく imgタグを使うことでGoogle画像検索にヒットしやすくする */}
-                         <img src={optimizedImg} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="サムネイル" />
-                       </div>
-                    )}
+                    {/* 画像エリア (常に表示) */}
+                    <div className="news-thumb" style={{ width: '120px', height: '90px', flexShrink: 0, marginRight: '15px', background: '#fff', borderRadius: '4px', overflow: 'hidden', border: '1px solid #eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                         <img 
+                           src={optimizedImg} 
+                           style={{ 
+                               width: '100%', 
+                               height: '100%', 
+                               // 画像があれば 'cover' (埋め尽くし)、ロゴなどの代替画像なら 'contain' (全体表示)
+                               objectFit: news.image ? 'cover' : 'contain', 
+                               padding: news.image ? '0' : '10px' // ロゴの場合は少し余白を入れる
+                           }} 
+                           alt="サムネイル" 
+                         />
+                    </div>
+                    
                     <div style={{ flex: 1 }}>
                       <p className="news-item-date" style={{ color: '#666', fontSize: '0.9rem', margin: '0 0 0.5rem 0' }}>{news.date}</p>
                       <h3 className="news-item-title" style={{ margin: '0', fontSize: '1.1rem', color: '#1A71BE' }}>{news.title}</h3>
