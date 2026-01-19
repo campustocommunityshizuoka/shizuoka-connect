@@ -4217,190 +4217,6 @@ header {
 }
 </file>
 
-<file path="shizuoka-connect-web/src/app/layout.tsx">
-import './globals.css';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import type { Metadata, Viewport } from 'next';
-import { Noto_Sans_JP, Poppins } from 'next/font/google';
-import Script from 'next/script';
-
-// 1. フォントの最適化 (CLS防止・高速化)
-const notoSansJP = Noto_Sans_JP({
-  weight: ['400', '500', '700'],
-  subsets: ['latin'],
-  variable: '--font-noto-sans-jp',
-  display: 'swap',
-});
-
-const poppins = Poppins({
-  weight: ['600', '700'],
-  subsets: ['latin'],
-  variable: '--font-poppins',
-  display: 'swap',
-});
-
-// 2. サイトの基本情報
-const siteName = 'しずおかコネクト';
-const siteDescription = '静岡の学生と地域企業をつなぐ「しずおかコネクト」。学生の柔軟な発想と技術力で、地域の課題解決と活性化を目指します。';
-const siteUrl = 'https://shizuoka-connect.com'; // 本番ドメイン
-const googleAnalyticsId = 'G-C2ECY6KQJC';       // firebase-config.jsより
-
-// 3. 最強のSEOメタデータ設定 (改善版)
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    template: `%s | ${siteName}`,
-    default: `${siteName} | 地域と学生をつなぐ会`,
-  },
-  description: siteDescription,
-  keywords: ['静岡', '学生', '地域活性化', 'インターン', '企業連携', 'しずおかコネクト', '浜松', '大学生','HP','ホームページ','ウェブアプリ', '開発', '動画編集', 'IT教育','プログラミング教育'],
-  authors: [{ name: 'しずおかコネクト 運営事務局' }],
-  creator: 'しずおかコネクト',
-  publisher: '地域と学生をつなぐ会 しずおかコネクト',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
-
-  // ■ アイコン設定
-  // ブラウザのタブやスマホのホーム画面用にはロゴを使用
-  // 注意: src/app/favicon.ico がある場合はそちらが優先されるため、削除してください。
-  icons: {
-    icon: '/assets/logo.png?v=2',      // キャッシュ対策を追加
-    shortcut: '/assets/logo.png?v=2',
-    apple: '/assets/logo.png?v=2',
-  },
-
-  // ■ OGP設定 (SNSシェア用 - 改善版)
-  // ここで将来作成するリッチなアイキャッチ画像 (ogp.png) を指定します
-  openGraph: {
-    title: {
-      template: `%s | ${siteName}`,
-      default: `${siteName} | 地域と学生をつなぐ会`,
-    },
-    description: siteDescription,
-    url: siteUrl,
-    siteName: siteName,
-    locale: 'ja_JP',
-    type: 'website',
-    images: [
-      {
-        url: '/assets/ogp.png', // ★ここを専用画像に設定
-        width: 1200,
-        height: 630,
-        alt: 'しずおかコネクト - 学生と地域をつなぐプラットフォーム',
-      },
-    ],
-  },
-  
-  // ■ Twitter設定 (X用 - 改善版)
-  twitter: {
-    card: 'summary_large_image', // 画像を大きく見せるカードタイプ
-    title: siteName,
-    description: siteDescription,
-    images: ['/assets/ogp.png'], // ★ここも専用画像
-    // creator: '@shizuoka_connect', // Xアカウントがあれば設定推奨
-  },
-
-  // クローラー制御
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  
-  // GSCなどの所有権確認
-  verification: {
-    // google: 'google-site-verificationコードがあればここに入力', 
-  },
-};
-
-// 4. ビューポート設定
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  themeColor: '#1A71BE',
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  // 5. 構造化データ (Organization)
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: siteName,
-    url: siteUrl,
-    logo: `${siteUrl}/assets/logo.png`,
-    description: siteDescription,
-    address: {
-      '@type': 'PostalAddress',
-      addressRegion: '静岡県',
-      addressLocality: '浜松市',
-      addressCountry: 'JP',
-    },
-    sameAs: [
-      'https://www.instagram.com/shizuoka_connect',
-      // 'https://twitter.com/shizuoka_connect',
-    ],
-    contactPoint: {
-      '@type': 'ContactPoint',
-      email: 'campustocommunityshizuoka@gmail.com',
-      contactType: 'customer support',
-    },
-  };
-
-  return (
-    <html lang="ja" className={`${notoSansJP.variable} ${poppins.variable}`}>
-      <head>
-        {/* FontAwesome (CDN) */}
-        <link 
-          rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
-        />
-        {/* 構造化データを出力 */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
-      </head>
-      <body>
-        {/* Google Analytics (GA4) */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${googleAnalyticsId}');
-          `}
-        </Script>
-
-        <Header />
-        
-        <div className="content-wrapper">
-          {children}
-          <Footer />
-        </div>
-      </body>
-    </html>
-  );
-}
-</file>
-
 <file path="shizuoka-connect-web/src/app/members/page.tsx">
 import type { Metadata } from 'next';
 
@@ -4512,94 +4328,6 @@ export default function MembersPage() {
             </div>
           </div>
 
-        </div>
-      </main>
-    </>
-  );
-}
-</file>
-
-<file path="shizuoka-connect-web/src/app/news/page.tsx">
-import Link from 'next/link';
-import { db } from '@/lib/firebase';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import { getOptimizedImage } from '@/lib/utils';
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'お知らせ・発表',
-  description: 'しずおかコネクトからの最新のお知らせ、プレスリリース、活動報告などを掲載しています。',
-};
-
-// 60秒ごとにデータを再検証（ISR）
-export const revalidate = 60;
-
-export default async function NewsPage() {
-  // サーバーサイドでデータ取得
-  const q = query(collection(db, "news"), orderBy("date", "desc"), limit(30));
-  const snap = await getDocs(q);
-  
-  const newsList = snap.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  } as any));
-
-  return (
-    <>
-      <section className="page-hero-modern" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1600&auto=format&fit=crop')" }}>
-        <div className="page-hero-text">
-          <h2>NEWS</h2>
-          <p>お知らせ・発表</p>
-        </div>
-      </section>
-
-      <main className="container page-content">
-        <div className="news-list-full" style={{ maxWidth: '800px', margin: '0 auto' }}>
-          {newsList.length === 0 ? (
-            <p style={{ textAlign: 'center' }}>お知らせはありません</p>
-          ) : (
-            newsList.map((news) => {
-              // リンク先の判定（詳細記事か、外部リンクか）
-              const href = news.content ? `/news/${news.id}` : (news.internalUrl || news.directUrl || '#');
-              const target = (!news.content && news.directUrl) ? '_blank' : undefined;
-              
-              // ★画像がない場合はロゴをデフォルト画像として使用
-              const rawImg = news.image || '/assets/logo.png';
-              const optimizedImg = getOptimizedImage(rawImg) || rawImg;
-
-              return (
-                <Link 
-                    key={news.id} 
-                    href={href} 
-                    className="news-item-link" 
-                    target={target}
-                    style={{ display: 'block', textDecoration: 'none', color: 'inherit', borderBottom: '1px solid #eee' }}
-                >
-                  <div className="news-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '1.5rem 1rem' }}>
-                    {/* 画像エリア (常に表示) */}
-                    <div className="news-thumb" style={{ width: '120px', height: '90px', flexShrink: 0, marginRight: '15px', background: '#fff', borderRadius: '4px', overflow: 'hidden', border: '1px solid #eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                         <img 
-                           src={optimizedImg} 
-                           style={{ 
-                               width: '100%', 
-                               height: '100%', 
-                               // 画像があれば 'cover' (埋め尽くし)、ロゴなどの代替画像なら 'contain' (全体表示)
-                               objectFit: news.image ? 'cover' : 'contain', 
-                               padding: news.image ? '0' : '10px' // ロゴの場合は少し余白を入れる
-                           }} 
-                           alt="サムネイル" 
-                         />
-                    </div>
-                    
-                    <div style={{ flex: 1 }}>
-                      <p className="news-item-date" style={{ color: '#666', fontSize: '0.9rem', margin: '0 0 0.5rem 0' }}>{news.date}</p>
-                      <h3 className="news-item-title" style={{ margin: '0', fontSize: '1.1rem', color: '#1A71BE' }}>{news.title}</h3>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })
-          )}
         </div>
       </main>
     </>
@@ -5742,6 +5470,278 @@ export function serializeData(data: any): any {
     "**/*.mts"
   ],
   "exclude": ["node_modules"]
+}
+</file>
+
+<file path="shizuoka-connect-web/src/app/layout.tsx">
+import './globals.css';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import type { Metadata, Viewport } from 'next';
+import { Noto_Sans_JP, Poppins } from 'next/font/google';
+import Script from 'next/script';
+
+// 1. フォントの最適化 (CLS防止・高速化)
+const notoSansJP = Noto_Sans_JP({
+  weight: ['400', '500', '700'],
+  subsets: ['latin'],
+  variable: '--font-noto-sans-jp',
+  display: 'swap',
+});
+
+const poppins = Poppins({
+  weight: ['600', '700'],
+  subsets: ['latin'],
+  variable: '--font-poppins',
+  display: 'swap',
+});
+
+// 2. サイトの基本情報
+const siteName = 'しずおかコネクト';
+const siteDescription = '静岡の学生と地域企業をつなぐ「しずおかコネクト」。学生の柔軟な発想と技術力で、地域の課題解決と活性化を目指します。';
+const siteUrl = 'https://shizuoka-connect.com'; // 本番ドメイン
+const googleAnalyticsId = 'G-C2ECY6KQJC';       // firebase-config.jsより
+
+// 3. 最強のSEOメタデータ設定 (改善版)
+export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
+  title: {
+    template: `%s | ${siteName}`,
+    default: `${siteName} | 地域と学生をつなぐ会`,
+  },
+  description: siteDescription,
+  keywords: ['静岡', '学生', '地域活性化', 'インターン', '企業連携', 'しずおかコネクト', '浜松', '大学生','HP','ホームページ','ウェブアプリ', '開発', '動画編集', 'IT教育','プログラミング教育'],
+  authors: [{ name: 'しずおかコネクト 運営事務局' }],
+  creator: 'しずおかコネクト',
+  publisher: '地域と学生をつなぐ会 しずおかコネクト',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+
+  // ■ アイコン設定
+  // ブラウザのタブやスマホのホーム画面用にはロゴを使用
+  // 注意: src/app/favicon.ico がある場合はそちらが優先されるため、削除してください。
+  icons: {
+    icon: '/assets/logo.png?v=2',      // キャッシュ対策を追加
+    shortcut: '/assets/logo.png?v=2',
+    apple: '/assets/logo.png?v=2',
+  },
+
+  // ■ OGP設定 (SNSシェア用 - 改善版)
+  // ここで将来作成するリッチなアイキャッチ画像 (ogp.png) を指定します
+  openGraph: {
+    title: {
+      template: `%s | ${siteName}`,
+      default: `${siteName} | 地域と学生をつなぐ会`,
+    },
+    description: siteDescription,
+    url: siteUrl,
+    siteName: siteName,
+    locale: 'ja_JP',
+    type: 'website',
+    images: [
+      {
+        url: '/assets/ogp.png', // ★ここを専用画像に設定
+        width: 1200,
+        height: 630,
+        alt: 'しずおかコネクト - 学生と地域をつなぐプラットフォーム',
+      },
+    ],
+  },
+  
+  // ■ Twitter設定 (X用 - 改善版)
+  twitter: {
+    card: 'summary_large_image', // 画像を大きく見せるカードタイプ
+    title: siteName,
+    description: siteDescription,
+    images: ['/assets/ogp.png'], // ★ここも専用画像
+    // creator: '@shizuoka_connect', // Xアカウントがあれば設定推奨
+  },
+
+  // クローラー制御
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  
+  // GSCなどの所有権確認
+  verification: {
+    google: 'ceIF4aTxXfR5vmp98XAVfTczFedhNAdcffjkJj1gMNs',
+  },
+};
+
+// 4. ビューポート設定
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#1A71BE',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  // 5. 構造化データ (Organization)
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: siteName,
+    url: siteUrl,
+    logo: `${siteUrl}/assets/logo.png`,
+    description: siteDescription,
+    address: {
+      '@type': 'PostalAddress',
+      addressRegion: '静岡県',
+      addressLocality: '浜松市',
+      addressCountry: 'JP',
+    },
+    sameAs: [
+      'https://www.instagram.com/shizuoka_connect',
+      // 'https://twitter.com/shizuoka_connect',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: 'campustocommunityshizuoka@gmail.com',
+      contactType: 'customer support',
+    },
+  };
+
+  return (
+    <html lang="ja" className={`${notoSansJP.variable} ${poppins.variable}`}>
+      <head>
+        {/* FontAwesome (CDN) */}
+        <link 
+          rel="stylesheet" 
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" 
+        />
+        {/* 構造化データを出力 */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
+      <body>
+        {/* Google Analytics (GA4) */}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${googleAnalyticsId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${googleAnalyticsId}');
+          `}
+        </Script>
+
+        <Header />
+        
+        <div className="content-wrapper">
+          {children}
+          <Footer />
+        </div>
+      </body>
+    </html>
+  );
+}
+</file>
+
+<file path="shizuoka-connect-web/src/app/news/page.tsx">
+import Link from 'next/link';
+import { db } from '@/lib/firebase';
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+import { getOptimizedImage } from '@/lib/utils';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'お知らせ・発表',
+  description: 'しずおかコネクトからの最新のお知らせ、プレスリリース、活動報告などを掲載しています。',
+};
+
+// 60秒ごとにデータを再検証（ISR）
+export const revalidate = 60;
+
+export default async function NewsPage() {
+  // サーバーサイドでデータ取得
+  const q = query(collection(db, "news"), orderBy("date", "desc"), limit(30));
+  const snap = await getDocs(q);
+  
+  const newsList = snap.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  } as any));
+
+  return (
+    <>
+      <section className="page-hero-modern" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1600&auto=format&fit=crop')" }}>
+        <div className="page-hero-text">
+          <h2>NEWS</h2>
+          <p>お知らせ・発表</p>
+        </div>
+      </section>
+
+      <main className="container page-content">
+        <div className="news-list-full" style={{ maxWidth: '800px', margin: '0 auto' }}>
+          {newsList.length === 0 ? (
+            <p style={{ textAlign: 'center' }}>お知らせはありません</p>
+          ) : (
+            newsList.map((news) => {
+              // リンク先の判定（詳細記事か、外部リンクか）
+              const href = news.content ? `/news/${news.id}` : (news.internalUrl || news.directUrl || '#');
+              const target = (!news.content && news.directUrl) ? '_blank' : undefined;
+              
+              // ★画像がない場合はロゴをデフォルト画像として使用
+              const rawImg = news.image || '/assets/logo.png';
+              const optimizedImg = getOptimizedImage(rawImg) || rawImg;
+
+              return (
+                <Link 
+                    key={news.id} 
+                    href={href} 
+                    className="news-item-link" 
+                    target={target}
+                    style={{ display: 'block', textDecoration: 'none', color: 'inherit', borderBottom: '1px solid #eee' }}
+                >
+                  <div className="news-item" style={{ display: 'flex', alignItems: 'flex-start', padding: '1.5rem 1rem' }}>
+                    {/* 画像エリア (常に表示) */}
+                    <div className="news-thumb" style={{ width: '120px', height: '90px', flexShrink: 0, marginRight: '15px', background: '#fff', borderRadius: '4px', overflow: 'hidden', border: '1px solid #eee', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                         <img 
+                           src={optimizedImg} 
+                           style={{ 
+                               width: '100%', 
+                               height: '100%', 
+                               // 画像があれば 'cover' (埋め尽くし)、ロゴなどの代替画像なら 'contain' (全体表示)
+                               objectFit: news.image ? 'cover' : 'contain', 
+                               padding: news.image ? '0' : '10px' // ロゴの場合は少し余白を入れる
+                           }} 
+                           alt="サムネイル" 
+                         />
+                    </div>
+                    
+                    <div style={{ flex: 1 }}>
+                      <p className="news-item-date" style={{ color: '#666', fontSize: '0.9rem', margin: '0 0 0.5rem 0' }}>{news.date}</p>
+                      <h3 className="news-item-title" style={{ margin: '0', fontSize: '1.1rem', color: '#1A71BE' }}>{news.title}</h3>
+                    </div>
+                  </div>
+                </Link>
+              );
+            })
+          )}
+        </div>
+      </main>
+    </>
+  );
 }
 </file>
 

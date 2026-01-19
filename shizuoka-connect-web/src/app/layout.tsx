@@ -99,7 +99,7 @@ export const metadata: Metadata = {
   
   // GSCなどの所有権確認
   verification: {
-    // google: 'google-site-verificationコードがあればここに入力', 
+    google: 'ceIF4aTxXfR5vmp98XAVfTczFedhNAdcffjkJj1gMNs',
   },
 };
 
