@@ -49,15 +49,19 @@ export default async function Home() {
                         if (hasContent) {
                             linkHref = `/news/${news.id}`; // 本文があれば詳細ページ
                         } else if (news.directUrl) {
-                            linkHref = news.directUrl;     // 直接URL指定
+                            linkHref = news.directUrl;     // 外部URL
                         } else if (news.links?.web) {
-                            linkHref = news.links.web;     // webリンク
+                            linkHref = news.links.web;     // Webリンク
                         } else if (news.internalUrl) {
-                            // ★重要: .html がついていたら削除して正しいパスにする
-                            linkHref = news.internalUrl.replace('.html', '');
+                            // ★修正ポイント：.html を消し、パスを整える
+                            let path = news.internalUrl.replace('.html', ''); // .html を削除
+                            if (!path.startsWith('/') && !path.startsWith('http')) {
+                                path = '/' + path; // 頭にスラッシュがなければ付ける
+                            }
+                            linkHref = path;
                         }
 
-                        // 2. リンクがない場合は空文字（クリック不可）
+                        // 2. リンクがない場合の表示
                         const content = (
                             <>
                                 <span className="date">{news.date}</span>
