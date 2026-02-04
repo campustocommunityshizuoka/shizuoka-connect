@@ -14,6 +14,16 @@ const firebaseConfig = {
   databaseURL: "https://shizuokaconnect-default-rtdb.firebaseio.com"
 };
 
+// サーバーサイド(Edge)で navigator が定義されていない場合、ダミーを定義して
+// Firebase SDK がエラーになるのを防ぎます。
+if (typeof globalThis.navigator === 'undefined') {
+  // @ts-ignore
+  globalThis.navigator = { 
+    userAgent: 'node',
+    // 必要に応じて他のプロパティも追加できますが、基本はこれでOK
+  };
+}
+
 // SSR環境での多重初期化防止
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 

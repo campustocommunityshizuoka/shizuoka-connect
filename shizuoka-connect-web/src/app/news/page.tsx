@@ -12,9 +12,6 @@ export const metadata: Metadata = {
   description: 'しずおかコネクトからの最新のお知らせ、プレスリリース、活動報告などを掲載しています。',
 };
 
-// 60秒ごとにデータを再検証（ISR）
-export const revalidate = 60;
-
 export default async function NewsPage() {
   // サーバーサイドでデータ取得
   const q = query(collection(db, "news"), orderBy("date", "desc"), limit(30));

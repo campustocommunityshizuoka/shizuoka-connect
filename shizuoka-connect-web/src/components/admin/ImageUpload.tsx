@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react'; // useEffectを追加
 import Script from 'next/script';
 
 declare global {
@@ -15,10 +15,9 @@ type Props = {
 };
 
 export default function ImageUpload({ onUpload, label = "画像選択" }: Props) {
-  const [isLoaded, setIsLoaded] = useState(false); // 読み込み完了フラグ
+  const [isLoaded, setIsLoaded] = useState(false);
   const widgetRef = useRef<any>(null);
 
-  // ウィジェットの初期化ロジックを一箇所にまとめる
   const initializeWidget = useCallback(() => {
     if (window.cloudinary && !widgetRef.current) {
       widgetRef.current = window.cloudinary.createUploadWidget({
@@ -31,34 +30,34 @@ export default function ImageUpload({ onUpload, label = "画像選択" }: Props)
         maxImageWidth: 1200,
         maxImageHeight: 1200,
         validateMaxWidthHeight: true,
-        // Cloudflare等のセキュリティ対策で source を指定
         scriptSource: "https://upload-widget.cloudinary.com/global/all.js" 
       }, (error: any, result: any) => {
         if (!error && result && result.event === "success") {
           console.log("Upload success:", result.info.secure_url);
           onUpload(result.info.secure_url);
-        } else if (error) {
-          console.error("Cloudinary Error:", error);
-          alert("アップロードエラーが発生しました");
         }
       });
-      
-      setIsLoaded(true); // 準備完了
-      console.log("Cloudinary Widget Initialized");
+      setIsLoaded(true);
     }
   }, [onUpload]);
+
+  // ★ここが修正ポイント！
+  // マウント時にすでにCloudinaryが読み込まれていたら、即座に初期化する
+  useEffect(() => {
+    if (window.cloudinary) {
+      initializeWidget();
+    }
+  }, [initializeWidget]);
 
   const handleOpen = () => {
     if (widgetRef.current) {
       widgetRef.current.open();
     } else {
-      // 万が一ボタンが押せても、まだなら初期化を試みる
       initializeWidget();
-      if(widgetRef.current) {
-          widgetRef.current.open();
-      } else {
-          alert("アップローダーを読み込んでいます...少々お待ちください");
-      }
+      // 少し待ってから開く
+      setTimeout(() => {
+          if(widgetRef.current) widgetRef.current.open();
+      }, 500);
     }
   };
 
@@ -66,12 +65,8 @@ export default function ImageUpload({ onUpload, label = "画像選択" }: Props)
     <>
       <Script 
         src="https://upload-widget.cloudinary.com/global/all.js" 
-        strategy="afterInteractive" // 読み込み優先度を調整
-        onLoad={initializeWidget}   // 読み込み完了時に初期化を実行
-        onError={(e) => {
-            console.error("Script load error", e);
-            alert("画像アップロード機能の読み込みに失敗しました。広告ブロック等を解除してください。");
-        }}
+        strategy="afterInteractive"
+        onLoad={initializeWidget}
       />
       
       <button 
@@ -81,12 +76,13 @@ export default function ImageUpload({ onUpload, label = "画像選択" }: Props)
         style={{
             width: 'auto', 
             whiteSpace: 'nowrap',
-            opacity: isLoaded ? 1 : 0.6, // 読み込み中は薄くする
+            opacity: isLoaded ? 1 : 0.6,
             cursor: isLoaded ? 'pointer' : 'wait'
         }}
-        disabled={!isLoaded} // 読み込み完了まで押せないようにする（連打防止）
+        // ★ここも変更：万が一フラグが立たなくても、window.cloudinaryがあれば押せるようにする
+        disabled={!isLoaded && !window.cloudinary} 
       >
-        {isLoaded ? label : "準備中..."}
+        {isLoaded || (typeof window !== 'undefined' && window.cloudinary) ? label : "準備中..."}
       </button>
     </>
   );
