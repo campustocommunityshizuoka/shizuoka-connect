@@ -1,13 +1,17 @@
 // src/lib/utils.ts
 export function getOptimizedImage(url: string | undefined | null): string | null {
   if (!url) return null;
-  // すでにCloudinaryのURLで、かつ最適化済みなら何もしない
-  if (url.includes('res.cloudinary.com') && url.includes('/f_auto,q_auto')) {
-      return url;
-  }
-  // CloudinaryのURLなら最適化パラメータを付与（サイズ指定は一旦外して安定させる）
-  if (url.includes('res.cloudinary.com/dser57xce/image/upload/')) {
+  
+  // CloudinaryのURLではない場合はそのまま返す
+  if (!url.includes('res.cloudinary.com')) return url;
+
+  // すでに最適化パラメータが入っている場合は二重に付与しない
+  if (url.includes('/f_auto,q_auto/')) return url;
+
+  // 通常のアップロードURLに最適化パラメータを挿入
+  if (url.includes('/upload/')) {
       return url.replace('/upload/', '/upload/f_auto,q_auto/');
   }
+  
   return url;
 }
