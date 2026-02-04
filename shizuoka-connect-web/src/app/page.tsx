@@ -5,9 +5,6 @@ import { getOptimizedImage } from '@/lib/utils';
 import MapWrapper from '@/components/home/MapWrapper';
 import ScrollObserver from '@/components/ScrollObserver';
 
-export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
-
 export default async function Home() {
   // 1. ニュース取得 (Server Side)
   const newsQuery = query(collection(db, "news"), orderBy("date", "desc"), limit(10));
