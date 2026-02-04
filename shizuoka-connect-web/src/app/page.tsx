@@ -140,12 +140,15 @@ export default async function Home() {
                     <p style={{ textAlign: 'center', width: '100%' }}>現在、注目のプロジェクトはありません。</p>
                 ) : (
                     featuredProjects.map((proj) => {
-                        const bgImg = getOptimizedImage(proj.image) || '/assets/teaching.png';
+                        const rawImg = proj.image || '/assets/teaching.png';
+                        const optimizedImg = getOptimizedImage(rawImg) || rawImg;
+
                         return (
                             <div key={proj.id} className="service-card modern-card">
                                 <Link href="/about" className="card-image-link">
                                     <div className="card-img-wrapper">
-                                        <img src={bgImg} alt={proj.title || 'Project'} />
+                                        {/* 2. imgタグには必ず最適化後の変数を使う */}
+                                        <img src={optimizedImg} alt={proj.title || 'Project'} />
                                         <span className={`category-tag ${proj.tagClass || ''}`}>{proj.tagName || 'Project'}</span>
                                     </div>
                                 </Link>
