@@ -47,7 +47,6 @@ export default async function Home() {
         <section style={{ marginTop: '2rem', marginBottom: '4rem' }}>
             <div className="news-list-container">
                 <ul className="news-list">
-                    // ニュースリスト表示部分（<ul>の中）を以下のように書き換え
                     {newsList.slice(0, 5).map((news) => {
                         // 1. リンク先の優先順位決定ロジック
                         let linkHref = "";
@@ -94,7 +93,6 @@ export default async function Home() {
                         );
                     })}
                     {newsList.length === 0 && <li style={{padding:'1rem'}}>お知らせはありません</li>}
-                </ul>
                 </ul>
             </div>
             <div style={{ textAlign: 'right', marginTop: '0.5rem' }}>
