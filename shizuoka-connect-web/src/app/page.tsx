@@ -45,8 +45,17 @@ export default async function Home() {
             <div className="news-list-container">
                 <ul className="news-list">
                     {newsList.slice(0, 5).map((news) => {
-                        const link = news.content ? `/news/${news.id}` : (news.internalUrl || news.directUrl || '#');
-                        const target = (!news.content && news.directUrl) ? "_blank" : undefined;
+                        // 1. 本文があるか判定
+                        const hasContent = news.content && news.content.trim() !== "";
+                        
+                        // 2. リンク先を決定（本文があれば詳細ページ、なければ外部リンク、それもなければ#）
+                        const link = hasContent 
+                            ? `/news/${news.id}` 
+                            : (news.internalUrl || news.directUrl || '#');
+
+                        // 3. 外部リンク（directUrl）の場合は別タブで開く
+                        const isExternal = !hasContent && news.directUrl;
+                        const target = isExternal ? "_blank" : undefined;
                         return (
                             <li key={news.id}>
                                 <span className="date">{news.date}</span>

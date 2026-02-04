@@ -15,16 +15,19 @@ export default function NewsDetailPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      if (!id) return;
-      try {
-        const docRef = doc(db, "news", id as string);
-        const snap = await getDoc(docRef);
-        if (snap.exists()) {
-          setNews(snap.data());
-        } else {
-          setNews(null);
-        }
+  const fetchNews = async () => {
+    if (!id) return;
+    console.log("Fetching News ID:", id); // ログ追加
+    try {
+      const docRef = doc(db, "news", id as string);
+      const snap = await getDoc(docRef);
+      if (snap.exists()) {
+        console.log("Data found:", snap.data()); // 取得成功ログ
+        setNews(snap.data());
+      } else {
+        console.error("No such document in Firestore!"); // データがない場合
+        setNews(null);
+      }
       } catch (e) {
         console.error("News fetch error:", e);
       } finally {
