@@ -5,6 +5,8 @@ import { getOptimizedImage } from '@/lib/utils';
 import MapWrapper from '@/components/home/MapWrapper';
 import ScrollObserver from '@/components/ScrollObserver';
 
+export const dynamic = 'force-dynamic';
+
 // キャッシュの設定: ニュースは頻繁に変わる可能性があるので、再検証時間を設定
 export const revalidate = 60; // 60秒ごとに更新チェック
 
@@ -44,28 +46,54 @@ export default async function Home() {
         <section style={{ marginTop: '2rem', marginBottom: '4rem' }}>
             <div className="news-list-container">
                 <ul className="news-list">
+                    // ニュースリスト表示部分（<ul>の中）を以下のように書き換え
                     {newsList.slice(0, 5).map((news) => {
-                        // 1. 本文があるか判定
+                        // 1. リンク先の優先順位決定ロジック
+                        let linkHref = "";
                         const hasContent = news.content && news.content.trim() !== "";
-                        
-                        // 2. リンク先を決定（本文があれば詳細ページ、なければ外部リンク、それもなければ#）
-                        const link = hasContent 
-                            ? `/news/${news.id}` 
-                            : (news.internalUrl || news.directUrl || '#');
 
-                        // 3. 外部リンク（directUrl）の場合は別タブで開く
-                        const isExternal = !hasContent && news.directUrl;
-                        const target = isExternal ? "_blank" : undefined;
-                        return (
-                            <li key={news.id}>
+                        if (hasContent) {
+                            linkHref = `/news/${news.id}`; // 本文があれば詳細ページ
+                        } else if (news.directUrl) {
+                            linkHref = news.directUrl;     // 直接URL指定
+                        } else if (news.links?.web) {
+                            linkHref = news.links.web;     // webリンク
+                        } else if (news.internalUrl) {
+                            // ★重要: .html がついていたら削除して正しいパスにする
+                            linkHref = news.internalUrl.replace('.html', '');
+                        }
+
+                        // 2. リンクがない場合は空文字（クリック不可）
+                        const content = (
+                            <>
                                 <span className="date">{news.date}</span>
-                                <Link href={link} target={target} rel={target ? "noopener noreferrer" : undefined}>
-                                    {news.title}
-                                </Link>
+                                <span style={{ marginLeft: '10px' }}>{news.title}</span>
+                            </>
+                        );
+
+                        // 3. 外部リンクかどうかの判定
+                        const isExternal = linkHref.startsWith('http');
+
+                        return (
+                            <li key={news.id} style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid #eee' }}>
+                                {linkHref ? (
+                                    <Link 
+                                        href={linkHref} 
+                                        target={isExternal ? "_blank" : undefined}
+                                        rel={isExternal ? "noopener noreferrer" : undefined}
+                                        style={{ flex: 1, textDecoration: 'none', color: 'inherit', display: 'block' }}
+                                        className="news-link-hover" // CSSでホバーエフェクトをつけるとなお良し
+                                    >
+                                        {content}
+                                    </Link>
+                                ) : (
+                                    <div style={{ flex: 1, color: '#666' }}>{content}</div>
+                                )}
                             </li>
                         );
                     })}
                     {newsList.length === 0 && <li style={{padding:'1rem'}}>お知らせはありません</li>}
+                </ul>
                 </ul>
             </div>
             <div style={{ textAlign: 'right', marginTop: '0.5rem' }}>

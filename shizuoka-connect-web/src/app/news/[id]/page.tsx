@@ -6,6 +6,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
+export const dynamic = 'force-dynamic';
+
 // Cloudflare用の設定
 export const runtime = 'edge';
 

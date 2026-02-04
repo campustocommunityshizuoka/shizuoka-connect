@@ -1,12 +1,13 @@
-// Cloudinary等の画像最適化ロジック
+// src/lib/utils.ts
 export function getOptimizedImage(url: string | undefined | null): string | null {
   if (!url) return null;
-  if (!url.includes('res.cloudinary.com')) return url;
-  if (url.includes('/f_auto,q_auto')) return url;
-  return url.replace('/upload/', '/upload/f_auto,q_auto,w_600/');
-}
-
-// FirestoreのTimestampなどをシリアライズ（JSON化）するためのヘルパー
-export function serializeData(data: any): any {
-  return JSON.parse(JSON.stringify(data));
+  // すでにCloudinaryのURLで、かつ最適化済みなら何もしない
+  if (url.includes('res.cloudinary.com') && url.includes('/f_auto,q_auto')) {
+      return url;
+  }
+  // CloudinaryのURLなら最適化パラメータを付与（サイズ指定は一旦外して安定させる）
+  if (url.includes('res.cloudinary.com/dser57xce/image/upload/')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto/');
+  }
+  return url;
 }
