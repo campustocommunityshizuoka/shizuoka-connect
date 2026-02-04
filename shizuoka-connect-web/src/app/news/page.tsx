@@ -5,6 +5,7 @@ import { getOptimizedImage } from '@/lib/utils';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 export const metadata: Metadata = {
   title: 'お知らせ・発表',

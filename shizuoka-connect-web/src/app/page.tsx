@@ -6,6 +6,7 @@ import MapWrapper from '@/components/home/MapWrapper';
 import ScrollObserver from '@/components/ScrollObserver';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 // キャッシュの設定: ニュースは頻繁に変わる可能性があるので、再検証時間を設定
 export const revalidate = 60; // 60秒ごとに更新チェック

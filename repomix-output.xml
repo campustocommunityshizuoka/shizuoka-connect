@@ -4335,249 +4335,6 @@ export default function MembersPage() {
 }
 </file>
 
-<file path="shizuoka-connect-web/src/app/page.tsx">
-import Link from 'next/link';
-import { db } from '@/lib/firebase';
-import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
-import { getOptimizedImage } from '@/lib/utils';
-import MapWrapper from '@/components/home/MapWrapper';
-import ScrollObserver from '@/components/ScrollObserver';
-
-// キャッシュの設定: ニュースは頻繁に変わる可能性があるので、再検証時間を設定
-export const revalidate = 60; // 60秒ごとに更新チェック
-
-export default async function Home() {
-  // 1. ニュース取得 (Server Side)
-  const newsQuery = query(collection(db, "news"), orderBy("date", "desc"), limit(10));
-  const newsSnapshot = await getDocs(newsQuery);
-  const newsList = newsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
-  const latestNews = newsList.length > 0 ? newsList[0] : null;
-
-  // 2. 注目プロジェクト取得 (Server Side)
-  const projQuery = query(collection(db, "top_projects"), orderBy("order", "asc"));
-  const projSnapshot = await getDocs(projQuery);
-  const featuredProjects = projSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
-
-  return (
-    <>
-      <ScrollObserver />
-      
-      <section className="modern-hero">
-        <div className="hero-bg-overlay"></div>
-        <div className="hero-content container">
-          <h2 className="hero-title">地域と学生の<br className="sp-only" />未来を<span className="text-gradient">コネクト</span>する</h2>
-          <p className="hero-subtitle">
-            学生の柔軟な発想 × 地域の魅力。<br />
-            静岡から新しい価値を創造するプラットフォーム。
-          </p>
-          <div className="hero-buttons">
-            <Link href="#roles" className="btn btn-hero">もっと詳しく見る <i className="fas fa-arrow-down"></i></Link>
-          </div>
-        </div>
-      </section>
-
-      <main className="container page-content">
-          
-        {/* ニュースセクション */}
-        <section style={{ marginTop: '2rem', marginBottom: '4rem' }}>
-            <div className="news-list-container">
-                <ul className="news-list">
-                    {newsList.slice(0, 5).map((news) => {
-                        const link = news.content ? `/news/${news.id}` : (news.internalUrl || news.directUrl || '#');
-                        const target = (!news.content && news.directUrl) ? "_blank" : undefined;
-                        return (
-                            <li key={news.id}>
-                                <span className="date">{news.date}</span>
-                                <Link href={link} target={target} rel={target ? "noopener noreferrer" : undefined}>
-                                    {news.title}
-                                </Link>
-                            </li>
-                        );
-                    })}
-                    {newsList.length === 0 && <li style={{padding:'1rem'}}>お知らせはありません</li>}
-                </ul>
-            </div>
-            <div style={{ textAlign: 'right', marginTop: '0.5rem' }}>
-                <Link href="/news" style={{ fontSize: '0.9rem', color: '#1A71BE' }}>お知らせ一覧へ »</Link>
-            </div>
-        </section>
-
-        {/* 役割選択セクション */}
-        <section id="roles">
-            <div className="section-header">
-                <h2 className="section-title-modern">WHO ARE YOU?</h2>
-                <p className="section-desc">あなたに合った入り口を選んでください</p>
-            </div>
-
-            <div className="modern-role-grid">
-              <Link href="/service" className="modern-role-card student-card">
-                <div className="card-bg-img" style={{ backgroundImage: "url('/assets/gakutika.jpg')" }}></div>
-                <div className="card-content">
-                  <div className="icon-circle"><i className="fas fa-user-graduate"></i></div>
-                  <h3>学生の方へ</h3>
-                  <p>ガクチカ作り・インターン・イベント企画。<br />学校では学べない「実践」をここで。</p>
-                  <span className="card-arrow"><i className="fas fa-arrow-right"></i></span>
-                </div>
-              </Link>
-              
-              <Link href="/for-companies" className="modern-role-card company-card">
-                <div className="card-bg-img" style={{ backgroundImage: "url('/assets/cumpa.jpg')" }}></div>
-                <div className="card-content">
-                  <div className="icon-circle"><i className="fas fa-building"></i></div>
-                  <h3>企業・団体の方へ</h3>
-                  <p>HP制作・システム開発・若者との連携。<br />学生の力で貴社の課題を解決します。</p>
-                  <span className="card-arrow"><i className="fas fa-arrow-right"></i></span>
-                </div>
-              </Link>
-            </div>
-        </section>
-
-        {/* プロジェクトセクション */}
-        <section style={{ marginTop: '6rem' }}>
-            <div className="section-header">
-                <h2 className="section-title-modern">PROJECTS</h2>
-                <p className="section-desc">現在進行中の注目のプロジェクト</p>
-            </div>
-
-            <div className="feature-grid" id="featured-projects-grid">
-                {featuredProjects.length === 0 ? (
-                    <p style={{ textAlign: 'center', width: '100%' }}>現在、注目のプロジェクトはありません。</p>
-                ) : (
-                    featuredProjects.map((proj) => {
-                        const bgImg = getOptimizedImage(proj.image) || '/assets/teaching.png';
-                        return (
-                            <div key={proj.id} className="service-card modern-card">
-                                <Link href="/about" className="card-image-link">
-                                    <div className="card-img-wrapper">
-                                        <img src={bgImg} alt={proj.title || 'Project'} />
-                                        <span className={`category-tag ${proj.tagClass || ''}`}>{proj.tagName || 'Project'}</span>
-                                    </div>
-                                </Link>
-                                <div className="project-body">
-                                    <h3 className="card-title">{proj.title}</h3>
-                                    <p className="card-text">{proj.description ? proj.description.substring(0, 60) + '...' : ''}</p>
-                                    <div className="card-footer">
-                                        <Link href="/about" className="text-link-arrow">詳細を見る <i className="fas fa-arrow-right"></i></Link>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })
-                )}
-            </div>
-        </section>
-
-        {/* マップセクション */}
-        <section className="map-section" style={{ marginTop: '6rem' }}>
-            <div className="section-header">
-                <h2 className="section-title-modern">AREA & PARTNERS</h2>
-                <p className="section-desc">浜松市を中心に活動エリア拡大中</p>
-            </div>
-            
-            {/* クライアントコンポーネントとしてマップを呼び出し */}
-            <MapWrapper />
-        </section>
-
-        {/* CTA & Grow Up Group */}
-        <div className="bottom-grid">
-            <section className="cta-section">
-                <h2 style={{ color: '#135a9e' }}>あなたの力を、静岡の未来に。</h2>
-                <p style={{ margin: '1rem 0 1.5rem 0' }}>学生の皆さん、企業の皆さん、私たちと一緒に新しい一歩を踏み出しませんか？</p>
-                <Link href="/contact" className="btn">お問い合わせはこちら</Link>
-            </section>
-
-            <div className="grow-up-card">
-                <h3><i className="fas fa-users"></i> Grow Upグループ</h3>
-                <p>三団体が連携し、Grow Upグループとしての活動を本格的にスタートしました。</p>
-                <div className="grow-up-btn-wrapper">
-                    <a href="https://grow-up-group.shizuoka-connect.com/" className="btn" target="_blank" style={{ padding: '0.5rem 1.5rem', fontSize: '0.9rem' }}>
-                    合同HPを見る
-                    </a>
-                </div>
-            </div>
-        </div>
-
-      </main>
-    </>
-  );
-}
-</file>
-
-<file path="shizuoka-connect-web/src/app/partners/page.tsx">
-import type { Metadata } from 'next';
-import PartnerCard from '@/components/ui/PartnerCard';
-
-export const metadata: Metadata = {
-  title: '連携企業・団体紹介',
-  description: 'しずおかコネクトと連携・協力している企業・団体様をご紹介します。',
-};
-
-export default function PartnersPage() {
-  return (
-    <>
-      <section className="page-hero-modern" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1600&auto=format&fit=crop')" }}>
-        <div className="page-hero-text">
-          <h2>PARTNERS</h2>
-          <p>協賛企業・団体</p>
-        </div>
-      </section>
-
-      <main className="container page-content">
-        <div className="section-header">
-          <h2>協賛企業・団体のご紹介</h2>
-          <p>しずおかコネクトは、以下の企業・団体の皆様からご支援・ご協力をいただいております。</p> 
-        </div>
-
-        <div className="partner-grid">
-          {/* Grow Up Academy */}
-          <PartnerCard 
-            name="一般社団法人Grow Up Academy"
-            description="静岡県浜松市を拠点としてスポーツに関する事業を行ってます。様々な部分で協力させていただいており、同法人代表には当会の特別顧問にも就任していただいています。"
-            url="https://www.grow-up-academy.com/"
-            images={['/assets/growuplogo.jpg']}
-          />
-
-          {/* テガラ株式会社 */}
-          <PartnerCard 
-            name="テガラ株式会社"
-            description="研究者・開発者のためのさまざまなサービスを提供している会社です。大学などにおける研究では欠かせない存在です。現在、エンジニア職体験など体験会の募集を行っています。"
-            url="https://www.tegara.com/"
-            images={[
-                '/assets/tegara-logo.png',
-                '/assets/tegara1.JPG',
-                '/assets/tegara2.jpg',
-                '/assets/tegara3.JPG',
-                '/assets/tegara4.JPG'
-            ]}
-          />
-
-          {/* Career Vision Lab */}
-          <PartnerCard 
-            name="一般社団法人Career Vision Lab"
-            description="「ツマラナイ就活を、オモシロく。」をスローガンに、従来の堅苦しい就職活動とは異なるアプローチを特徴. 就活生×社会人 カジュアルコミュニティ 'STAND UP!!'"
-            url="https://share.google/J2gCuAwfwO09tOpGs" // 頂いたコードのままですがリンク切れの可能性あり
-            images={[
-                '/assets/careervision.jpg',
-                '/assets/ca1.JPG',
-                '/assets/ca2.JPG',
-                '/assets/ca3.JPG'
-            ]}
-          />
-
-          {/* 愛管株式会社 */}
-          <PartnerCard 
-            name="愛管株式会社"
-            description="管工事を中心に多くの事業を展開しており，配管工事と付随する企画、設計、施工を40年以上続け、安心安全な生活を提供しています．"
-            url="https://i-kan.co.jp/"
-            images={['/assets/ikan.jpg']}
-          />
-        </div>
-      </main>
-    </>
-  );
-}
-</file>
-
 <file path="shizuoka-connect-web/src/app/service/page.tsx">
 import type { Metadata } from 'next';
 import Link from 'next/link';
@@ -4637,92 +4394,6 @@ export default function ServicePage() {
         <StudentEntryForm />
         
       </main>
-    </>
-  );
-}
-</file>
-
-<file path="shizuoka-connect-web/src/components/admin/ImageUpload.tsx">
-"use client";
-
-import { useEffect, useRef } from 'react';
-import Script from 'next/script';
-
-declare global {
-  interface Window {
-    cloudinary: any;
-  }
-}
-
-type Props = {
-  onUpload: (url: string) => void;
-  label?: string;
-};
-
-export default function ImageUpload({ onUpload, label = "画像選択" }: Props) {
-  const cloudinaryRef = useRef<any>(null);
-  const widgetRef = useRef<any>(null);
-
-  useEffect(() => {
-    // スクリプトが読み込まれた後にウィジェットを初期化
-    if (window.cloudinary && !widgetRef.current) {
-      cloudinaryRef.current = window.cloudinary;
-      widgetRef.current = cloudinaryRef.current.createUploadWidget({
-        cloudName: "dser57xce", // admin.jsより
-        uploadPreset: "icko9ktd", // admin.jsより
-        sources: ['local', 'url', 'camera'],
-        multiple: false,
-        folder: 'shizuoka_connect',
-        clientAllowedFormats: ['png', 'jpeg', 'jpg', 'webp'],
-        maxImageWidth: 1200,
-        maxImageHeight: 1200,
-        validateMaxWidthHeight: true,
-      }, (error: any, result: any) => {
-        if (!error && result && result.event === "success") {
-          onUpload(result.info.secure_url);
-        }
-      });
-    }
-  }, []);
-
-  const handleOpen = () => {
-    if (widgetRef.current) {
-      widgetRef.current.open();
-    } else {
-      alert("アップローダーを読み込み中です。もう一度押してください。");
-    }
-  };
-
-  return (
-    <>
-      <Script 
-        src="https://upload-widget.cloudinary.com/global/all.js" 
-        onLoad={() => {
-            // ロード完了時に再初期化を試みる
-            if (window.cloudinary && !widgetRef.current) {
-                // 上記useEffectと同じ初期化処理
-                const widget = window.cloudinary.createUploadWidget({
-                    cloudName: "dser57xce",
-                    uploadPreset: "icko9ktd",
-                    sources: ['local', 'url', 'camera'],
-                    multiple: false,
-                    folder: 'shizuoka_connect',
-                    clientAllowedFormats: ['png', 'jpeg', 'jpg', 'webp'],
-                    maxImageWidth: 1200,
-                    maxImageHeight: 1200,
-                    validateMaxWidthHeight: true,
-                }, (error: any, result: any) => {
-                    if (!error && result && result.event === "success") {
-                        onUpload(result.info.secure_url);
-                    }
-                });
-                widgetRef.current = widget;
-            }
-        }}
-      />
-      <button type="button" onClick={handleOpen} className="btn-preview" style={{width:'auto', whiteSpace:'nowrap'}}>
-        {label}
-      </button>
     </>
   );
 }
@@ -5421,21 +5092,6 @@ export const auth = getAuth(app);
 export const rtdb = getDatabase(app);
 </file>
 
-<file path="shizuoka-connect-web/src/lib/utils.ts">
-// Cloudinary等の画像最適化ロジック
-export function getOptimizedImage(url: string | undefined | null): string | null {
-  if (!url) return null;
-  if (!url.includes('res.cloudinary.com')) return url;
-  if (url.includes('/f_auto,q_auto')) return url;
-  return url.replace('/upload/', '/upload/f_auto,q_auto,w_600/');
-}
-
-// FirestoreのTimestampなどをシリアライズ（JSON化）するためのヘルパー
-export function serializeData(data: any): any {
-  return JSON.parse(JSON.stringify(data));
-}
-</file>
-
 <file path="shizuoka-connect-web/tsconfig.json">
 {
   "compilerOptions": {
@@ -5473,12 +5129,166 @@ export function serializeData(data: any): any {
 }
 </file>
 
+<file path="shizuoka-connect-web/src/app/partners/page.tsx">
+import type { Metadata } from 'next';
+import PartnerCard from '@/components/ui/PartnerCard';
+
+export const metadata: Metadata = {
+  title: '連携企業・団体紹介',
+  description: 'しずおかコネクトと連携・協力している企業・団体様をご紹介します。',
+};
+
+export default function PartnersPage() {
+  return (
+    <>
+      <section className="page-hero-modern" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=1600&auto=format&fit=crop')" }}>
+        <div className="page-hero-text">
+          <h2>PARTNERS</h2>
+          <p>協賛企業・団体</p>
+        </div>
+      </section>
+
+      <main className="container page-content">
+        <div className="section-header">
+          <h2>協賛企業・団体のご紹介</h2>
+          <p>しずおかコネクトは、以下の企業・団体の皆様からご支援・ご協力をいただいております。</p> 
+        </div>
+
+        <div className="partner-grid">
+          {/* Grow Up Academy */}
+          <PartnerCard 
+            name="一般社団法人Grow Up Academy"
+            description="静岡県浜松市を拠点としてスポーツに関する事業を行ってます。様々な部分で協力させていただいており、同法人代表には当会の特別顧問にも就任していただいています。"
+            url="https://www.grow-up-academy.com/"
+            images={['/assets/growuplogo.jpg']}
+          />
+        </div>
+      </main>
+    </>
+  );
+}
+</file>
+
+<file path="shizuoka-connect-web/src/components/admin/ImageUpload.tsx">
+"use client";
+
+import { useState, useRef, useCallback } from 'react';
+import Script from 'next/script';
+
+declare global {
+  interface Window {
+    cloudinary: any;
+  }
+}
+
+type Props = {
+  onUpload: (url: string) => void;
+  label?: string;
+};
+
+export default function ImageUpload({ onUpload, label = "画像選択" }: Props) {
+  const [isLoaded, setIsLoaded] = useState(false); // 読み込み完了フラグ
+  const widgetRef = useRef<any>(null);
+
+  // ウィジェットの初期化ロジックを一箇所にまとめる
+  const initializeWidget = useCallback(() => {
+    if (window.cloudinary && !widgetRef.current) {
+      widgetRef.current = window.cloudinary.createUploadWidget({
+        cloudName: "dser57xce",
+        uploadPreset: "icko9ktd",
+        sources: ['local', 'url', 'camera'],
+        multiple: false,
+        folder: 'shizuoka_connect',
+        clientAllowedFormats: ['png', 'jpeg', 'jpg', 'webp'],
+        maxImageWidth: 1200,
+        maxImageHeight: 1200,
+        validateMaxWidthHeight: true,
+        // Cloudflare等のセキュリティ対策で source を指定
+        scriptSource: "https://upload-widget.cloudinary.com/global/all.js" 
+      }, (error: any, result: any) => {
+        if (!error && result && result.event === "success") {
+          console.log("Upload success:", result.info.secure_url);
+          onUpload(result.info.secure_url);
+        } else if (error) {
+          console.error("Cloudinary Error:", error);
+          alert("アップロードエラーが発生しました");
+        }
+      });
+      
+      setIsLoaded(true); // 準備完了
+      console.log("Cloudinary Widget Initialized");
+    }
+  }, [onUpload]);
+
+  const handleOpen = () => {
+    if (widgetRef.current) {
+      widgetRef.current.open();
+    } else {
+      // 万が一ボタンが押せても、まだなら初期化を試みる
+      initializeWidget();
+      if(widgetRef.current) {
+          widgetRef.current.open();
+      } else {
+          alert("アップローダーを読み込んでいます...少々お待ちください");
+      }
+    }
+  };
+
+  return (
+    <>
+      <Script 
+        src="https://upload-widget.cloudinary.com/global/all.js" 
+        strategy="afterInteractive" // 読み込み優先度を調整
+        onLoad={initializeWidget}   // 読み込み完了時に初期化を実行
+        onError={(e) => {
+            console.error("Script load error", e);
+            alert("画像アップロード機能の読み込みに失敗しました。広告ブロック等を解除してください。");
+        }}
+      />
+      
+      <button 
+        type="button" 
+        onClick={handleOpen} 
+        className="btn-preview" 
+        style={{
+            width: 'auto', 
+            whiteSpace: 'nowrap',
+            opacity: isLoaded ? 1 : 0.6, // 読み込み中は薄くする
+            cursor: isLoaded ? 'pointer' : 'wait'
+        }}
+        disabled={!isLoaded} // 読み込み完了まで押せないようにする（連打防止）
+      >
+        {isLoaded ? label : "準備中..."}
+      </button>
+    </>
+  );
+}
+</file>
+
+<file path="shizuoka-connect-web/src/lib/utils.ts">
+// src/lib/utils.ts
+export function getOptimizedImage(url: string | undefined | null): string | null {
+  if (!url) return null;
+  // すでにCloudinaryのURLで、かつ最適化済みなら何もしない
+  if (url.includes('res.cloudinary.com') && url.includes('/f_auto,q_auto')) {
+      return url;
+  }
+  // CloudinaryのURLなら最適化パラメータを付与（サイズ指定は一旦外して安定させる）
+  if (url.includes('res.cloudinary.com/dser57xce/image/upload/')) {
+      return url.replace('/upload/', '/upload/f_auto,q_auto/');
+  }
+  return url;
+}
+</file>
+
 <file path="shizuoka-connect-web/src/app/news/page.tsx">
 import Link from 'next/link';
 import { db } from '@/lib/firebase';
 import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { getOptimizedImage } from '@/lib/utils';
 import type { Metadata } from 'next';
+
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'お知らせ・発表',
@@ -5561,149 +5371,205 @@ export default async function NewsPage() {
 }
 </file>
 
-<file path="shizuoka-connect-web/src/app/news/[id]/page.tsx">
-"use client";
-
-import { useEffect, useState } from 'react';
-import { db } from '@/lib/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import { useParams } from 'next/navigation';
+<file path="shizuoka-connect-web/src/app/page.tsx">
 import Link from 'next/link';
+import { db } from '@/lib/firebase';
+import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
+import { getOptimizedImage } from '@/lib/utils';
+import MapWrapper from '@/components/home/MapWrapper';
+import ScrollObserver from '@/components/ScrollObserver';
 
-// Cloudflare用の設定
-export const runtime = 'edge';
+export const dynamic = 'force-dynamic';
 
-export default function NewsDetailPage() {
-  const { id } = useParams();
-  const [news, setNews] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
+// キャッシュの設定: ニュースは頻繁に変わる可能性があるので、再検証時間を設定
+export const revalidate = 60; // 60秒ごとに更新チェック
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      if (!id) return;
-      try {
-        const docRef = doc(db, "news", id as string);
-        const snap = await getDoc(docRef);
-        if (snap.exists()) {
-          setNews(snap.data());
-        } else {
-          setNews(null);
-        }
-      } catch (e) {
-        console.error("News fetch error:", e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchNews();
-  }, [id]);
+export default async function Home() {
+  // 1. ニュース取得 (Server Side)
+  const newsQuery = query(collection(db, "news"), orderBy("date", "desc"), limit(10));
+  const newsSnapshot = await getDocs(newsQuery);
+  const newsList = newsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
+  const latestNews = newsList.length > 0 ? newsList[0] : null;
 
-  // --- ボタンのスタイル定義（確実に適用させるため変数化） ---
-  const buttonStyle = {
-    display: 'inline-block',
-    backgroundColor: '#fff',
-    color: '#333',
-    border: '1px solid #1A71BE',
-    padding: '12px 35px',
-    borderRadius: '30px',
-    textDecoration: 'none',
-    fontWeight: 500 as const,
-    transition: 'all 0.3s ease',
-    boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
-  };
-
-  // --- ローディング表示 ---
-  if (loading) {
-    return (
-      <main className="container page-content" style={{ marginTop: '120px', minHeight: '50vh', textAlign: 'center' }}>
-        <div style={{ display: 'inline-block', width: '2rem', height: '2rem', border: '4px solid #f3f3f3', borderTop: '4px solid #1A71BE', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
-        <p style={{ marginTop: '1rem', color: '#666' }}>記事を読み込んでいます...</p>
-        <style dangerouslySetInnerHTML={{__html: `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}} />
-      </main>
-    );
-  }
-
-  // --- 記事が見つからない場合 ---
-  if (!news) {
-    return (
-      <main className="container page-content" style={{ marginTop: '120px', minHeight: '50vh', textAlign: 'center' }}>
-        <h2>記事が見つかりませんでした</h2>
-        <p style={{ margin: '1rem 0' }}>削除されたか、URLが間違っている可能性があります。</p>
-        <div style={{ marginTop: '2rem' }}>
-          <Link href="/news" className="news-back-btn" style={buttonStyle}>
-            一覧に戻る
-          </Link>
-        </div>
-        {/* ホバー効果のみCSSで注入 */}
-        <style dangerouslySetInnerHTML={{__html: `
-          .news-back-btn:hover {
-            background-color: #1A71BE !important;
-            color: #fff !important;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(26, 113, 190, 0.2) !important;
-          }
-        `}} />
-      </main>
-    );
-  }
-
-  // --- 記事表示 (メイン) ---
-  // 背景画像のフォールバック設定：画像がない場合は 'taki.jpg' を使用
-  const bgImage = news.image ? `url('${news.image}')` : "url('/assets/taki.jpg')";
+  // 2. 注目プロジェクト取得 (Server Side)
+  const projQuery = query(collection(db, "top_projects"), orderBy("order", "asc"));
+  const projSnapshot = await getDocs(projQuery);
+  const featuredProjects = projSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as any));
 
   return (
     <>
-      <section className="page-hero-modern" style={{ 
-          backgroundImage: bgImage, 
-          minHeight: '300px',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundColor: '#1A71BE' // 画像読み込み前の背景色
-      }}>
-        <div className="page-hero-text">
-          <span style={{ fontSize: '0.9rem', background: 'rgba(0,0,0,0.5)', color: 'white', padding: '5px 10px', borderRadius: '4px', marginBottom: '10px', display: 'inline-block' }}>
-            {news.date}
-          </span>
-          <h2 style={{ fontSize: '1.8rem', marginTop: '0.5rem', color: 'white' }}>{news.title}</h2>
+      <ScrollObserver />
+      
+      <section className="modern-hero">
+        <div className="hero-bg-overlay"></div>
+        <div className="hero-content container">
+          <h2 className="hero-title">地域と学生の<br className="sp-only" />未来を<span className="text-gradient">コネクト</span>する</h2>
+          <p className="hero-subtitle">
+            学生の柔軟な発想 × 地域の魅力。<br />
+            静岡から新しい価値を創造するプラットフォーム。
+          </p>
+          <div className="hero-buttons">
+            <Link href="#roles" className="btn btn-hero">もっと詳しく見る <i className="fas fa-arrow-down"></i></Link>
+          </div>
         </div>
       </section>
 
-      <main className="container page-content" style={{ maxWidth: '800px', margin: '3rem auto' }}>
-        {/* 本文 */}
-        <div className="news-body" style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', whiteSpace: 'pre-wrap', lineHeight: '1.8' }}>
-          {news.content || '本文はありません。'}
-        </div>
+      <main className="container page-content">
+          
+        {/* ニュースセクション */}
+        <section style={{ marginTop: '2rem', marginBottom: '4rem' }}>
+            <div className="news-list-container">
+                <ul className="news-list">
+                    // ニュースリスト表示部分（<ul>の中）を以下のように書き換え
+                    {newsList.slice(0, 5).map((news) => {
+                        // 1. リンク先の優先順位決定ロジック
+                        let linkHref = "";
+                        const hasContent = news.content && news.content.trim() !== "";
 
-        {/* 関連リンク */}
-        {news.links && (Object.values(news.links).some(url => url)) && (
-            <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#f9f9f9', borderRadius: '8px' }}>
-                <h4 style={{ margin: '0 0 1rem 0', color: '#333', fontSize: '1.1rem' }}>関連リンク</h4>
-                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-                    {news.links.web && <a href={news.links.web} target="_blank" rel="noopener noreferrer" className="btn-sns" style={{background:'#333', color:'white', padding:'8px 15px', borderRadius:'4px', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'0.9rem'}}><i className="fas fa-globe"></i> Web</a>}
-                    {news.links.instagram && <a href={news.links.instagram} target="_blank" rel="noopener noreferrer" className="btn-sns" style={{background:'#E1306C', color:'white', padding:'8px 15px', borderRadius:'4px', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'0.9rem'}}><i className="fab fa-instagram"></i> Instagram</a>}
-                    {news.links.x && <a href={news.links.x} target="_blank" rel="noopener noreferrer" className="btn-sns" style={{background:'#000', color:'white', padding:'8px 15px', borderRadius:'4px', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'0.9rem'}}><i className="fab fa-twitter"></i> X (Twitter)</a>}
-                    {news.links.facebook && <a href={news.links.facebook} target="_blank" rel="noopener noreferrer" className="btn-sns" style={{background:'#1877F2', color:'white', padding:'8px 15px', borderRadius:'4px', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'0.9rem'}}><i className="fab fa-facebook-f"></i> Facebook</a>}
+                        if (hasContent) {
+                            linkHref = `/news/${news.id}`; // 本文があれば詳細ページ
+                        } else if (news.directUrl) {
+                            linkHref = news.directUrl;     // 直接URL指定
+                        } else if (news.links?.web) {
+                            linkHref = news.links.web;     // webリンク
+                        } else if (news.internalUrl) {
+                            // ★重要: .html がついていたら削除して正しいパスにする
+                            linkHref = news.internalUrl.replace('.html', '');
+                        }
+
+                        // 2. リンクがない場合は空文字（クリック不可）
+                        const content = (
+                            <>
+                                <span className="date">{news.date}</span>
+                                <span style={{ marginLeft: '10px' }}>{news.title}</span>
+                            </>
+                        );
+
+                        // 3. 外部リンクかどうかの判定
+                        const isExternal = linkHref.startsWith('http');
+
+                        return (
+                            <li key={news.id} style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 0', borderBottom: '1px solid #eee' }}>
+                                {linkHref ? (
+                                    <Link 
+                                        href={linkHref} 
+                                        target={isExternal ? "_blank" : undefined}
+                                        rel={isExternal ? "noopener noreferrer" : undefined}
+                                        style={{ flex: 1, textDecoration: 'none', color: 'inherit', display: 'block' }}
+                                        className="news-link-hover" // CSSでホバーエフェクトをつけるとなお良し
+                                    >
+                                        {content}
+                                    </Link>
+                                ) : (
+                                    <div style={{ flex: 1, color: '#666' }}>{content}</div>
+                                )}
+                            </li>
+                        );
+                    })}
+                    {newsList.length === 0 && <li style={{padding:'1rem'}}>お知らせはありません</li>}
+                </ul>
+                </ul>
+            </div>
+            <div style={{ textAlign: 'right', marginTop: '0.5rem' }}>
+                <Link href="/news" style={{ fontSize: '0.9rem', color: '#1A71BE' }}>お知らせ一覧へ »</Link>
+            </div>
+        </section>
+
+        {/* 役割選択セクション */}
+        <section id="roles">
+            <div className="section-header">
+                <h2 className="section-title-modern">WHO ARE YOU?</h2>
+                <p className="section-desc">あなたに合った入り口を選んでください</p>
+            </div>
+
+            <div className="modern-role-grid">
+              <Link href="/service" className="modern-role-card student-card">
+                <div className="card-bg-img" style={{ backgroundImage: "url('/assets/gakutika.jpg')" }}></div>
+                <div className="card-content">
+                  <div className="icon-circle"><i className="fas fa-user-graduate"></i></div>
+                  <h3>学生の方へ</h3>
+                  <p>ガクチカ作り・インターン・イベント企画。<br />学校では学べない「実践」をここで。</p>
+                  <span className="card-arrow"><i className="fas fa-arrow-right"></i></span>
+                </div>
+              </Link>
+              
+              <Link href="/for-companies" className="modern-role-card company-card">
+                <div className="card-bg-img" style={{ backgroundImage: "url('/assets/cumpa.jpg')" }}></div>
+                <div className="card-content">
+                  <div className="icon-circle"><i className="fas fa-building"></i></div>
+                  <h3>企業・団体の方へ</h3>
+                  <p>HP制作・システム開発・若者との連携。<br />学生の力で貴社の課題を解決します。</p>
+                  <span className="card-arrow"><i className="fas fa-arrow-right"></i></span>
+                </div>
+              </Link>
+            </div>
+        </section>
+
+        {/* プロジェクトセクション */}
+        <section style={{ marginTop: '6rem' }}>
+            <div className="section-header">
+                <h2 className="section-title-modern">PROJECTS</h2>
+                <p className="section-desc">現在進行中の注目のプロジェクト</p>
+            </div>
+
+            <div className="feature-grid" id="featured-projects-grid">
+                {featuredProjects.length === 0 ? (
+                    <p style={{ textAlign: 'center', width: '100%' }}>現在、注目のプロジェクトはありません。</p>
+                ) : (
+                    featuredProjects.map((proj) => {
+                        const bgImg = getOptimizedImage(proj.image) || '/assets/teaching.png';
+                        return (
+                            <div key={proj.id} className="service-card modern-card">
+                                <Link href="/about" className="card-image-link">
+                                    <div className="card-img-wrapper">
+                                        <img src={bgImg} alt={proj.title || 'Project'} />
+                                        <span className={`category-tag ${proj.tagClass || ''}`}>{proj.tagName || 'Project'}</span>
+                                    </div>
+                                </Link>
+                                <div className="project-body">
+                                    <h3 className="card-title">{proj.title}</h3>
+                                    <p className="card-text">{proj.description ? proj.description.substring(0, 60) + '...' : ''}</p>
+                                    <div className="card-footer">
+                                        <Link href="/about" className="text-link-arrow">詳細を見る <i className="fas fa-arrow-right"></i></Link>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })
+                )}
+            </div>
+        </section>
+
+        {/* マップセクション */}
+        <section className="map-section" style={{ marginTop: '6rem' }}>
+            <div className="section-header">
+                <h2 className="section-title-modern">AREA & PARTNERS</h2>
+                <p className="section-desc">浜松市を中心に活動エリア拡大中</p>
+            </div>
+            
+            {/* クライアントコンポーネントとしてマップを呼び出し */}
+            <MapWrapper />
+        </section>
+
+        {/* CTA & Grow Up Group */}
+        <div className="bottom-grid">
+            <section className="cta-section">
+                <h2 style={{ color: '#135a9e' }}>あなたの力を、静岡の未来に。</h2>
+                <p style={{ margin: '1rem 0 1.5rem 0' }}>学生の皆さん、企業の皆さん、私たちと一緒に新しい一歩を踏み出しませんか？</p>
+                <Link href="/contact" className="btn">お問い合わせはこちら</Link>
+            </section>
+
+            <div className="grow-up-card">
+                <h3><i className="fas fa-users"></i> Grow Upグループ</h3>
+                <p>三団体が連携し、Grow Upグループとしての活動を本格的にスタートしました。</p>
+                <div className="grow-up-btn-wrapper">
+                    <a href="https://grow-up-group.shizuoka-connect.com/" className="btn" target="_blank" style={{ padding: '0.5rem 1.5rem', fontSize: '0.9rem' }}>
+                    合同HPを見る
+                    </a>
                 </div>
             </div>
-        )}
-
-        <div style={{ marginTop: '4rem', textAlign: 'center' }}>
-          {/* インラインスタイルを適用したボタン */}
-          <Link href="/news" className="news-back-btn" style={buttonStyle}>
-            一覧に戻る
-          </Link>
         </div>
 
-        {/* ホバー時のスタイルをグローバルに注入 */}
-        <style dangerouslySetInnerHTML={{__html: `
-          .news-back-btn:hover {
-            background-color: #1A71BE !important;
-            color: #fff !important;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(26, 113, 190, 0.2) !important;
-          }
-          .btn-sns:hover { opacity: 0.8; }
-        `}} />
       </main>
     </>
   );
@@ -5896,6 +5762,160 @@ export default function RootLayout({
         </div>
       </body>
     </html>
+  );
+}
+</file>
+
+<file path="shizuoka-connect-web/src/app/news/[id]/page.tsx">
+"use client";
+
+import { useEffect, useState } from 'react';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
+
+export const dynamic = 'force-dynamic';
+
+// Cloudflare用の設定
+export const runtime = 'edge';
+
+export default function NewsDetailPage() {
+  const { id } = useParams();
+  const [news, setNews] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+  const fetchNews = async () => {
+    if (!id) return;
+    console.log("Fetching News ID:", id); // ログ追加
+    try {
+      const docRef = doc(db, "news", id as string);
+      const snap = await getDoc(docRef);
+      if (snap.exists()) {
+        console.log("Data found:", snap.data()); // 取得成功ログ
+        setNews(snap.data());
+      } else {
+        console.error("No such document in Firestore!"); // データがない場合
+        setNews(null);
+      }
+      } catch (e) {
+        console.error("News fetch error:", e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNews();
+  }, [id]);
+
+  // --- ボタンのスタイル定義（確実に適用させるため変数化） ---
+  const buttonStyle = {
+    display: 'inline-block',
+    backgroundColor: '#fff',
+    color: '#333',
+    border: '1px solid #1A71BE',
+    padding: '12px 35px',
+    borderRadius: '30px',
+    textDecoration: 'none',
+    fontWeight: 500 as const,
+    transition: 'all 0.3s ease',
+    boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
+  };
+
+  // --- ローディング表示 ---
+  if (loading) {
+    return (
+      <main className="container page-content" style={{ marginTop: '120px', minHeight: '50vh', textAlign: 'center' }}>
+        <div style={{ display: 'inline-block', width: '2rem', height: '2rem', border: '4px solid #f3f3f3', borderTop: '4px solid #1A71BE', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+        <p style={{ marginTop: '1rem', color: '#666' }}>記事を読み込んでいます...</p>
+        <style dangerouslySetInnerHTML={{__html: `@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}} />
+      </main>
+    );
+  }
+
+  // --- 記事が見つからない場合 ---
+  if (!news) {
+    return (
+      <main className="container page-content" style={{ marginTop: '120px', minHeight: '50vh', textAlign: 'center' }}>
+        <h2>記事が見つかりませんでした</h2>
+        <p style={{ margin: '1rem 0' }}>削除されたか、URLが間違っている可能性があります。</p>
+        <div style={{ marginTop: '2rem' }}>
+          <Link href="/news" className="news-back-btn" style={buttonStyle}>
+            一覧に戻る
+          </Link>
+        </div>
+        {/* ホバー効果のみCSSで注入 */}
+        <style dangerouslySetInnerHTML={{__html: `
+          .news-back-btn:hover {
+            background-color: #1A71BE !important;
+            color: #fff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(26, 113, 190, 0.2) !important;
+          }
+        `}} />
+      </main>
+    );
+  }
+
+  // --- 記事表示 (メイン) ---
+  // 背景画像のフォールバック設定：画像がない場合は 'taki.jpg' を使用
+  const bgImage = news.image ? `url('${news.image}')` : "url('/assets/taki.jpg')";
+
+  return (
+    <>
+      <section className="page-hero-modern" style={{ 
+          backgroundImage: bgImage, 
+          minHeight: '300px',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundColor: '#1A71BE' // 画像読み込み前の背景色
+      }}>
+        <div className="page-hero-text">
+          <span style={{ fontSize: '0.9rem', background: 'rgba(0,0,0,0.5)', color: 'white', padding: '5px 10px', borderRadius: '4px', marginBottom: '10px', display: 'inline-block' }}>
+            {news.date}
+          </span>
+          <h2 style={{ fontSize: '1.8rem', marginTop: '0.5rem', color: 'white' }}>{news.title}</h2>
+        </div>
+      </section>
+
+      <main className="container page-content" style={{ maxWidth: '800px', margin: '3rem auto' }}>
+        {/* 本文 */}
+        <div className="news-body" style={{ background: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 2px 10px rgba(0,0,0,0.05)', whiteSpace: 'pre-wrap', lineHeight: '1.8' }}>
+          {news.content || '本文はありません。'}
+        </div>
+
+        {/* 関連リンク */}
+        {news.links && (Object.values(news.links).some(url => url)) && (
+            <div style={{ marginTop: '2rem', padding: '1.5rem', background: '#f9f9f9', borderRadius: '8px' }}>
+                <h4 style={{ margin: '0 0 1rem 0', color: '#333', fontSize: '1.1rem' }}>関連リンク</h4>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                    {news.links.web && <a href={news.links.web} target="_blank" rel="noopener noreferrer" className="btn-sns" style={{background:'#333', color:'white', padding:'8px 15px', borderRadius:'4px', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'0.9rem'}}><i className="fas fa-globe"></i> Web</a>}
+                    {news.links.instagram && <a href={news.links.instagram} target="_blank" rel="noopener noreferrer" className="btn-sns" style={{background:'#E1306C', color:'white', padding:'8px 15px', borderRadius:'4px', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'0.9rem'}}><i className="fab fa-instagram"></i> Instagram</a>}
+                    {news.links.x && <a href={news.links.x} target="_blank" rel="noopener noreferrer" className="btn-sns" style={{background:'#000', color:'white', padding:'8px 15px', borderRadius:'4px', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'0.9rem'}}><i className="fab fa-twitter"></i> X (Twitter)</a>}
+                    {news.links.facebook && <a href={news.links.facebook} target="_blank" rel="noopener noreferrer" className="btn-sns" style={{background:'#1877F2', color:'white', padding:'8px 15px', borderRadius:'4px', textDecoration:'none', display:'inline-flex', alignItems:'center', gap:'5px', fontSize:'0.9rem'}}><i className="fab fa-facebook-f"></i> Facebook</a>}
+                </div>
+            </div>
+        )}
+
+        <div style={{ marginTop: '4rem', textAlign: 'center' }}>
+          {/* インラインスタイルを適用したボタン */}
+          <Link href="/news" className="news-back-btn" style={buttonStyle}>
+            一覧に戻る
+          </Link>
+        </div>
+
+        {/* ホバー時のスタイルをグローバルに注入 */}
+        <style dangerouslySetInnerHTML={{__html: `
+          .news-back-btn:hover {
+            background-color: #1A71BE !important;
+            color: #fff !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(26, 113, 190, 0.2) !important;
+          }
+          .btn-sns:hover { opacity: 0.8; }
+        `}} />
+      </main>
+    </>
   );
 }
 </file>
