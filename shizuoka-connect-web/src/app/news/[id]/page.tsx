@@ -6,9 +6,6 @@ import { doc, getDoc } from 'firebase/firestore';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 60;
-
 export default function NewsDetailPage() {
   const { id } = useParams();
   const [news, setNews] = useState<any>(null);
