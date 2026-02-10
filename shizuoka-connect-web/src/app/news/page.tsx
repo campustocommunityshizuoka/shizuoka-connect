@@ -4,6 +4,9 @@ import { collection, query, orderBy, limit, getDocs } from 'firebase/firestore';
 import { getOptimizedImage } from '@/lib/utils';
 import type { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'お知らせ・発表',
   description: 'しずおかコネクトからの最新のお知らせ、プレスリリース、活動報告などを掲載しています。',

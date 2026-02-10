@@ -27,9 +27,6 @@ export default function ImageUpload({ onUpload, label = "画像選択" }: Props)
         multiple: false,
         folder: 'shizuoka_connect',
         clientAllowedFormats: ['png', 'jpeg', 'jpg', 'webp'],
-        maxImageWidth: 1200,
-        maxImageHeight: 1200,
-        validateMaxWidthHeight: true,
         scriptSource: "https://upload-widget.cloudinary.com/global/all.js" 
       }, (error: any, result: any) => {
         if (!error && result && result.event === "success") {

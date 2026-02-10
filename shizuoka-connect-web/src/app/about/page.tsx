@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: 'しずおかコネクトの活動内容（PROJECTS）と、学生エンジニアによる開発実績（WORKS）をご紹介します。',
 };
 
-// データの再検証 (ISR)
+export const dynamic = 'force-dynamic';
 export const revalidate = 60;
 
 export default async function AboutPage() {
