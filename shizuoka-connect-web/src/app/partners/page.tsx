@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import PartnerCard from '@/components/ui/PartnerCard';
 
 export const metadata: Metadata = {
@@ -31,6 +32,59 @@ export default function PartnersPage() {
             images={['/assets/growuplogo.jpg']}
           />
         </div>
+
+        <div style={{ 
+            marginTop: '6rem', 
+            padding: '3rem 2rem', 
+            backgroundColor: '#f8fbfc', 
+            borderRadius: '16px', 
+            border: '1px solid #e1e8ed',
+            textAlign: 'center'
+        }}>
+            <h3 style={{ 
+                fontSize: '1.5rem', 
+                color: '#135a9e', 
+                fontWeight: 'bold', 
+                marginBottom: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '12px'
+            }}>
+                <i className="fas fa-handshake"></i>
+                <span>新たなパートナーを募集しています</span>
+            </h3>
+            
+            <p style={{ 
+                color: '#555', 
+                lineHeight: '1.8', 
+                maxWidth: '700px', 
+                margin: '0 auto 2rem auto' 
+            }}>
+                しずおかコネクトでは、学生と共に地域の活性化や課題解決に取り組んでいただける<br className="pc-only"/>
+                企業様・団体様を随時募集しております。<br />
+                ご協賛や連携に関するご相談は、どんなことでも下記よりお気軽にお問い合わせください！
+            </p>
+
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <Link href="/for-companies" className="btn" style={{ 
+                    backgroundColor: 'transparent', 
+                    color: '#135a9e', 
+                    border: '2px solid #135a9e',
+                    fontWeight: 'bold',
+                    padding: '0.8rem 2rem'
+                }}>
+                    企業・団体の方へ <i className="fas fa-arrow-right" style={{ marginLeft: '8px' }}></i>
+                </Link>
+                
+                <Link href="/contact" className="btn" style={{ 
+                    padding: '0.8rem 2rem'
+                }}>
+                    お問い合わせ <i className="fas fa-envelope" style={{ marginLeft: '8px' }}></i>
+                </Link>
+            </div>
+        </div>
+
       </main>
     </>
   );

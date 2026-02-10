@@ -180,6 +180,37 @@ export default async function Home() {
             <MapWrapper />
         </section>
 
+        <div style={{ 
+                marginTop: '3rem', 
+                padding: '2rem', 
+                backgroundColor: '#f8fbfc', 
+                borderRadius: '12px', 
+                border: '1px solid #e1e8ed',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                textAlign: 'center',
+                gap: '1rem'
+            }}>
+                <h3 style={{ fontSize: '1.4rem', color: '#135a9e', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <i className="fas fa-handshake"></i> パートナー企業・団体を募集中
+                </h3>
+                <p style={{ color: '#555', lineHeight: '1.8', maxWidth: '800px' }}>
+                    しずおかコネクトでは、学生と連携したい企業様や、地域の課題解決に取り組みたい団体様を募集しています。<br className="pc-only" />
+                    若者の柔軟な発想と行動力で、貴社の事業や活動に新しい風を吹き込みませんか？<br className="pc-only" />
+                    ぜひお気軽になんでもご相談いただきたいです！
+                </p>
+                <Link href="/for-companies" className="btn" style={{ 
+                    marginTop: '0.5rem', 
+                    backgroundColor: 'transparent', 
+                    color: '#135a9e', 
+                    border: '2px solid #135a9e',
+                    fontWeight: 'bold'
+                }}>
+                    もっと詳しく見る <i className="fas fa-arrow-right" style={{ marginLeft: '5px' }}></i>
+                </Link>
+            </div>
+
         {/* CTA & Grow Up Group */}
         <div className="bottom-grid">
             <section className="cta-section">
