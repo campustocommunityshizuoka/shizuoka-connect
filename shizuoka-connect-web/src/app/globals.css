@@ -2978,3 +2978,66 @@ header {
     .item-header { flex-direction: column; align-items: flex-start; }
     .btn-group { align-self: flex-end; width: 100%; justify-content: flex-end; margin-top: 5px; }
 }
+
+/* ...既存のCSSの末尾に追加... */
+
+/* =================================================================
+   メンバーページ タブ切り替えスタイル
+   ================================================================= */
+.member-tab-menu {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.member-tab-btn {
+  padding: 0.8rem 2rem;
+  border-radius: 50px;
+  border: 2px solid #1A71BE;
+  background: white;
+  color: #1A71BE;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+/* アクティブ時およびホバー時のスタイル */
+.member-tab-btn.active,
+.member-tab-btn:hover {
+  background: #1A71BE;
+  color: white;
+  box-shadow: 0 4px 10px rgba(26, 113, 190, 0.3);
+  transform: translateY(-2px);
+}
+
+/* スマホ表示時の調整 */
+@media (max-width: 768px) {
+  .member-tab-menu {
+    gap: 0.5rem;
+  }
+  .member-tab-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    flex-grow: 1; /* ボタンを横幅いっぱいに広げるかはお好みで */
+  }
+}
+
+/* ...既存のCSSの末尾に追加... */
+
+/* =================================================================
+   テキスト内リンクのスタイル
+   ================================================================= */
+.text-link {
+  color: #1A71BE;          /* リンクの色（青系） */
+  text-decoration: underline; /* 下線を表示 */
+  font-weight: bold;       /*少し太字に*/
+  transition: color 0.3s ease;
+}
+
+.text-link:hover {
+  color: #004a99;          /* ホバー時の色（濃い青） */
+  cursor: pointer;
+}
