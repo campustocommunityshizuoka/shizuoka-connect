@@ -127,9 +127,8 @@ export default function MemberTabs() {
         {/* === HPチーム === */}
         {activeTab === 'hp' && (
           <div className="modern-member-card">
-            {/* 代表者の画像があればここに設定 */}
-            <div className="member-img-wrapper" style={{background:'#ddd'}}>
-               <img src="/assets/HP-web.jpg" alt="HPチーム" />
+            <div className="member-img-wrapper">
+                <img src="/assets/HP-web.jpg" alt="中川 昂" />
             </div>
             <h4>栗本 來嶺</h4>
             <div className="role">HPチーム チームリーダー</div>
@@ -145,7 +144,7 @@ export default function MemberTabs() {
         {/* === アプリチーム === */}
         {activeTab === 'app' && (
           <div className="modern-member-card">
-            <div className="member-img-wrapper" style={{background:'#ddd'}}>
+            <div className="member-img-wrapper">
                <img src="/assets/HP-web.jpg" alt="アプリチーム" />
             </div>
             <h4>前田 伊瑳武</h4>
@@ -162,7 +161,7 @@ export default function MemberTabs() {
         {/* === 動画チーム === */}
         {activeTab === 'video' && (
           <div className="modern-member-card">
-            <div className="member-img-wrapper" style={{background:'#ddd'}}>
+            <div className="member-img-wrapper">
                <img src="/assets/video.jpg" alt="動画チーム" />
             </div>
             <h4>中川 昂</h4>
@@ -179,7 +178,7 @@ export default function MemberTabs() {
         {/* === イベントチーム === */}
         {activeTab === 'event' && (
           <div className="modern-member-card">
-            <div className="member-img-wrapper" style={{background:'#ddd'}}>
+            <div className="member-img-wrapper">
                <img src="/assets/event.jpg" alt="イベントチーム" />
             </div>
             <h4>渡邉 晴喜</h4>
