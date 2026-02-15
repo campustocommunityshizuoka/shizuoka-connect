@@ -128,7 +128,7 @@ export default function MemberTabs() {
         {activeTab === 'hp' && (
           <div className="modern-member-card">
             <div className="member-img-wrapper">
-                <img src="/assets/HP-web.jpg" alt="中川 昂" />
+                <img src="/assets/hp.jpg" alt="HPチーム" />
             </div>
             <h4>栗本 來嶺</h4>
             <div className="role">HPチーム チームリーダー</div>
@@ -145,7 +145,7 @@ export default function MemberTabs() {
         {activeTab === 'app' && (
           <div className="modern-member-card">
             <div className="member-img-wrapper">
-               <img src="/assets/HP-web.jpg" alt="アプリチーム" />
+               <img src="/assets/hp.jpg" alt="アプリチーム" />
             </div>
             <h4>前田 伊瑳武</h4>
             <div className="role">ウェブアプリチーム チームリーダー</div>
@@ -162,7 +162,7 @@ export default function MemberTabs() {
         {activeTab === 'video' && (
           <div className="modern-member-card">
             <div className="member-img-wrapper">
-               <img src="/assets/video.jpg" alt="動画チーム" />
+               <img src="/assets/douga.jpg" alt="動画チーム" />
             </div>
             <h4>中川 昂</h4>
             <div className="role">動画チーム チームリーダー</div>
@@ -179,7 +179,7 @@ export default function MemberTabs() {
         {activeTab === 'event' && (
           <div className="modern-member-card">
             <div className="member-img-wrapper">
-               <img src="/assets/event.jpg" alt="イベントチーム" />
+               <img src="/assets/ibento.jpg" alt="イベントチーム" />
             </div>
             <h4>渡邉 晴喜</h4>
             <div className="role">イベントチーム チームリーダー</div>
