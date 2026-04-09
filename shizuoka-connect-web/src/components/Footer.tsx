@@ -48,6 +48,10 @@ export default function Footer() {
             </a>
           </div>
         </div>
+        <div style={{ fontSize: '0.85rem', marginTop: '4px', opacity: 0.8 }}>
+            <p>運営：地域と学生をつなぐ会　しずおかコネクト</p>
+            <p>所在地：〒433-8105 静岡県浜松市中央区三方原町1095-2</p>
+            </div>
       </div>
     </footer>
   );
